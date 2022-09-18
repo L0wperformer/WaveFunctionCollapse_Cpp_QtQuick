@@ -5,6 +5,8 @@
 Handler::Handler()
 {
 test();
+drawGrid(5);
+
 }
 
 void Handler::test(){
@@ -26,6 +28,19 @@ void Handler::test(){
 
 
 
+
+
+
+}
+
+
+void Handler::drawGrid(char gridSize){
+
+   //-1 = empty
+    QVector<char> negativeOnes(gridSize, -1);
+    tileMap = new QVector<QVector<char>>(gridSize,negativeOnes);
+    //tileMap.fill(negativeOnes.fill(-1));
+    qDebug() << *tileMap;
 
 
 
