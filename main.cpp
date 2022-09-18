@@ -1,5 +1,26 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QDebug>
+#include "tile.h"
+
+void test(){
+    QList<char> teilEinsKante = {0,0,0,
+                                 0,0,0,
+                                 0,0,0,
+                                 0,0,0};
+
+    QList<char> teilZweiKante = {0,1,0,
+                                 0,1,0,
+                                 0,1,0,
+                                 0,1,0};
+
+  Tile teilEins(teilEinsKante);
+  Tile teilZwei(teilZweiKante);
+
+   qDebug() << teilEins.checkEdge(1,teilZwei.getEdge(2));
+
+}
+
 
 
 int main(int argc, char *argv[])
@@ -19,5 +40,10 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
 
+
+    test();
+
     return app.exec();
 }
+
+
