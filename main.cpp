@@ -1,25 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QDebug>
-#include "tile.h"
+#include <QQuickView>
+#include <QQmlContext>
+#include "handler.h"
 
-void test(){
-    QList<char> teilEinsKante = {0,0,0,
-                                 0,0,0,
-                                 0,0,0,
-                                 0,0,0};
-
-    QList<char> teilZweiKante = {0,1,0,
-                                 0,1,0,
-                                 0,1,0,
-                                 0,1,0};
-
-  Tile teilEins(teilEinsKante);
-  Tile teilZwei(teilZweiKante);
-
-   qDebug() << teilEins.checkEdge(1,teilZwei.getEdge(2));
-
-}
 
 
 
@@ -31,17 +15,23 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+//    QQmlApplicationEngine engine;
+//    const QUrl url(QStringLiteral("qrc:/main.qml"));
+//    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+//                     &app, [url](QObject *obj, const QUrl &objUrl) {
+//        if (!obj && url == objUrl)
+//            QCoreApplication::exit(-1);
+//    }, Qt::QueuedConnection);
+//    engine.load(url);
+
+    Handler h;
+    auto view = new QQuickView;
+    view->rootContext()->setContextProperty("handler", &h);
+    view->setSource(QUrl("qrc:/main.qml"));
+    view->setResizeMode(QQuickView::SizeRootObjectToView);
+    view->show();
 
 
-    test();
 
     return app.exec();
 }
