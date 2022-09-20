@@ -3,17 +3,21 @@
 
 #include <QObject>
 
-class Handler : public QObject{
-    Q_OBJECT
+class Handler : public QObject {
+  Q_OBJECT
 public:
-    Handler();
-    void drawGrid(char gridSize);
-private:
-    QVector<QVector<char>> *tileMap;
+  Handler();
 
-    void test();
+public slots:
+  void drawGrid(char gridSize);
 signals:
-    void drawTile(char tileIndex);
+  void gridInit(char dimensions);
+  void drawTile(char tileIndex);
+
+private:
+  QVector<QVector<char>> *tileMap;
+
+  void test();
 };
 
 #endif // HANDLER_H

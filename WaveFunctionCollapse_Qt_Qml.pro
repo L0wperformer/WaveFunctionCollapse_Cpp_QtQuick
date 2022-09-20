@@ -27,3 +27,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     handler.h \
     tile.h
+
+DISTFILES +=

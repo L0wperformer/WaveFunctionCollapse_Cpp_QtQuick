@@ -5,10 +5,10 @@ Item {
     width: 640
     height: 480
     visible: true
-    Component.onCompleted: pageLoader.source = "Canvas"
+    Component.onCompleted: pageLoader.source = "Canvas.qml"
 
-    Loader{
-       id: pageLoader
-       anchors.fill: parent
+    Loader {
+        id: pageLoader
+        anchors.fill: parent
     }
 }

@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>EmptyTile.qml</file>
+        <file>Tile.qml</file>
+        <file>Canvas.qml</file>
+        <file>Image_Index_-1.png</file>
     </qresource>
 </RCC>
