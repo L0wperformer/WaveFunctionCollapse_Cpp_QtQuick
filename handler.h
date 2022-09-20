@@ -9,13 +9,13 @@ public:
   Handler();
 
 public slots:
-  void drawGrid(char gridSize);
+  void drawGrid(int gridSize);
 signals:
-  void gridInit(char dimensions);
-  void drawTile(char tileIndex);
+  void gridInit(int dimensions);
+  void drawTile(int tileIndex);
 
 private:
-  QVector<QVector<char>> *tileMap;
+  QVector<QVector<int>> *tileMap;
 
   void test();
 };
