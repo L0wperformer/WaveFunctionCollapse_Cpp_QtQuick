@@ -28,6 +28,7 @@ void Handler::drawGrid(int gridSize) {
   tileMap = new QVector<QVector<int>>(gridSize, negativeOnes);
   // tileMap.fill(negativeOnes.fill(-1));
   qDebug() << *tileMap;
+  // TODO: drawTile muss über "koordinaten funktionieren"
 
   // emit drawTile(-1);
 }

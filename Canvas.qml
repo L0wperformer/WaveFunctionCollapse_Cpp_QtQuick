@@ -17,7 +17,7 @@ Item {
                     + tilesByIndex.length)
     }
 
-    Component.onCompleted: handler.drawGrid(3)
+    Component.onCompleted: handler.drawGrid(dimensions)
 
     //This is the Connection to the grid InitFunction
     //The GridView is initialized in the correct way
