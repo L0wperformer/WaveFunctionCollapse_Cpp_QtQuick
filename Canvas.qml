@@ -3,6 +3,8 @@ import QtQuick 2.0
 Item {
     property var tilesByIndex: []
     property list<Tile> tiles
+    //This function performs reeaaaally bad since it renews ALL tiles everytime
+    //TODO optimize optimize optimize
     onTilesByIndexChanged: {
         tiles = []
 
@@ -27,7 +29,6 @@ Item {
             for (var x = 0; x < (dimensions * dimensions); x++) {
                 tilesByIndex.push(-1)
             }
-
             tileGrid.rows = dimensions
             tileGrid.columns = dimensions
             tilesByIndexChanged()
