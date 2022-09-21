@@ -2,7 +2,8 @@
 #include "tile.h"
 #include <QDebug>
 
-Handler::Handler() {
+Handler::Handler(QList<QList<int>> rules) {
+  m_rules = rules;
   test();
   // drawGrid(5);
 }

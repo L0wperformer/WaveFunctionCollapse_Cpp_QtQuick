@@ -1,12 +1,13 @@
 #ifndef HANDLER_H
 #define HANDLER_H
 
+#include <QList>
 #include <QObject>
 
 class Handler : public QObject {
   Q_OBJECT
 public:
-  Handler();
+  Handler(QList<QList<int>> rules);
 
 public slots:
   void drawGrid(int gridSize);
@@ -16,6 +17,7 @@ signals:
 
 private:
   QVector<QVector<int>> *tileMap;
+  QList<QList<int>> m_rules;
 
   void test();
 };
