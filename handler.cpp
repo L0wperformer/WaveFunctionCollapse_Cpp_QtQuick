@@ -23,8 +23,9 @@ void Handler::startCollapsing() {
   qDebug() << "Starting Collapse Algorithm";
 
   // Collapse first tile randomly
-  QRandomGenerator rand;
-  tileMap[rand.bounded(m_dimensions * m_dimensions)];
-  emit drawTile(11, 10);
-  emit drawTile(12, 23);
+  int randpos1 =
+      QRandomGenerator::global()->bounded(m_dimensions * m_dimensions);
+  int randtile1 = QRandomGenerator::global()->bounded(25);
+  tileMap->replace(randpos1, randtile1);
+  emit drawTile(randpos1, randtile1);
 }
