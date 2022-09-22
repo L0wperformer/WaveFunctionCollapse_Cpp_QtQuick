@@ -15,8 +15,7 @@ void Handler::drawGrid(int gridSize) {
   emit gridInit(gridSize);
 
   // Fill with Non-defined Tiles
-  QVector<int> negativeOnes(gridSize, -1);
-  tileMap = new QVector<QVector<int>>(gridSize, negativeOnes);
+  tileMap = new QVector<int>(gridSize, -1);
 }
 
 void Handler::startCollapsing() {

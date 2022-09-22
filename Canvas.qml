@@ -3,6 +3,8 @@ import QtQuick 2.0
 Item {
     property var tilesByIndex: []
     property list<Tile> tiles
+    id: root
+
     //This function performs reeaaaally bad since it renews ALL tiles everytime
     //TODO optimize optimize optimize
     onTilesByIndexChanged: {
@@ -10,8 +12,10 @@ Item {
 
         for (var i = 0; i < tilesByIndex.length; i++) {
             let component = Qt.createComponent("Tile.qml")
-            let newTile = component.createObject(parent, {
-                                                     "index": tilesByIndex[i]
+            let newTile = component.createObject(root, {
+                                                     "index": tilesByIndex[i],
+                                                     height: root.height/dimensions,
+                                                     width: root.width/dimensions
                                                  })
             tiles.push(newTile)
         }
@@ -43,7 +47,7 @@ Item {
         function onDrawTile(posIndex, newTileIndex) {
             console.log("Hello Draw Tile")
 
-            tilesByIndex[posIndex] = newTileIndex;
+            tilesByIndex[posIndex] = newTileIndex
             tilesByIndexChanged()
         }
     }

@@ -19,7 +19,7 @@ signals:
   void drawTile(int posIndex, int newTileIndex);
 
 private:
-  QVector<QVector<int>> *tileMap;
+  QVector<int> *tileMap;
   QList<QList<int>> m_rules;
   QList<Tile> allTiles;
 };
