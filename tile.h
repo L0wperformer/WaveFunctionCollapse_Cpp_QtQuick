@@ -21,14 +21,13 @@ public:
 
   // GetterSetter
   QList<int> getAllSockets() { return m_edgeSockets; }
-
-  char getSocketsPerSide() { return socketsPerSide; }
+  int getSocketsPerSide() { return socketsPerSide; }
 
 private:
   // List defines what other tiles can connect to this tile
   QList<int> m_edgeSockets;
 
-  char socketsPerSide;
+  int socketsPerSide;
 
 signals:
 };

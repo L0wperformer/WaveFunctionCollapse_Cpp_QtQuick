@@ -8,20 +8,6 @@ Handler::Handler(QList<QList<int>> sockets) {
     allTiles.append(appendThis);
   }
   qDebug() << "Tiles: " << allTiles.length();
-  //  test();
-  //   drawGrid(5);
-}
-
-void Handler::test() {
-
-  QList<int> teilEinsKante = {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0};
-
-  QList<int> teilZweiKante = {0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0};
-
-  Tile teilEins(teilEinsKante);
-  Tile teilZwei(teilZweiKante);
-
-  qDebug() << teilEins.checkEdge(1, teilZwei.getEdge(3));
 }
 
 void Handler::drawGrid(int gridSize) {

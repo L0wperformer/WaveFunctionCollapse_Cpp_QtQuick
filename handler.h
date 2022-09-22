@@ -20,8 +20,6 @@ private:
   QVector<QVector<int>> *tileMap;
   QList<QList<int>> m_rules;
   QList<Tile> allTiles;
-
-  void test();
 };
 
 #endif // HANDLER_H
