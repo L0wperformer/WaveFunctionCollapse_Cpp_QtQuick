@@ -12,6 +12,8 @@ public:
 
 public slots:
   void drawGrid(int gridSize);
+  void startCollapsing();
+
 signals:
   void gridInit(int dimensions);
   void drawTile(int tileIndex);

@@ -14,12 +14,9 @@ void Handler::drawGrid(int gridSize) {
 
   emit gridInit(gridSize);
 
-  //-1 = empty
+  // Fill with Non-defined Tiles
   QVector<int> negativeOnes(gridSize, -1);
   tileMap = new QVector<QVector<int>>(gridSize, negativeOnes);
-  // tileMap.fill(negativeOnes.fill(-1));
-  qDebug() << *tileMap;
-  // TODO: drawTile muss über "koordinaten funktionieren"
-
-  // emit drawTile(-1);
 }
+
+void Handler::startCollapsing() { qDebug() << "Starting Collapse Algorithm"; }

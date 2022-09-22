@@ -52,6 +52,14 @@ Item {
             tilesByIndexChanged()
         }
     }
+    //Click anywhere to start Algorithm
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            this.visible = false
+            handler.startCollapsing()
+        }
+    }
 
     Grid {
         id: tileGrid
