@@ -5,6 +5,11 @@ Tile::Tile(QList<int> edgeSockets) {
   socketsPerSide = m_edgeSockets.length() / 4;
 }
 
+Tile::Tile(const Tile &copyThis) : QObject(nullptr) {
+  m_edgeSockets = copyThis.m_edgeSockets;
+  socketsPerSide = copyThis.socketsPerSide;
+}
+
 bool Tile::checkEdge(int side, QList<int> otherEdge) {
 
   QList<int> thisEdge = getEdge(side);

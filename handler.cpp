@@ -1,11 +1,15 @@
 #include "handler.h"
-#include "tile.h"
 #include <QDebug>
 
-Handler::Handler(QList<QList<int>> rules) {
-  m_rules = rules;
-  test();
-  // drawGrid(5);
+Handler::Handler(QList<QList<int>> sockets) {
+
+  for (int i = 0; i < sockets.length(); i++) {
+    Tile appendThis(sockets.at(i));
+    allTiles.append(appendThis);
+  }
+  qDebug() << "Tiles: " << allTiles.length();
+  //  test();
+  //   drawGrid(5);
 }
 
 void Handler::test() {
