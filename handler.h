@@ -16,7 +16,7 @@ public slots:
 
 signals:
   void gridInit(int dimensions);
-  void drawTile(int tileIndex);
+  void drawTile(int posIndex, int newTileIndex);
 
 private:
   QVector<QVector<int>> *tileMap;

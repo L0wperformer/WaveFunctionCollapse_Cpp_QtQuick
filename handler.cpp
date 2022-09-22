@@ -1,6 +1,6 @@
 #include "handler.h"
 #include <QDebug>
-
+#include <QRandomGenerator>
 Handler::Handler(QList<QList<int>> sockets) {
 
   for (int i = 0; i < sockets.length(); i++) {
@@ -19,4 +19,10 @@ void Handler::drawGrid(int gridSize) {
   tileMap = new QVector<QVector<int>>(gridSize, negativeOnes);
 }
 
-void Handler::startCollapsing() { qDebug() << "Starting Collapse Algorithm"; }
+void Handler::startCollapsing() {
+  qDebug() << "Starting Collapse Algorithm";
+
+  // Collapse first tile randomly
+  emit drawTile(11, 10);
+  emit drawTile(12, 23);
+}

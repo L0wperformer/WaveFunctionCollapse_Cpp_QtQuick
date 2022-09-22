@@ -26,7 +26,6 @@ public:
 private:
   // List defines what other tiles can connect to this tile
   QList<int> m_edgeSockets;
-
   int socketsPerSide;
 
 signals:

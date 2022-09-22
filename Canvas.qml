@@ -40,15 +40,10 @@ Item {
     //Emitted signal
     Connections {
         target: handler
-        function onDrawTile(tileIndex) {
+        function onDrawTile(posIndex, newTileIndex) {
             console.log("Hello Draw Tile")
 
-            switch (tileIndex) {
-            case -1:
-                //draw emptyTile
-            default:
-                console.log("Tile index: " + tileIndex + "unknown")
-            }
+            tilesByIndex[posIndex] = newTileIndex;
             tilesByIndexChanged()
         }
     }
