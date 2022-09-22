@@ -6,7 +6,7 @@ Item {
     height: 640
     visible: true
     Component.onCompleted: pageLoader.source = "Canvas.qml"
-    property int dimensions: 10
+    property int dimensions: 0
 
     Loader {
         id: pageLoader

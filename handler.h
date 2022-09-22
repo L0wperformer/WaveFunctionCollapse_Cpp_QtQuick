@@ -8,20 +8,22 @@
 class Handler : public QObject {
   Q_OBJECT
 public:
-  Handler(QList<QList<int>> sockets);
+  Handler(QList<QList<int>> sockets, int dimensions);
 
 public slots:
-  void drawGrid(int gridSize);
+  void drawGrid();
   void startCollapsing();
+  int getDimensions() { return m_dimensions; }
 
 signals:
-  void gridInit(int dimensions);
+  void gridInit();
   void drawTile(int posIndex, int newTileIndex);
 
 private:
   QVector<int> *tileMap;
   QList<QList<int>> m_rules;
   QList<Tile> allTiles;
+  int m_dimensions;
 };
 
 #endif // HANDLER_H

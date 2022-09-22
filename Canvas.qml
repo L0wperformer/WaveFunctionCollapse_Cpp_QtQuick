@@ -14,8 +14,8 @@ Item {
             let component = Qt.createComponent("Tile.qml")
             let newTile = component.createObject(root, {
                                                      "index": tilesByIndex[i],
-                                                     height: root.height/dimensions,
-                                                     width: root.width/dimensions
+                                                     "height": root.height / dimensions,
+                                                     "width": root.width / dimensions
                                                  })
             tiles.push(newTile)
         }
@@ -23,13 +23,17 @@ Item {
                     + tilesByIndex.length)
     }
 
-    Component.onCompleted: handler.drawGrid(dimensions)
+    Component.onCompleted: {
+        dimensions = handler.getDimensions()
+        console.log(dimensions)
+        handler.drawGrid()
+    }
 
     //This is the Connection to the grid InitFunction
     //The GridView is initialized in the correct way
     Connections {
         target: handler
-        function onGridInit(dimensions) {
+        function onGridInit() {
             for (var x = 0; x < (dimensions * dimensions); x++) {
                 tilesByIndex.push(-1)
             }
