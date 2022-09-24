@@ -9,6 +9,7 @@ class Tile : public QObject {
 public:
   Tile(QList<int> edgeSockets);
   Tile(const Tile &copyThis);
+  Tile(){};
   ~Tile(){};
   Tile &operator=(const Tile &rhs) {
     Q_UNUSED(rhs);

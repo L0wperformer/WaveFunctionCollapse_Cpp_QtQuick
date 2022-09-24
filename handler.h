@@ -8,7 +8,7 @@
 class Handler : public QObject {
   Q_OBJECT
 public:
-  Handler(QList<QList<int>> sockets, int dimensions);
+  Handler(QList<QList<int>> sockets, int dimensions, int m_numberOfTiles);
 
 public slots:
   void drawGrid();
@@ -24,6 +24,8 @@ private:
   QList<QList<int>> m_rules;
   QList<Tile> allTiles;
   int m_dimensions;
+  int m_numberOfTiles;
+  int calculateIndexToCollapseNext();
 };
 
 #endif // HANDLER_H
