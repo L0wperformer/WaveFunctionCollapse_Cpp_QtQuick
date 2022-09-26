@@ -5,27 +5,11 @@ Item {
     property list<Tile> tiles
     id: root
 
-    //This function performs reeaaaally bad since it renews ALL tiles everytime
-    //TODO optimize optimize optimize
-    onTilesByIndexChanged: {
-        tiles = []
 
-        for (var i = 0; i < tilesByIndex.length; i++) {
-            let component = Qt.createComponent("Tile.qml")
-            let newTile = component.createObject(root, {
-                                                     "index": tilesByIndex[i],
-                                                     "height": root.height / dimensions,
-                                                     "width": root.width / dimensions
-                                                 })
-            tiles.push(newTile)
-        }
-        console.log("New Tile Length: " + tiles.length + "tilesByindex Length: "
-                    + tilesByIndex.length)
-    }
 
     Component.onCompleted: {
         dimensions = handler.getDimensions()
-        console.log(dimensions)
+        //console.log(dimensions)
         handler.drawGrid()
     }
 
@@ -35,11 +19,17 @@ Item {
         target: handler
         function onGridInit() {
             for (var x = 0; x < (dimensions * dimensions); x++) {
-                tilesByIndex.push(-1)
+                tilesByIndex[x] = (-1)
+                let component = Qt.createComponent("Tile.qml")
+                let newTile = component.createObject(root, {
+                                                         "index": -1,
+                                                         "height": root.height / dimensions,
+                                                         "width": root.width / dimensions
+                                                     })
+                tiles.push(newTile)
             }
             tileGrid.rows = dimensions
             tileGrid.columns = dimensions
-            tilesByIndexChanged()
         }
     }
     //This is the Connection to the drawTile Function of handler
@@ -49,10 +39,14 @@ Item {
     Connections {
         target: handler
         function onDrawTile(posIndex, newTileIndex) {
-            console.log("Hello Draw Tile")
 
-            tilesByIndex[posIndex] = newTileIndex
-            tilesByIndexChanged()
+            let component = Qt.createComponent("Tile.qml")
+            let newTile = component.createObject(root, {
+                                                     "index": newTileIndex,
+                                                     "height": root.height / dimensions,
+                                                     "width": root.width / dimensions
+                                                 })
+            tiles[posIndex] = newTile
         }
     }
     //Click anywhere to start Algorithm

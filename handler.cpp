@@ -32,16 +32,16 @@ void Handler::startCollapsing() {
   tileMap->replace(randpos1, randtile1);
   emit drawTile(randpos1, randtile1);
   // bool noSolutionFound = false;
-  for (int jjj = 0; jjj < 100; jjj++) {
+  for (int jjj = 0; jjj < 1000; jjj++) {
     // while (!noSolutionFound) {
     int nextTilePos = calculateIndexToCollapseNext();
-    qDebug() << nextTilePos;
+    qDebug() << "Loop no. " << jjj;
     QList<int> tilesAlreadytried;
     while (1) {
       int randomTile = QRandomGenerator::global()->bounded(m_numberOfTiles);
 
       if (checkIfTileFits(nextTilePos, allTiles.at(randomTile))) {
-        qDebug() << "Placing new tile at pos: " << nextTilePos;
+        // qDebug() << "Placing new tile at pos: " << nextTilePos;
         tileMap->replace(nextTilePos, randomTile);
         emit drawTile(nextTilePos, randomTile);
         break;
@@ -109,7 +109,7 @@ int Handler::calculateIndexToCollapseNext() {
 
     if (tileMap->at(index) == -1)
       continue;
-    qDebug() << "TileMap: " << *tileMap;
+    // qDebug() << "TileMap: " << *tileMap;
     Tile tileAtPos = allTiles.at(tileMap->at(index));
     // Check Above
     if (index - m_dimensions > 0) {
@@ -150,11 +150,10 @@ int Handler::calculateIndexToCollapseNext() {
     }
   }
 
-  qDebug() << "Entropymap: " << entropyMap;
-  // For now, The first index of least entropy is returned. This will be changed
-  // to be random in the future
-  // qDebug() << "Min Entropy Value: "
-  //       << *std::min_element(entropyMap.begin(), entropyMap.end());
+  // qDebug() << "Entropymap: " << entropyMap;
+  //  For now, The first index of least entropy is returned. This will be
+  //  changed to be random in the future qDebug() << "Min Entropy Value: "
+  //        << *std::min_element(entropyMap.begin(), entropyMap.end());
   return entropyMap.indexOf(
       *std::min_element(entropyMap.begin(), entropyMap.end()));
 }
