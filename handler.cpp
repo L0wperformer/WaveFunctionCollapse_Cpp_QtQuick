@@ -62,7 +62,7 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
   if (pos - m_dimensions > 0) {
     if (tileMap->at(pos - m_dimensions) != -1) { // Skip if NOT collapsed
       if (!allTiles.value(tileMap->at(pos - m_dimensions))
-               .checkEdge(0, tile.getEdge(2))) {
+               .checkEdge(2, tile.getEdge(0))) {
         return false;
       }
     }
@@ -71,7 +71,7 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
   if ((pos + 1) % m_dimensions != 0 &&
       pos + 1 < m_dimensions * m_dimensions - 1) {
     if (tileMap->at(pos + 1) != -1) {
-      if (!allTiles.value(tileMap->at(pos + 1)).checkEdge(1, tile.getEdge(3))) {
+      if (!allTiles.value(tileMap->at(pos + 1)).checkEdge(3, tile.getEdge(1))) {
         return false;
       }
     }
@@ -80,7 +80,7 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
   if (pos + m_dimensions < m_dimensions * m_dimensions - 1) {
     if (tileMap->at(pos + m_dimensions) != -1) {
       if (!allTiles.value(tileMap->at(pos + m_dimensions))
-               .checkEdge(2, tile.getEdge(0))) {
+               .checkEdge(0, tile.getEdge(2))) {
         return false;
       }
     }
@@ -89,7 +89,7 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
   // Left
   if (pos % m_dimensions != 0 && pos != 0) {
     if (tileMap->at(pos - 1) != -1) {
-      if (!allTiles.value(tileMap->at(pos - 1)).checkEdge(3, tile.getEdge(1)))
+      if (!allTiles.value(tileMap->at(pos - 1)).checkEdge(1, tile.getEdge(3)))
         return false;
     }
   }

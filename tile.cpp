@@ -25,6 +25,5 @@ bool Tile::checkEdge(int side, QList<int> otherEdge) {
 QList<int> Tile::getEdge(int sideIndex) {
 
   int startIndex = socketsPerSide * sideIndex;
-
   return m_edgeSockets.mid(startIndex, socketsPerSide);
 }
