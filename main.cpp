@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 
   };
 
-  Handler h(sockets, 3, sockets.length());
+  Handler h(sockets, 10, sockets.length());
   auto view = new QQuickView;
   view->rootContext()->setContextProperty("handler", &h);
   view->setSource(QUrl("qrc:/main.qml"));

@@ -26,6 +26,7 @@ private:
   int m_dimensions;
   int m_numberOfTiles;
   int calculateIndexToCollapseNext();
+  bool checkIfTileFits(int pos, Tile tile);
 };
 
 #endif // HANDLER_H
