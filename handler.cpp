@@ -32,8 +32,14 @@ void Handler::startCollapsing() {
   tileMap->replace(randpos1, randtile1);
   emit drawTile(randpos1, randtile1);
   // bool noSolutionFound = false;
-  for (int jjj = 0; jjj < 1000; jjj++) {
+  for (int jjj = 0;; jjj++) {
     // while (!noSolutionFound) {
+
+    // STOP condition: All collapsed
+
+    if (!tileMap->contains(-1))
+      break;
+
     int nextTilePos = calculateIndexToCollapseNext();
     qDebug() << "Loop no. " << jjj;
     QList<int> tilesAlreadytried;
@@ -122,7 +128,7 @@ int Handler::calculateIndexToCollapseNext() {
     }
     // Check Right
     if ((index + 1) % m_dimensions != 0 &&
-        index + 1 < m_dimensions * m_dimensions - 1) {
+        index + 1 < m_dimensions * m_dimensions) {
       if (tileMap->at(index + 1) == -1 && (index + 1) % m_dimensions != 0) {
         for (int i = 0; i < allTiles.length(); i++) {
           if (tileAtPos.checkEdge(1, allTiles.value(i).getEdge(3)))
