@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QRandomGenerator>
 #include <QCoreApplication>
-Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles) {
+Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles, QList<int> weights) {
 
   m_dimensions = dimensions;
   m_numberOfTiles = numberOfTiles;
@@ -14,13 +14,9 @@ Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles) {
     Tile appendThis(sockets.at(i));
     allTiles.append(appendThis);
   }
-   for(int i = 17;i < 25; i++){
-       //Tiles in this list (end Tiles)
-       //Are only 1/3 as likely to be chosen
-       m_indexOfWeightedTiles.append(i);
-   }
-   m_disadvantageWeight = 100;
-  qDebug() << "Tiles: " << allTiles.length();
+
+  m_disadvantageWeights = weights;
+  qDebug() << "weights " <<m_disadvantageWeights;
 }
 
 void Handler::drawGrid() {
@@ -71,11 +67,11 @@ void Handler::startCollapsing() {
     QList<int> tilesAlreadytried;
     while (1) {
       int randomTile = QRandomGenerator::global()->bounded(m_numberOfTiles);
-      if(m_indexOfWeightedTiles.contains(randomTile)){
-         if(QRandomGenerator::global()->bounded(m_disadvantageWeight) != 1){//Weight is applied. Continuing
-             continue;                                   //prevents that tile will never be chosen
-         }                                               //Even when only tile that fits
-      }
+      if(m_disadvantageWeights.at(randomTile) > 1){
+         if((QRandomGenerator::global()->bounded(m_disadvantageWeights.at(randomTile)) != 1)  ){//Weight is applied. Continuing
+                   continue;                                    //prevents that tile will never be chosen
+       }                                                        //Even when only tile that fits
+}
       if (checkIfTileFits(nextTilePos, allTiles.at(randomTile))) {
         tileMap->replace(nextTilePos, randomTile);
         emit drawTile(nextTilePos, randomTile);
@@ -92,6 +88,7 @@ void Handler::startCollapsing() {
 
         break;
       }
+
     }
   }
 }
