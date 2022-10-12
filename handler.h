@@ -23,10 +23,13 @@ private:
   QVector<int> *tileMap;
   QList<QList<int>> m_rules;
   QList<Tile> allTiles;
+  QList<int> m_indexOfWeightedTiles;
+  int m_disadvantageWeight;
   int m_dimensions;
   int m_numberOfTiles;
   int calculateIndexToCollapseNext();
   bool checkIfTileFits(int pos, Tile tile);
+
 };
 
 #endif // HANDLER_H
