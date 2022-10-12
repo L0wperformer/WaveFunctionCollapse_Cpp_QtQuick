@@ -33,18 +33,33 @@ void Handler::startCollapsing() {
   tileMap->replace(randpos1, randtile1);
   emit drawTile(randpos1, randtile1);
   int collapsedCount = 0;
+  int lastTilePlacedPos = 0;
+  QVector<int> lastTilesPlacedPos;
+  bool noSolution = false;
   // bool noSolutionFound = false;
   for (int jjj = 0;; jjj++) {
     // while (!noSolutionFound) {
 
     // STOP condition: All collapsed
 
-    if (!tileMap->contains(-1) /*|| jjj > m_dimensions * m_dimensions * 100*/)
+    if (!tileMap->contains(-1) /*|| jjj > m_dimensions * m_dimensions * 10*/)
       break;
+    int nextTilePos = 0;
+    if (noSolution) {
+      qDebug() << "No solution!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+      nextTilePos = lastTilePlacedPos;
+      tileMap->replace(lastTilePlacedPos, -1);
+      noSolution = false;
 
-    int nextTilePos = calculateIndexToCollapseNext();
-    if (jjj % 1000 == 0)
-      qDebug() << "Loop no. " << jjj << "Collapsed: " << collapsedCount;
+    } else {
+      nextTilePos = calculateIndexToCollapseNext();
+    }
+
+    // if (jjj % 1000 == 0)
+    qDebug() << "Loop no. " << jjj << "Collapsed: " << collapsedCount
+             << "Next index: " << nextTilePos;
+    //       if (collapsedCount != jjj)
+    //         break;
     QList<int> tilesAlreadytried;
     while (1) {
       int randomTile = QRandomGenerator::global()->bounded(m_numberOfTiles);
@@ -53,13 +68,15 @@ void Handler::startCollapsing() {
         // qDebug() << "Placing new tile at pos: " << nextTilePos;
         tileMap->replace(nextTilePos, randomTile);
         emit drawTile(nextTilePos, randomTile);
+        lastTilePlacedPos = nextTilePos;
         collapsedCount++;
         break;
       }
       if (!tilesAlreadytried.contains(randomTile)) {
         tilesAlreadytried.append(randomTile);
       }
-      if (tilesAlreadytried.length() == m_numberOfTiles) {
+      if (tilesAlreadytried.length() == m_numberOfTiles) { // No tile fit
+        noSolution = true;
         break;
       }
     }
