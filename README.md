@@ -7,3 +7,8 @@ An explanation (and cooler implementations) of the algorithm can be found on fol
 
 I thought this is a fun algorithm to implement.  
 There's still some work to do and I have some ideas in mind that I will implement at some point.
+[](https://media0.giphy.com/media/a4GejfoTSMTrzV2d9q/giphy.gif?cid=790b7611a426e5db6da5418550ee80a39cde564a2b8c4288&rid=giphy.gif&ct=g)
+
+Sadly the Gif looks a bit shitty, its much smoother...  
+![](https://media0.giphy.com/media/a4GejfoTSMTrzV2d9q/giphy.gif?cid=790b7611a426e5db6da5418550ee80a39cde564a2b8c4288&rid=giphy.gif&ct=g)
+
