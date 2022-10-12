@@ -35,32 +35,31 @@ void Handler::startCollapsing() {
   int collapsedCount = 0;
   // int lastTilePlacedPos = 0;
   QVector<int> lastTilesPlacedPos;
-  QVector<int> lastTilesPlaced;
-  int lastTilePlaced = 0;
+
+
   bool noSolution = false;
-  bool noSolutionSecondTry = false;
+
   // bool noSolutionFound = false;
   for (int jjj = 0;; jjj++) {
     // while (!noSolutionFound) {
 
     // STOP condition: All collapsed
 
-    if (!tileMap->contains(-1) || jjj > 2000)
+    if (!tileMap->contains(-1) /*|| jjj > 2000*/)
       break;
     int nextTilePos = 0;
     if (noSolution) {
-      if (noSolutionSecondTry) {
+         tileMap->replace(lastTilesPlacedPos.takeLast(),-1);
+        nextTilePos = lastTilesPlacedPos.last();
         tileMap->replace(lastTilesPlacedPos.takeLast(), -1);
-        noSolutionSecondTry = false;
         noSolution = false;
+      }else {
+        nextTilePos = calculateIndexToCollapseNext();
       }
 
-      nextTilePos = lastTilesPlacedPos.takeLast();
-      tileMap->replace(nextTilePos, -1);
 
-    } else {
-      nextTilePos = calculateIndexToCollapseNext();
-    }
+
+
 
     // if (jjj % 1000 == 0)
     qDebug() << "Loop no. " << jjj << "Collapsed: " << collapsedCount
@@ -84,12 +83,9 @@ void Handler::startCollapsing() {
         tilesAlreadytried.append(randomTile);
       }
       if (tilesAlreadytried.length() == m_numberOfTiles) { // No tile fit
-        qDebug() << "No solution found: " << noSolution;
-        if (noSolution) {
-          noSolutionSecondTry = true;
+        qDebug() << "No solution foundLast steps: " << lastTilesPlacedPos  ;
 
-        } else
-          noSolution = true;
+        noSolution = true;
 
         break;
       }
