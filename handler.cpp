@@ -33,23 +33,30 @@ void Handler::startCollapsing() {
   tileMap->replace(randpos1, randtile1);
   emit drawTile(randpos1, randtile1);
   int collapsedCount = 0;
-  int lastTilePlacedPos = 0;
+  // int lastTilePlacedPos = 0;
   QVector<int> lastTilesPlacedPos;
+  QVector<int> lastTilesPlaced;
+  int lastTilePlaced = 0;
   bool noSolution = false;
+  bool noSolutionSecondTry = false;
   // bool noSolutionFound = false;
   for (int jjj = 0;; jjj++) {
     // while (!noSolutionFound) {
 
     // STOP condition: All collapsed
 
-    if (!tileMap->contains(-1) /*|| jjj > m_dimensions * m_dimensions * 10*/)
+    if (!tileMap->contains(-1) || jjj > 2000)
       break;
     int nextTilePos = 0;
     if (noSolution) {
-      qDebug() << "No solution!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-      nextTilePos = lastTilePlacedPos;
-      tileMap->replace(lastTilePlacedPos, -1);
-      noSolution = false;
+      if (noSolutionSecondTry) {
+        tileMap->replace(lastTilesPlacedPos.takeLast(), -1);
+        noSolutionSecondTry = false;
+        noSolution = false;
+      }
+
+      nextTilePos = lastTilesPlacedPos.takeLast();
+      tileMap->replace(nextTilePos, -1);
 
     } else {
       nextTilePos = calculateIndexToCollapseNext();
@@ -57,7 +64,7 @@ void Handler::startCollapsing() {
 
     // if (jjj % 1000 == 0)
     qDebug() << "Loop no. " << jjj << "Collapsed: " << collapsedCount
-             << "Next index: " << nextTilePos;
+             << "Next index: " << nextTilePos << "no Solution: " << noSolution;
     //       if (collapsedCount != jjj)
     //         break;
     QList<int> tilesAlreadytried;
@@ -65,10 +72,11 @@ void Handler::startCollapsing() {
       int randomTile = QRandomGenerator::global()->bounded(m_numberOfTiles);
 
       if (checkIfTileFits(nextTilePos, allTiles.at(randomTile))) {
-        // qDebug() << "Placing new tile at pos: " << nextTilePos;
+        qDebug() << "Placing new tile at pos: " << nextTilePos;
         tileMap->replace(nextTilePos, randomTile);
         emit drawTile(nextTilePos, randomTile);
-        lastTilePlacedPos = nextTilePos;
+        lastTilesPlacedPos.append(nextTilePos);
+        // noSolution = false;
         collapsedCount++;
         break;
       }
@@ -76,7 +84,13 @@ void Handler::startCollapsing() {
         tilesAlreadytried.append(randomTile);
       }
       if (tilesAlreadytried.length() == m_numberOfTiles) { // No tile fit
-        noSolution = true;
+        qDebug() << "No solution found: " << noSolution;
+        if (noSolution) {
+          noSolutionSecondTry = true;
+
+        } else
+          noSolution = true;
+
         break;
       }
     }

@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 
   };
 
-  Handler h(sockets, 2, sockets.length());
+  Handler h(sockets, 35, sockets.length());
 
   auto view = new QQuickView;
   view->rootContext()->setContextProperty("handler", &h);
