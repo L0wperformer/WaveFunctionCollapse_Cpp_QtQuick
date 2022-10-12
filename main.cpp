@@ -4,7 +4,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickView>
-#include <QThread>
+
+
 int main(int argc, char *argv[]) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -53,13 +54,70 @@ int main(int argc, char *argv[]) {
 
   };
 
-  Handler h(sockets, 35, sockets.length());
+  QList<int> disadvantageWeights = {
+      1, //0
+      2, //1
+      2, //2
+      4, //3
+      4, //4        These weights were chosen "normalized"
+      4, //5        So x pieces of similar type get
+      4, //6        a disadvantage of x
+      4, //7
+      4, //8
+      4, //9
+      4, //10
+      4, //11
+      4, //12
+      4, //13
+      4, //14
+      2, //15
+      2, //16
+      8, //17
+      8, //18
+      8, //19
+      8, //20
+      8, //21
+      8, //22
+      8, //23
+      8, //24
+      1 //25
+  };
+//  QList<int> disadvantageWeights = {
+//      1, //0
+//      2, //1
+//      2, //2
+//      4, //3
+//      4, //4        These weights were chosen "normalized"
+//      4, //5        So x pieces of similar type get
+//      4, //6        a disadvantage of x
+//      4, //7
+//      4, //8
+//      4, //9
+//      4, //10
+//      4, //11
+//      4, //12
+//      4, //13
+//      4, //14
+//      2, //15
+//      2, //16
+//     20, //17
+//      20, //18
+//      20, //19
+//      20, //20
+//      8, //21
+//      8, //22
+//      8, //23
+//      8, //24
+//      1 //25
+//  };
 
+  Handler h(sockets, 50, sockets.length(),disadvantageWeights);
   auto view = new QQuickView;
   view->rootContext()->setContextProperty("handler", &h);
   view->setSource(QUrl("qrc:/main.qml"));
   view->setResizeMode(QQuickView::SizeRootObjectToView);
   view->show();
+
 
   return app.exec();
 }
