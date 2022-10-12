@@ -39,7 +39,7 @@ void Handler::startCollapsing() {
 
     // STOP condition: All collapsed
 
-    if (!tileMap->contains(-1) || jjj > m_dimensions * m_dimensions * 10000)
+    if (!tileMap->contains(-1) || jjj > m_dimensions * m_dimensions * 100)
       break;
 
     int nextTilePos = calculateIndexToCollapseNext();
@@ -64,10 +64,11 @@ void Handler::startCollapsing() {
   }
 }
 bool Handler::checkIfTileFits(int pos, Tile tile) {
+  // qDebug() << "Checking pos: " << pos;
 
   // Tile tileToCheck = allTiles.at(tileMap->at(pos));
   //  Above
-  if (pos - m_dimensions > 0) {
+  if (pos - m_dimensions >= 0) {
     // qDebug() << "Checking Above";
     if (tileMap->at(pos - m_dimensions) != -1) { // Skip if NOT collapsed
       if (!allTiles.value(tileMap->at(pos - m_dimensions))
@@ -76,28 +77,28 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
       }
     }
     // Above left
-    if ((pos - m_dimensions) % m_dimensions != 0 /*&&
-        (pos - m_dimensions - 1) != 0*/) {
+
+    if ((pos - m_dimensions) % m_dimensions != 0 && (pos - m_dimensions) != 0) {
       if (tileMap->at(pos - m_dimensions - 1) != -1) {
-        if (!allTiles.value(tileMap->at(pos - m_dimensions - 1))
-                 .checkEdge(1, tile.getEdgeSockets(3)))
+        if (allTiles.value(tileMap->at(pos - m_dimensions - 1))
+                .getCornerSocket(2) != tile.getCornerSocket(0))
           return false;
       }
     }
     // Above right
+
     if ((pos - m_dimensions + 1) % m_dimensions != 0 &&
         pos + 1 < m_dimensions * m_dimensions - 1) {
       if (tileMap->at(pos - m_dimensions + 1) != -1) {
-        if (!allTiles.value(tileMap->at(pos - m_dimensions + 1))
-                 .checkEdge(3, tile.getEdgeSockets(1))) {
+        if (allTiles.value(tileMap->at(pos - m_dimensions + 1))
+                .getCornerSocket(3) != tile.getCornerSocket(1)) {
           return false;
         }
       }
     }
   }
   // Right
-  if ((pos + 1) % m_dimensions != 0 &&
-      pos + 1 < m_dimensions * m_dimensions - 1) {
+  if ((pos + 1) % m_dimensions != 0 && pos + 1 < m_dimensions * m_dimensions) {
     if (tileMap->at(pos + 1) != -1) {
       if (!allTiles.value(tileMap->at(pos + 1))
                .checkEdge(3, tile.getEdgeSockets(1))) {
@@ -106,7 +107,7 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
     }
   }
   // Below
-  if (pos + m_dimensions < m_dimensions * m_dimensions - 1) {
+  if (pos + m_dimensions < m_dimensions * m_dimensions) {
     // qDebug() << "Checking Below";
     if (tileMap->at(pos + m_dimensions) != -1) {
       if (!allTiles.value(tileMap->at(pos + m_dimensions))
@@ -115,10 +116,11 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
       }
     }
     // Below left
+
     if (pos + m_dimensions % m_dimensions != 0 /*&& pos != 0*/) {
       if (tileMap->at(pos + m_dimensions - 1) != -1) {
-        if (!allTiles.value(tileMap->at(pos + m_dimensions - 1))
-                 .checkEdge(1, tile.getEdgeSockets(3)))
+        if (allTiles.value(tileMap->at(pos + m_dimensions - 1))
+                .getCornerSocket(1) != tile.getCornerSocket(3))
           return false;
       }
     }
@@ -126,8 +128,8 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
     if ((pos + m_dimensions + 1) % m_dimensions != 0 &&
         pos + m_dimensions + 1 < m_dimensions * m_dimensions - 1) {
       if (tileMap->at(pos + m_dimensions + 1) != -1) {
-        if (!allTiles.value(tileMap->at(pos + m_dimensions + 1))
-                 .checkEdge(3, tile.getEdgeSockets(1))) {
+        if (allTiles.value(tileMap->at(pos + m_dimensions + 1))
+                .getCornerSocket(0) != tile.getCornerSocket(2)) {
           return false;
         }
       }
@@ -170,8 +172,8 @@ int Handler::calculateIndexToCollapseNext() {
         }
       }
       // Above Left
-      if (index % m_dimensions != 0 && index != 0 &&
-          index - m_dimensions - 1 >= 0) {
+      if (index-m_dimensions % m_dimensions != 0 && index-m_dimensions != 0 /*&&
+          index - m_dimensions - 1 >= 0*/) {
         if (tileMap->at(index - m_dimensions - 1) == -1) {
           for (int i = 0; i < allTiles.length(); i++) {
             if (tileAtPos.checkEdge(3, allTiles.value(i).getEdgeSockets(1)))
