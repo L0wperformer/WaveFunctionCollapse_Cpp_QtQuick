@@ -1,10 +1,14 @@
 #include "handler.h"
 #include <QDebug>
 #include <QRandomGenerator>
+#include <QCoreApplication>
 Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles) {
 
   m_dimensions = dimensions;
   m_numberOfTiles = numberOfTiles;
+  connect(this, &Handler::drawTile,[](){
+      QCoreApplication::processEvents();
+  });
 
   for (int i = 0; i < sockets.length(); i++) {
     Tile appendThis(sockets.at(i));
