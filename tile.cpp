@@ -12,7 +12,7 @@ Tile::Tile(const Tile &copyThis) : QObject(nullptr) {
 
 bool Tile::checkEdge(int side, QList<int> otherEdge) {
 
-  QList<int> thisEdge = getEdge(side);
+  QList<int> thisEdge = getEdgeSockets(side);
 
   for (int i = 0; i < otherEdge.length(); i++) {
     if (thisEdge.at(i) != otherEdge.at(i))
@@ -22,8 +22,15 @@ bool Tile::checkEdge(int side, QList<int> otherEdge) {
   return true;
 }
 
-QList<int> Tile::getEdge(int sideIndex) {
-
+QList<int> Tile::getEdgeSockets(int sideIndex) {
   int startIndex = socketsPerSide * sideIndex;
-  return m_edgeSockets.mid(startIndex, socketsPerSide);
+  QList<int> edgeSockets = m_edgeSockets.mid(startIndex, socketsPerSide);
+  // Remove Corners
+  edgeSockets.pop_front();
+  edgeSockets.pop_back();
+  return edgeSockets;
+}
+
+int Tile::getCornerSocket(int whichOne) {
+  return m_edgeSockets.at(whichOne * socketsPerSide);
 }

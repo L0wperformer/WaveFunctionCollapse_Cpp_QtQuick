@@ -17,8 +17,10 @@ public:
   };
   // Function to check if edge of other tile matches
   bool checkEdge(int side, QList<int> otherEdge);
+  // 0 -> Top left, 1-> Top right...
+  int getCornerSocket(int whichOne);
   // 0 -> Top , 1 -> Right, ...
-  QList<int> getEdge(int sideIndex);
+  QList<int> getEdgeSockets(int sideIndex);
 
   // GetterSetter
   QList<int> getAllSockets() { return m_edgeSockets; }

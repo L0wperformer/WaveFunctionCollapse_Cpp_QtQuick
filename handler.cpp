@@ -28,16 +28,18 @@ void Handler::startCollapsing() {
   // Collapse first tile randomly
   int randpos1 =
       QRandomGenerator::global()->bounded(m_dimensions * m_dimensions);
+  qDebug() << "pos chosen:" << randpos1;
   int randtile1 = QRandomGenerator::global()->bounded(m_numberOfTiles);
   tileMap->replace(randpos1, randtile1);
   emit drawTile(randpos1, randtile1);
+
   // bool noSolutionFound = false;
   for (int jjj = 0;; jjj++) {
     // while (!noSolutionFound) {
 
     // STOP condition: All collapsed
 
-    if (!tileMap->contains(-1))
+    if (!tileMap->contains(-1) || jjj > m_dimensions * m_dimensions * 10000)
       break;
 
     int nextTilePos = calculateIndexToCollapseNext();
@@ -66,10 +68,30 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
   // Tile tileToCheck = allTiles.at(tileMap->at(pos));
   //  Above
   if (pos - m_dimensions > 0) {
+    // qDebug() << "Checking Above";
     if (tileMap->at(pos - m_dimensions) != -1) { // Skip if NOT collapsed
       if (!allTiles.value(tileMap->at(pos - m_dimensions))
-               .checkEdge(2, tile.getEdge(0))) {
+               .checkEdge(2, tile.getEdgeSockets(0))) {
         return false;
+      }
+    }
+    // Above left
+    if ((pos - m_dimensions) % m_dimensions != 0 /*&&
+        (pos - m_dimensions - 1) != 0*/) {
+      if (tileMap->at(pos - m_dimensions - 1) != -1) {
+        if (!allTiles.value(tileMap->at(pos - m_dimensions - 1))
+                 .checkEdge(1, tile.getEdgeSockets(3)))
+          return false;
+      }
+    }
+    // Above right
+    if ((pos - m_dimensions + 1) % m_dimensions != 0 &&
+        pos + 1 < m_dimensions * m_dimensions - 1) {
+      if (tileMap->at(pos - m_dimensions + 1) != -1) {
+        if (!allTiles.value(tileMap->at(pos - m_dimensions + 1))
+                 .checkEdge(3, tile.getEdgeSockets(1))) {
+          return false;
+        }
       }
     }
   }
@@ -77,17 +99,37 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
   if ((pos + 1) % m_dimensions != 0 &&
       pos + 1 < m_dimensions * m_dimensions - 1) {
     if (tileMap->at(pos + 1) != -1) {
-      if (!allTiles.value(tileMap->at(pos + 1)).checkEdge(3, tile.getEdge(1))) {
+      if (!allTiles.value(tileMap->at(pos + 1))
+               .checkEdge(3, tile.getEdgeSockets(1))) {
         return false;
       }
     }
   }
   // Below
   if (pos + m_dimensions < m_dimensions * m_dimensions - 1) {
+    // qDebug() << "Checking Below";
     if (tileMap->at(pos + m_dimensions) != -1) {
       if (!allTiles.value(tileMap->at(pos + m_dimensions))
-               .checkEdge(0, tile.getEdge(2))) {
+               .checkEdge(0, tile.getEdgeSockets(2))) {
         return false;
+      }
+    }
+    // Below left
+    if (pos + m_dimensions % m_dimensions != 0 /*&& pos != 0*/) {
+      if (tileMap->at(pos + m_dimensions - 1) != -1) {
+        if (!allTiles.value(tileMap->at(pos + m_dimensions - 1))
+                 .checkEdge(1, tile.getEdgeSockets(3)))
+          return false;
+      }
+    }
+    // Below right
+    if ((pos + m_dimensions + 1) % m_dimensions != 0 &&
+        pos + m_dimensions + 1 < m_dimensions * m_dimensions - 1) {
+      if (tileMap->at(pos + m_dimensions + 1) != -1) {
+        if (!allTiles.value(tileMap->at(pos + m_dimensions + 1))
+                 .checkEdge(3, tile.getEdgeSockets(1))) {
+          return false;
+        }
       }
     }
   }
@@ -95,7 +137,8 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
   // Left
   if (pos % m_dimensions != 0 && pos != 0) {
     if (tileMap->at(pos - 1) != -1) {
-      if (!allTiles.value(tileMap->at(pos - 1)).checkEdge(1, tile.getEdge(3)))
+      if (!allTiles.value(tileMap->at(pos - 1))
+               .checkEdge(1, tile.getEdgeSockets(3)))
         return false;
     }
   }
@@ -118,11 +161,34 @@ int Handler::calculateIndexToCollapseNext() {
     // qDebug() << "TileMap: " << *tileMap;
     Tile tileAtPos = allTiles.at(tileMap->at(index));
     // Check Above
-    if (index - m_dimensions > 0) {
+    if (index - m_dimensions >= 0) {
+      // Directly above
       if (tileMap->at(index - m_dimensions) == -1) { // Skip if collapsed
         for (int i = 0; i < allTiles.length(); i++) {
-          if (tileAtPos.checkEdge(0, allTiles.value(i).getEdge(2)))
+          if (tileAtPos.checkEdge(0, allTiles.value(i).getEdgeSockets(2)))
             entropyMap[index - m_dimensions]--;
+        }
+      }
+      // Above Left
+      if (index % m_dimensions != 0 && index != 0 &&
+          index - m_dimensions - 1 >= 0) {
+        if (tileMap->at(index - m_dimensions - 1) == -1) {
+          for (int i = 0; i < allTiles.length(); i++) {
+            if (tileAtPos.checkEdge(3, allTiles.value(i).getEdgeSockets(1)))
+              entropyMap[index - m_dimensions - 1]--;
+          }
+        }
+      }
+
+      // Above Right
+      if ((index + 1) % m_dimensions != 0 &&
+          index + 1 < m_dimensions * m_dimensions) {
+        if (tileMap->at(index - m_dimensions + 1) == -1 &&
+            (index + 1) % m_dimensions != 0) {
+          for (int i = 0; i < allTiles.length(); i++) {
+            if (tileAtPos.checkEdge(1, allTiles.value(i).getEdgeSockets(3)))
+              entropyMap[index - m_dimensions + 1]--;
+          }
         }
       }
     }
@@ -131,7 +197,7 @@ int Handler::calculateIndexToCollapseNext() {
         index + 1 < m_dimensions * m_dimensions) {
       if (tileMap->at(index + 1) == -1 && (index + 1) % m_dimensions != 0) {
         for (int i = 0; i < allTiles.length(); i++) {
-          if (tileAtPos.checkEdge(1, allTiles.value(i).getEdge(3)))
+          if (tileAtPos.checkEdge(1, allTiles.value(i).getEdgeSockets(3)))
             entropyMap[index + 1]--;
         }
       }
@@ -140,8 +206,30 @@ int Handler::calculateIndexToCollapseNext() {
     if (index + m_dimensions < m_dimensions * m_dimensions - 1) {
       if (tileMap->at(index + m_dimensions) == -1) {
         for (int i = 0; i < allTiles.length(); i++) {
-          if (tileAtPos.checkEdge(2, allTiles.value(i).getEdge(0)))
+          if (tileAtPos.checkEdge(2, allTiles.value(i).getEdgeSockets(0)))
             entropyMap[index + m_dimensions]--;
+        }
+      }
+      // Bottom Left
+      if (index % m_dimensions != 0 && index != 0) {
+        if (tileMap->at(index + m_dimensions - 1) == -1) {
+          for (int i = 0; i < allTiles.length(); i++) {
+            if (tileAtPos.checkEdge(3, allTiles.value(i).getEdgeSockets(1)))
+              entropyMap[index + m_dimensions - 1]--;
+          }
+        }
+      }
+
+      // Bottom Right
+      if ((index + 1) % m_dimensions != 0 &&
+          index + 1 < m_dimensions * m_dimensions &&
+          index + m_dimensions + 1 < m_dimensions * m_dimensions) {
+        if (tileMap->at(index + m_dimensions + 1) == -1 &&
+            (index + 1) % m_dimensions != 0) {
+          for (int i = 0; i < allTiles.length(); i++) {
+            if (tileAtPos.checkEdge(1, allTiles.value(i).getEdgeSockets(3)))
+              entropyMap[index + m_dimensions + 1]--;
+          }
         }
       }
     }
@@ -149,7 +237,7 @@ int Handler::calculateIndexToCollapseNext() {
     if (index % m_dimensions != 0 && index != 0) {
       if (tileMap->at(index - 1) == -1) {
         for (int i = 0; i < allTiles.length(); i++) {
-          if (tileAtPos.checkEdge(3, allTiles.value(i).getEdge(1)))
+          if (tileAtPos.checkEdge(3, allTiles.value(i).getEdgeSockets(1)))
             entropyMap[index - 1]--;
         }
       }
