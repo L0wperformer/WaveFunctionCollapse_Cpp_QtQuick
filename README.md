@@ -10,3 +10,14 @@ There's still some work to do and I have some ideas in mind that I will implemen
 
 ![](https://media0.giphy.com/media/fgIQKJ8uBOnsBYI0t8/giphy.gif?cid=790b7611326dea66d64d1ffdddd3bf91b649124e68f56ef1&rid=giphy.gif&ct=g)
 
+In main.cpp, there are some cool example weightlists I found while experimenting
+
+A weightlist that strongly favours diagonals:  
+![](https://i.imgur.com/uZyJ52W.jpeg)
+
+A weightlist that discourages Tiles that connect diagonals to horizontals, resulting in clusters:  
+![](https://i.imgur.com/L9N1UkX.jpg)
+
+When all Tiles are equally as likely the Canvas looks like this:  
+![](https://i.imgur.com/uGZIwPu.jpg)
+
