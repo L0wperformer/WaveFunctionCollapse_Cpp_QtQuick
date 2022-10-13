@@ -5,8 +5,6 @@ Item {
     property list<Tile> tiles
     id: root
 
-
-
     Component.onCompleted: {
         dimensions = handler.getDimensions()
         //console.log(dimensions)
@@ -20,12 +18,15 @@ Item {
         function onGridInit() {
             for (var x = 0; x < (dimensions * dimensions); x++) {
                 tilesByIndex[x] = (-1)
-                let component = Qt.createComponent("Tile.qml")
+
+                let component = Qt.createComponent(
+                                  "qmltiles/Image_Index_-1.qml")
                 let newTile = component.createObject(root, {
                                                          "index": -1,
                                                          "height": root.height / dimensions,
                                                          "width": root.width / dimensions
                                                      })
+
                 tiles.push(newTile)
             }
             tileGrid.rows = dimensions

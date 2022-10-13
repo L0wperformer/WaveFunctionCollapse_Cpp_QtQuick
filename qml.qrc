@@ -30,5 +30,6 @@
         <file>Tiles/Image_Index_23.png</file>
         <file>Tiles/Image_Index_24.png</file>
         <file>Tiles/Image_Index_25.png</file>
+        <file>qmltiles/Image_Index_-1.qml</file>
     </qresource>
 </RCC>
