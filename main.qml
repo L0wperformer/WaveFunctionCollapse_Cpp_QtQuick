@@ -7,6 +7,9 @@ Item {
     visible: true
     Component.onCompleted: pageLoader.source = "Canvas.qml"
     property int dimensions: 0
+    property string color: "black"
+    property string background: "white"
+    property string nonCollapsedBorderColor: "lightgrey"
 
     Loader {
         id: pageLoader

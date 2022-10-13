@@ -8,21 +8,21 @@ Item {
         anchors.centerIn: parent
         width: parent.width
         height: parent.height
-        color: "transparent"
+        color: background
         border {
-            color: "lightgrey"
+            color: nonCollapsedBorderColor
             width: 1
         }
     }
     Rectangle {
-        color: "lightgrey"
+        color: nonCollapsedBorderColor
         width: parent.width //Math.sqrt(2 * (parent.width * parent.width))
         height: parent.height / 10
         anchors.centerIn: parent
         rotation: 45
     }
     Rectangle {
-        color: "lightgrey"
+        color: nonCollapsedBorderColor
         width: parent.width //Math.sqrt(2 * (parent.width * parent.width))
         height: parent.height / 10
         anchors.centerIn: parent
