@@ -22,7 +22,6 @@ Item {
                 let component = Qt.createComponent(
                                   "qmltiles/Image_Index_-1.qml")
                 let newTile = component.createObject(root, {
-                                                         "index": -1,
                                                          "height": root.height / dimensions,
                                                          "width": root.width / dimensions
                                                      })
@@ -41,9 +40,9 @@ Item {
         target: handler
         function onDrawTile(posIndex, newTileIndex) {
 
-            let component = Qt.createComponent("Tile.qml")
+            let component = Qt.createComponent(
+                              "qmltiles/Image_Index_" + newTileIndex + ".qml")
             let newTile = component.createObject(root, {
-                                                     "index": newTileIndex,
                                                      "height": root.height / dimensions,
                                                      "width": root.width / dimensions
                                                  })
