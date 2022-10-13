@@ -8,7 +8,8 @@
 class Handler : public QObject {
   Q_OBJECT
 public:
-  Handler(QList<QList<int>> sockets, int dimensions, int m_numberOfTiles,QList<int> weights);
+  Handler(QList<QList<int>> sockets, int dimensions, int m_numberOfTiles,
+          QList<int> weights);
 
 public slots:
   void drawGrid();
@@ -28,7 +29,6 @@ private:
   int m_numberOfTiles;
   int calculateIndexToCollapseNext();
   bool checkIfTileFits(int pos, Tile tile);
-
 };
 
 #endif // HANDLER_H

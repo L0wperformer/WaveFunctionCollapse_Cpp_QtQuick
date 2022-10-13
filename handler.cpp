@@ -1,14 +1,14 @@
 #include "handler.h"
+#include <QCoreApplication>
 #include <QDebug>
 #include <QRandomGenerator>
-#include <QCoreApplication>
-Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles, QList<int> weights) {
+Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles,
+                 QList<int> weights) {
 
   m_dimensions = dimensions;
   m_numberOfTiles = numberOfTiles;
-  connect(this, &Handler::drawTile,[](){
-      QCoreApplication::processEvents();
-  });
+  connect(this, &Handler::drawTile,
+          []() { QCoreApplication::processEvents(); });
 
   for (int i = 0; i < sockets.length(); i++) {
     Tile appendThis(sockets.at(i));
@@ -16,7 +16,7 @@ Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles, Q
   }
 
   m_disadvantageWeights = weights;
-  qDebug() << "weights " <<m_disadvantageWeights;
+  qDebug() << "weights " << m_disadvantageWeights;
 }
 
 void Handler::drawGrid() {
@@ -51,27 +51,28 @@ void Handler::startCollapsing() {
     int nextTilePos = 0;
 
     if (noSolution) {
-        //When no solution is found we go back two steps and try again.
-        //This often ends in an endless loop. This will be improved
-        tileMap->replace(lastTilesPlacedPos.takeLast(),-1);
-        nextTilePos = lastTilesPlacedPos.last();
-        tileMap->replace(lastTilesPlacedPos.takeLast(), -1);
-        noSolution = false;
-      }else {
-        nextTilePos = calculateIndexToCollapseNext();
-      }
+      // When no solution is found we go back two steps and try again.
+      // This often ends in an endless loop. This will be improved
+      tileMap->replace(lastTilesPlacedPos.takeLast(), -1);
+      nextTilePos = lastTilesPlacedPos.last();
+      tileMap->replace(lastTilesPlacedPos.takeLast(), -1);
+      noSolution = false;
+    } else {
+      nextTilePos = calculateIndexToCollapseNext();
+    }
 
-  if(jjj % 100 == 0 )
+    if (jjj % 100 == 0)
       qDebug() << "In Loop no." << jjj;
 
     QList<int> tilesAlreadytried;
     while (1) {
       int randomTile = QRandomGenerator::global()->bounded(m_numberOfTiles);
-      if(m_disadvantageWeights.at(randomTile) > 1){
-         if((QRandomGenerator::global()->bounded(m_disadvantageWeights.at(randomTile)) != 1)  ){//Weight is applied. Continuing
-                   continue;                                    //prevents that tile will never be chosen
-       }                                                        //Even when only tile that fits
-}
+      if (m_disadvantageWeights.at(randomTile) > 1) {
+        if ((QRandomGenerator::global()->bounded(m_disadvantageWeights.at(
+                 randomTile)) != 1)) { // Weight is applied. Continuing
+          continue; // prevents that tile will never be chosen
+        }           // Even when only tile that fits
+      }
       if (checkIfTileFits(nextTilePos, allTiles.at(randomTile))) {
         tileMap->replace(nextTilePos, randomTile);
         emit drawTile(nextTilePos, randomTile);
@@ -88,7 +89,6 @@ void Handler::startCollapsing() {
 
         break;
       }
-
     }
   }
 }
@@ -185,7 +185,7 @@ int Handler::calculateIndexToCollapseNext() {
     if (tileMap->at(pos) != -1) { // Skip Loop if tile is Collapsed
       // Make entropy of collapsed tiles bigger than
       // Max entropy so it never gets chosen
-      entropyMap[pos] =  m_numberOfTiles + 1;
+      entropyMap[pos] = m_numberOfTiles + 1;
       continue;
     }
 
@@ -289,7 +289,6 @@ int Handler::calculateIndexToCollapseNext() {
       }
     }
   }
-
 
   //  For now, The first index of least entropy is returned. This will be
   //  changed to be random in the future
