@@ -3,33 +3,6 @@
         <file>main.qml</file>
         <file>Tile.qml</file>
         <file>Canvas.qml</file>
-        <file>Tiles/Image_Index_0.png</file>
-        <file>Tiles/Image_Index_1.png</file>
-        <file>Tiles/Image_Index_-1.png</file>
-        <file>Tiles/Image_Index_2.png</file>
-        <file>Tiles/Image_Index_3.png</file>
-        <file>Tiles/Image_Index_4.png</file>
-        <file>Tiles/Image_Index_5.png</file>
-        <file>Tiles/Image_Index_6.png</file>
-        <file>Tiles/Image_Index_7.png</file>
-        <file>Tiles/Image_Index_8.png</file>
-        <file>Tiles/Image_Index_9.png</file>
-        <file>Tiles/Image_Index_10.png</file>
-        <file>Tiles/Image_Index_11.png</file>
-        <file>Tiles/Image_Index_12.png</file>
-        <file>Tiles/Image_Index_13.png</file>
-        <file>Tiles/Image_Index_14.png</file>
-        <file>Tiles/Image_Index_15.png</file>
-        <file>Tiles/Image_Index_16.png</file>
-        <file>Tiles/Image_Index_17.png</file>
-        <file>Tiles/Image_Index_18.png</file>
-        <file>Tiles/Image_Index_19.png</file>
-        <file>Tiles/Image_Index_20.png</file>
-        <file>Tiles/Image_Index_21.png</file>
-        <file>Tiles/Image_Index_22.png</file>
-        <file>Tiles/Image_Index_23.png</file>
-        <file>Tiles/Image_Index_24.png</file>
-        <file>Tiles/Image_Index_25.png</file>
         <file>qmltiles/Image_Index_-1.qml</file>
         <file>qmltiles/Image_Index_0.qml</file>
         <file>qmltiles/Image_Index_1.qml</file>

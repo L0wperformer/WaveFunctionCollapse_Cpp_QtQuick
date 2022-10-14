@@ -1,11 +1,10 @@
 import QtQuick 2.0
 
-Rectangle {
+Item {
     id: root
-    clip: true
+
     width: 1000
     height: 1000
-    color: background
 
     Rectangle {
         id: upright
@@ -22,7 +21,7 @@ Rectangle {
         width: parent.width / 2
         height: parent.height / 5
         Rectangle {
-            clip: true
+
             anchors.left: parent.right
             rotation: -45
             transformOrigin: Item.Left

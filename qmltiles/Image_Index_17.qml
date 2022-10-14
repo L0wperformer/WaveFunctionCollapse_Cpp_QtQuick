@@ -1,10 +1,9 @@
 import QtQuick 2.0
 
-Rectangle {
+Item {
     width: 1000
     height: 1000
-    color: background
-    clip: true
+
     id: root
 
     Rectangle {
@@ -15,9 +14,8 @@ Rectangle {
 
         rotation: -45
         color: lineColor
-        width: parent.width / 1.5
+        width: (parent.width / 1.5)
         height: parent.height / 5
-        clip: true
     }
     Rectangle {
         transformOrigin: Item.Center

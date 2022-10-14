@@ -1,9 +1,9 @@
 import QtQuick 2.0
 
-Rectangle {
+Item {
     width: 1000
     height: 1000
-    color: background
+
     rotation: 180
 
     Rectangle {

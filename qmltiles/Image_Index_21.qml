@@ -1,9 +1,9 @@
 import QtQuick 2.0
 
-Rectangle {
+Item {
     width: 1000
     height: 1000
-    color: background
+
     clip: true
     id: root
 
@@ -25,5 +25,6 @@ Rectangle {
         border.color: lineColor
         border.width: root.width / 20
         radius: root.width
+        clip:true
     }
 }

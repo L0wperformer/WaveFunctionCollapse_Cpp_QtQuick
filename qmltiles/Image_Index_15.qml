@@ -1,10 +1,8 @@
 import QtQuick 2.0
 
-Rectangle {
+Item {
     width: 1000
     height: 1000
-    color: background
-    clip: true
 
     Rectangle {
         anchors.centerIn: parent
@@ -12,6 +10,12 @@ Rectangle {
         color: lineColor
         width: Math.sqrt(2 * parent.width * parent.width)
         height: parent.height / 5
-        clip: true
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;formeditorZoom:0.25;height:480;width:640}
+}
+##^##*/
+

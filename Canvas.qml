@@ -62,5 +62,6 @@ Item {
         id: tileGrid
         anchors.fill: parent
         children: tiles
+        clip: true
     }
 }
