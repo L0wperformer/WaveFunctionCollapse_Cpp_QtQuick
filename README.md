@@ -6,7 +6,8 @@ An explanation (and cooler implementations) of the algorithm can be found on fol
 [Coding Challenge 171: Wave Function Collapse](https://youtu.be/rI_y2GAlQFM) by @[CodingTrain](https://github.com/CodingTrain/Wave-Function-Collapse)  
 
 I thought this is a fun algorithm to implement.  
-There's still some work to do and I have some ideas in mind that I will implement at some point.
+There's still some work to do and I have some ideas in mind that I will implement at some point.  
+Clicking changes the colors to "nightmode" and back
 
 In this example a weightlist is active that discourages Tiles that connect diagonals to horizontals, resulting in clusters:  
 
