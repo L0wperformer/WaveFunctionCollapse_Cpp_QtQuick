@@ -8,16 +8,12 @@ An explanation (and cooler implementations) of the algorithm can be found on fol
 I thought this is a fun algorithm to implement.  
 There's still some work to do and I have some ideas in mind that I will implement at some point.
 
-![](https://media0.giphy.com/media/fgIQKJ8uBOnsBYI0t8/giphy.gif?cid=790b7611326dea66d64d1ffdddd3bf91b649124e68f56ef1&rid=giphy.gif&ct=g)
+In this example a weightlist is active that discourages Tiles that connect diagonals to horizontals, resulting in clusters:  
 
-In main.cpp, there are some cool example weightlists I found while experimenting
+![neueGif](https://user-images.githubusercontent.com/91269094/195852982-0b7a0e67-6e20-4728-a408-97903dcc92cb.gif)
 
-A weightlist that strongly favours diagonals:  
-![](https://i.imgur.com/uZyJ52W.jpeg)
+Here, all times are equally as likely. Also the colors get switched.  
 
-A weightlist that discourages Tiles that connect diagonals to horizontals, resulting in clusters:  
-![](https://i.imgur.com/L9N1UkX.jpg)
+![neueGifDarkmode](https://user-images.githubusercontent.com/91269094/195854808-5ca810c9-84cc-413c-9283-e5c0acf74e66.gif)
 
-When all Tiles are equally as likely the Canvas looks like this:  
-![](https://i.imgur.com/uGZIwPu.jpg)
 
