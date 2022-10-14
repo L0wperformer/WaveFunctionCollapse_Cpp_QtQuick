@@ -54,14 +54,34 @@ Item {
         anchors.fill: parent
         onClicked: {
             this.visible = false
+            switchColor.visible = true
             handler.startCollapsing()
         }
     }
-
-    Grid {
-        id: tileGrid
+    MouseArea {
+        id: switchColor
+        visible: false
         anchors.fill: parent
-        children: tiles
-        clip: true
+        onClicked: {
+            if (background === "black") {
+                background = "white"
+                lineColor = "black"
+            } else {
+                background = "black"
+                lineColor = "#BADEAFFE"
+            }
+        }
+    }
+
+    Rectangle {
+        id: gridBackground
+        anchors.fill: parent
+        color: background
+        Grid {
+            id: tileGrid
+            anchors.fill: parent
+            children: tiles
+            clip: true
+        }
     }
 }
