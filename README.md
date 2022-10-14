@@ -7,7 +7,13 @@ An explanation (and cooler implementations) of the algorithm can be found on fol
 
 I thought this is a fun algorithm to implement.  
 There's still some work to do and I have some ideas in mind that I will implement at some point.  
-Clicking changes the colors to "nightmode" and back
+Features until now: 
+- Customizable dimensions (but only square for now)  
+- Customizable weights  
+- Customizable sockets  
+- Customizable amount of sockets if you choose to make your own tiles
+- If you dont want to make your own Tiles in qml you may use "Tile.qml" to add e.g. Tiles in .png. Just keep in mind you have to change the `onDrawTile` and/or   the `onGridInit` signal handlers in `Canvas.qml`. Contact me if you don't get it working ;). Or look at older versions of the project.
+- Clicking changes the colors to "nightmode" and back easily, even while running. Qml can be very cool.
 
 In this example a weightlist is active that discourages Tiles that connect diagonals to horizontals, resulting in clusters:  
 
