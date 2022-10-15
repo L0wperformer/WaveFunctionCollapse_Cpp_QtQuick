@@ -8,7 +8,10 @@ Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles,
   m_dimensions = dimensions;
   m_numberOfTiles = numberOfTiles;
   connect(this, &Handler::drawTile,
-          []() { QCoreApplication::processEvents(); });
+          []() {
+      if( QRandomGenerator::global()->bounded(1000) == 5)
+                QCoreApplication::processEvents();
+  });
 
   for (int i = 0; i < sockets.length(); i++) {
     Tile appendThis(sockets.at(i));
@@ -29,6 +32,7 @@ void Handler::drawGrid() {
 
 void Handler::startCollapsing() {
   qDebug() << "Starting Collapse Algorithm";
+  QElapsedTimer timer;
 
   // Collapse first tile randomly
   int randpos1 =
@@ -36,8 +40,10 @@ void Handler::startCollapsing() {
   qDebug() << "pos chosen:" << randpos1;
   int randtile1 = QRandomGenerator::global()->bounded(m_numberOfTiles);
   tileMap->replace(randpos1, randtile1);
+    int collapsed = 1;
   emit drawTile(randpos1, randtile1);
 
+  enableSurroundingIndecesToBeChecked(randpos1);
   // int lastTilePlacedPos = 0;
   QVector<int> lastTilesPlacedPos;
 
@@ -46,8 +52,10 @@ void Handler::startCollapsing() {
   // bool noSolutionFound = false;
   for (int jjj = 0;; jjj++) {
 
-    if (!tileMap->contains(-1) /*|| jjj > 2000*/)
+    if (!tileMap->contains(-1) /*|| jjj > 2000*/){
+
       break;
+    }
     int nextTilePos = 0;
 
     if (noSolution) {
@@ -56,11 +64,13 @@ void Handler::startCollapsing() {
       tileMap->replace(lastTilesPlacedPos.takeLast(), -1);
       nextTilePos = lastTilesPlacedPos.last();
       tileMap->replace(lastTilesPlacedPos.takeLast(), -1);
+      collapsed -= 2;
       noSolution = false;
     } else {
       nextTilePos = calculateIndexToCollapseNext();
     }
-
+qDebug() << "Time: " <<timer.elapsed() << "collapsed: "<< collapsed << "percentage:" <<  ((double)collapsed  / (double)(m_dimensions*m_dimensions)) * 100 ;
+ timer.start();
     if (jjj % 100 == 0)
       qDebug() << "In Loop no." << jjj;
 
@@ -76,7 +86,10 @@ void Handler::startCollapsing() {
       if (checkIfTileFits(nextTilePos, allTiles.at(randomTile))) {
         tileMap->replace(nextTilePos, randomTile);
         emit drawTile(nextTilePos, randomTile);
+        //enableSurroundingIndecesToBeChecked(nextTilePos);
+        collapsed ++;
         lastTilesPlacedPos.append(nextTilePos);
+
         break;
       }
       if (!tilesAlreadytried.contains(randomTile)) {
@@ -92,6 +105,48 @@ void Handler::startCollapsing() {
     }
   }
 }
+
+void Handler::enableSurroundingIndecesToBeChecked(int pos){
+    bool checkTop = (pos - m_dimensions >= 0);
+    bool checkTopLeft = ((pos - m_dimensions) % m_dimensions != 0) &&
+                        ((pos - m_dimensions) > 0);
+    bool checkTopRight = (pos - m_dimensions + 1) % m_dimensions != 0 &&
+                         pos + 1 < m_dimensions * m_dimensions;
+    bool checkBottom = pos + m_dimensions < m_dimensions * m_dimensions;
+    bool checkBottomLeft = (pos + m_dimensions) % m_dimensions != 0;
+    bool checkBottomRight =
+        (pos + m_dimensions + 1) % m_dimensions != 0 &&
+        pos + m_dimensions + 1 < m_dimensions * m_dimensions;
+//Top
+    if (checkTop)
+             m_indecesToCheck.insert(pos-m_dimensions);
+//TopLeft
+    if(checkTopLeft)
+             m_indecesToCheck.insert(pos-m_dimensions-1);
+//TopRight
+    if(checkTopRight)
+             m_indecesToCheck.insert(pos-m_dimensions+1);
+//Bottom
+    if(checkBottom)
+             m_indecesToCheck.insert(pos+m_dimensions);
+//BottomLeft
+     if(checkBottomLeft)
+                 m_indecesToCheck.insert(pos+m_dimensions-1);
+//BottomRight
+     if(checkBottomRight)
+                 m_indecesToCheck.insert(pos+m_dimensions+1);
+//Left
+     if(pos % m_dimensions != 0 && pos != 0)
+
+                  m_indecesToCheck.insert(pos-1);
+//Right
+     if((pos + 1) % m_dimensions != 0 &&
+             pos + 1 < m_dimensions * m_dimensions)
+                  m_indecesToCheck.insert(pos+1);
+    // qDebug() << "Indeces to check: " << m_indecesToCheck.values();
+
+}
+
 bool Handler::checkIfTileFits(int pos, Tile tile) {
   if (pos - m_dimensions >= 0) {
     // qDebug() << "Checking Above";
@@ -178,9 +233,17 @@ int Handler::calculateIndexToCollapseNext() {
   for (int i = 0; i < m_dimensions * m_dimensions; i++) {
     entropyMap.append(m_numberOfTiles);
   }
+//  for(int i = 0; i < m_indecesToCheck.size();i++){
+//      entropyMap.append(m_numberOfTiles);
+//}
 
   // Iterate over NON-Collapsed Tiles
   for (int pos = 0; pos < tileMap->length(); pos++) {
+
+
+//    if(!m_indecesToCheck.contains(pos) )
+//        continue;
+
     // qDebug() << "Staring checking all Tiles. Pos: " << pos;
     if (tileMap->at(pos) != -1) { // Skip Loop if tile is Collapsed
       // Make entropy of collapsed tiles bigger than
@@ -188,6 +251,7 @@ int Handler::calculateIndexToCollapseNext() {
       entropyMap[pos] = m_numberOfTiles + 1;
       continue;
     }
+
 
     // Skip if NOT collapsed
 

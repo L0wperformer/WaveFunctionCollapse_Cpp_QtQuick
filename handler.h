@@ -3,7 +3,9 @@
 
 #include "tile.h"
 #include <QList>
+#include <QSet>
 #include <QObject>
+#include <QElapsedTimer>
 
 class Handler : public QObject {
   Q_OBJECT
@@ -25,10 +27,12 @@ private:
   QList<QList<int>> m_rules;
   QList<Tile> allTiles;
   QList<int> m_disadvantageWeights;
+  QSet<int> m_indecesToCheck;
   int m_dimensions;
   int m_numberOfTiles;
   int calculateIndexToCollapseNext();
   bool checkIfTileFits(int pos, Tile tile);
+  void enableSurroundingIndecesToBeChecked(int pos);
 };
 
 #endif // HANDLER_H
