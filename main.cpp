@@ -137,34 +137,34 @@ int main(int argc, char *argv[]) {
         80,  // 24
         20   // 25
     };
-  //  QList<int> disadvantageWeights = {
-  //      1,  // 0
-  //      2,  // 1
-  //      2,  // 2
-  //      20, // 3
-  //      20, // 4        These weights were chosen to
-  //      20, // 5        encourage long diagonals
-  //      20, // 6        All pieces that end a diagonal
-  //      30, // 7        or arent diagonal
-  //      30, // 8        got a much higher weight
-  //      30, // 9
-  //      30, // 10
-  //      10, // 11
-  //      10, // 12
-  //      10, // 13
-  //      10, // 14
-  //      1,  // 15
-  //      1,  // 16
-  //      80, // 17
-  //      80, // 18
-  //      80, // 19
-  //      80, // 20
-  //      80, // 21
-  //      80, // 22
-  //      80, // 23
-  //      80, // 24
-  //      1   // 25
-  //  };
+//    QList<int> disadvantageWeights = {
+//        1,  // 0
+//        2,  // 1
+//        2,  // 2
+//        20, // 3
+//        20, // 4        These weights were chosen to
+//        20, // 5        encourage long diagonals
+//        20, // 6        All pieces that end a diagonal
+//        30, // 7        or arent diagonal
+//        30, // 8        got a much higher weight
+//        30, // 9
+//        30, // 10
+//        10, // 11
+//        10, // 12
+//        10, // 13
+//        10, // 14
+//        1,  // 15
+//        1,  // 16
+//        80, // 17
+//        80, // 18
+//        80, // 19
+//        80, // 20
+//        80, // 21
+//        80, // 22
+//        80, // 23
+//        80, // 24
+//        20   // 25
+//    };
 
   //    QList<int> disadvantageWeights = {
   //        5, // 0
@@ -194,9 +194,9 @@ int main(int argc, char *argv[]) {
   //        8, // 24
   //        1  // 25
   //    };
+ auto view = new QQuickView;
+  Handler h(sockets,100, sockets.length(), disadvantageWeights);
 
-  Handler h(sockets, 50, sockets.length(), disadvantageWeights);
-  auto view = new QQuickView;
   view->rootContext()->setContextProperty("handler", &h);
   view->setSource(QUrl("qrc:/main.qml"));
   view->setResizeMode(QQuickView::SizeRootObjectToView);

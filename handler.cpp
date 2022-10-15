@@ -1,17 +1,18 @@
 #include "handler.h"
 #include <QCoreApplication>
 #include <QDebug>
+#include <QQuickItem>
 #include <QRandomGenerator>
 Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles,
                  QList<int> weights) {
 
   m_dimensions = dimensions;
   m_numberOfTiles = numberOfTiles;
-  connect(this, &Handler::drawTile,
-          []() {
-      if( QRandomGenerator::global()->bounded(1000) == 5)
-                QCoreApplication::processEvents();
-  });
+//  connect(this, &Handler::drawTile,
+//          []() {
+//      if( QRandomGenerator::global()->bounded(1000) == 5)
+//                QCoreApplication::processEvents();
+//  });
 
   for (int i = 0; i < sockets.length(); i++) {
     Tile appendThis(sockets.at(i));
@@ -19,15 +20,23 @@ Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles,
   }
 
   m_disadvantageWeights = weights;
+  QQuickView view;
+  view.setSource(QUrl(QString("qrc:/qmltiles/Image_Index_").append("-1.qml"))) ;
+  QObject *rootObj = view.rootObject();
+  objectTileMap = new QVector<QObject*>(m_dimensions*m_dimensions, rootObj);
   qDebug() << "weights " << m_disadvantageWeights;
 }
 
 void Handler::drawGrid() {
 
-  emit gridInit();
-
+  //emit gridInit();
+//    for(int i = 0; i< m_dimensions*m_dimensions;i++){
+//        drawTile(i,-1);
+//    }
   // Fill with Non-defined Tiles
-  tileMap = new QVector<int>(m_dimensions * m_dimensions, -1);
+
+    tileMap = new QVector<int>(m_dimensions * m_dimensions, -1);
+   // emit tileMapChanged();
 }
 
 void Handler::startCollapsing() {
@@ -41,7 +50,7 @@ void Handler::startCollapsing() {
   int randtile1 = QRandomGenerator::global()->bounded(m_numberOfTiles);
   tileMap->replace(randpos1, randtile1);
     int collapsed = 1;
-  emit drawTile(randpos1, randtile1);
+   drawTile(randpos1, randtile1);
 
   enableSurroundingIndecesToBeChecked(randpos1);
   // int lastTilePlacedPos = 0;
@@ -85,8 +94,8 @@ qDebug() << "Time: " <<timer.elapsed() << "collapsed: "<< collapsed << "percenta
       }
       if (checkIfTileFits(nextTilePos, allTiles.at(randomTile))) {
         tileMap->replace(nextTilePos, randomTile);
-        emit drawTile(nextTilePos, randomTile);
-        //enableSurroundingIndecesToBeChecked(nextTilePos);
+        drawTile(nextTilePos, randomTile);
+        enableSurroundingIndecesToBeChecked(nextTilePos);
         collapsed ++;
         lastTilesPlacedPos.append(nextTilePos);
 
@@ -241,8 +250,8 @@ int Handler::calculateIndexToCollapseNext() {
   for (int pos = 0; pos < tileMap->length(); pos++) {
 
 
-//    if(!m_indecesToCheck.contains(pos) )
-//        continue;
+    if(!m_indecesToCheck.contains(pos) )
+        continue;
 
     // qDebug() << "Staring checking all Tiles. Pos: " << pos;
     if (tileMap->at(pos) != -1) { // Skip Loop if tile is Collapsed
@@ -359,4 +368,16 @@ int Handler::calculateIndexToCollapseNext() {
 
   return entropyMap.indexOf(
       *std::min_element(entropyMap.begin(), entropyMap.end()));
+}
+
+void Handler::drawTile(int pos, int index){
+
+   QQuickView *view = new QQuickView();
+   view->setSource(QUrl(QString("qrc:/qmltiles/Image_Index_").append(QString(index).append(".qml")))) ;
+   QObject *obj = new QObject(view->rootObject());
+   //obj =  view->rootObject();
+   objectTileMap->replace(pos,obj);
+   emit tileMapChanged();
+
+
 }

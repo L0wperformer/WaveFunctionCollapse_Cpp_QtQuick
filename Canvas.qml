@@ -16,6 +16,7 @@ Item {
     Connections {
         target: handler
         function onGridInit() {
+
             for (var x = 0; x < (dimensions * dimensions); x++) {
                 tilesByIndex[x] = (-1)
 
@@ -25,8 +26,9 @@ Item {
                                                          "height": root.height / dimensions,
                                                          "width": root.width / dimensions
                                                      })
-
+                console.time("d")
                 tiles.push(newTile)
+                console.timeEnd("d")
             }
             tileGrid.rows = dimensions
             tileGrid.columns = dimensions
@@ -36,19 +38,21 @@ Item {
     //In the function the Tiles are drawn on the canvas
     //Function chooses what tile to draw depending on the index passt in the
     //Emitted signal
-    Connections {
-        target: handler
-        function onDrawTile(posIndex, newTileIndex) {
+    //    Connections {
+    //        target: handler
+    //        function onDrawTile(posIndex, newTileIndex) {
 
-            let component = Qt.createComponent(
-                              "qmltiles/Image_Index_" + newTileIndex + ".qml")
-            let newTile = component.createObject(root, {
-                                                     "height": root.height / dimensions,
-                                                     "width": root.width / dimensions
-                                                 })
-            tiles[posIndex] = newTile
-        }
-    }
+    //            let component = Qt.createComponent(
+    //                              "qmltiles/Image_Index_" + newTileIndex + ".qml")
+    //            let newTile = component.createObject(root, {
+    //                                                     "height": root.height / dimensions,
+    //                                                     "width": root.width / dimensions
+    //                                                 })
+
+    //            tiles[posIndex] = newTile
+    //            //console.timeEnd("d")
+    //        }
+    //    }
     //Click anywhere to start Algorithm
     MouseArea {
         anchors.fill: parent
@@ -80,7 +84,7 @@ Item {
         Grid {
             id: tileGrid
             anchors.fill: parent
-            children: tiles
+            children: handler.tileMap
             clip: true
         }
     }

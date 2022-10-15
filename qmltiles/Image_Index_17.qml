@@ -28,3 +28,9 @@ Item {
         radius: root.width
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;formeditorZoom:0.5}
+}
+##^##*/
