@@ -23,6 +23,8 @@ Here, all times are equally as likely. Also the colors get switched.
 
 ![neueGifDarkmode](https://user-images.githubusercontent.com/91269094/195854808-5ca810c9-84cc-413c-9283-e5c0acf74e66.gif)
 
-Since nothing is (yet) optimized, heres a timelapse of a 100x100 grid. It took over an hour D:  
-Click on the GIF or [here](https://youtu.be/iqUwF_EtlBcy) for slighty better quality  
-![](https://user-images.githubusercontent.com/91269094/196003821-f31027d8-e163-4f3e-ba4e-ad6b1be09fce.gif)
+The limit where you actually see someting is around 100x100. Here is a Video of that being solved:  
+For better Quality Click on GIF or [here](https://youtu.be/J-63SCiYXXs)
+![](https://user-images.githubusercontent.com/91269094/196060171-a749b2c3-bf01-4dbb-a9b6-8137c69cbbc0.gif)
+
+The old QML implementation was so slow that this took over an hour. Click [here](https://youtu.be/iqUwF_EtlBcy) for a timelapse of that
