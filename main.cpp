@@ -194,10 +194,10 @@ int main(int argc, char *argv[]) {
   //        8, // 24
   //        1  // 25
   //    };
-  Handler h(sockets, 100, sockets.length(), disadvantageWeights);
+
   Handler h(sockets, 100, sockets.length(), disadvantageWeights);
  auto view = new QQuickView;
-  Handler h(sockets,100, sockets.length(), disadvantageWeights);
+
 
   view->rootContext()->setContextProperty("handler", &h);
   view->setSource(QUrl("qrc:/main.qml"));

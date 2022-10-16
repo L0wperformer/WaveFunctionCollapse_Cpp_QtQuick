@@ -21,10 +21,6 @@ Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles,
         tileMap->append(-1);
     }
   m_disadvantageWeights = weights;
-  QQuickView view;
-  view.setSource(QUrl(QString("qrc:/qmltiles/Image_Index_").append("-1.qml"))) ;
-  QObject *rootObj = view.rootObject();
-  objectTileMap = new QVector<QObject*>(m_dimensions*m_dimensions, rootObj);
   qDebug() << "weights " << m_disadvantageWeights;
 }
 
@@ -380,15 +376,5 @@ int Handler::calculateIndexToCollapseNext() {
       *std::min_element(entropyMap.begin(), entropyMap.end()));
 }
 
-void Handler::drawTile(int pos, int index){
 
-   QQuickView *view = new QQuickView();
-   view->setSource(QUrl(QString("qrc:/qmltiles/Image_Index_").append(QString(index).append(".qml")))) ;
-   QObject *obj = new QObject(view->rootObject());
-   //obj =  view->rootObject();
-   objectTileMap->replace(pos,obj);
-   emit tileMapChanged();
-
-
-}
 
