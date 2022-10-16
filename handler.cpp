@@ -10,7 +10,6 @@ Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles,
   m_dimensions = dimensions;
   m_sockets = sockets;
   m_numberOfTiles = numberOfTiles;
-
   for (int i = 0; i < sockets.length(); i++) {
     Tile appendThis(sockets.at(i));
     allTiles.append(appendThis);
@@ -89,6 +88,7 @@ void Handler::collapse(){
           enableSurroundingIndecesToBeChecked(nextTilePos);
           collapsed ++;
           lastTilesPlacedPos.append(nextTilePos);
+          QThread::msleep(16); // Give QML engine time to process events
 
           break;
         }
