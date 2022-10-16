@@ -24,7 +24,7 @@ Item {
 
         this.width = widthHeight
         this.height = widthHeight
-        pageLoader.source = pageLoader.source = "Canvas.qml"
+        pageLoader.source = "Canvas.qml"
     }
 
     Loader {

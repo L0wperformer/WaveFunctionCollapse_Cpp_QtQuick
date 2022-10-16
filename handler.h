@@ -6,14 +6,16 @@
 #include <QSet>
 #include <QObject>
 #include <QElapsedTimer>
-#include <QQuickView>
+#include <QVariant>
+#include <QDebug>
 
 class Handler : public QObject {
   Q_OBJECT
-  Q_PROPERTY(QVector<QObject*> tileMap READ getTileMap NOTIFY tileMapChanged)
+  Q_PROPERTY (QList<int> tileMap READ getTileMap NOTIFY tileMapChanged)
 public:
   Handler(QList<QList<int>> sockets, int dimensions, int m_numberOfTiles,
           QList<int> weights);
+
 
 public slots:
   void drawGrid();
@@ -21,30 +23,31 @@ public slots:
 
 
   int getDimensions() { return m_dimensions; }
-  QVector<QObject*> getTileMap(){
-      return (*objectTileMap);
+  QList<int> getTileMap(){
+      return (*tileMap);
   }
 
 
 signals:
   void gridInit();
   void tileMapChanged();
-  //void drawTile(int pos, int index)
+  void tileMapChanged(QList<int> *newMap);
 
 
 private:
-  QVector<int> *tileMap;
+  QList<int> *tileMap;
   QVector<QObject*>  *objectTileMap;
   QList<QList<int>> m_rules;
   QList<Tile> allTiles;
   QList<int> m_disadvantageWeights;
+  QList<QList<int>> m_sockets;
   QSet<int> m_indecesToCheck;
   int m_dimensions;
   int m_numberOfTiles;
   int calculateIndexToCollapseNext();
   bool checkIfTileFits(int pos, Tile tile);
   void enableSurroundingIndecesToBeChecked(int pos);
-  void drawTile(int pos, int index);
+  void collapse();
 };
 
 #endif // HANDLER_H

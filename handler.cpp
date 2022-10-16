@@ -3,22 +3,23 @@
 #include <QDebug>
 #include <QQuickItem>
 #include <QRandomGenerator>
+#include <QTimer>
+#include <QThread>
 Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles,
                  QList<int> weights) {
-
   m_dimensions = dimensions;
+  m_sockets = sockets;
   m_numberOfTiles = numberOfTiles;
-//  connect(this, &Handler::drawTile,
-//          []() {
-//      if( QRandomGenerator::global()->bounded(1000) == 5)
-//                QCoreApplication::processEvents();
-//  });
 
   for (int i = 0; i < sockets.length(); i++) {
     Tile appendThis(sockets.at(i));
     allTiles.append(appendThis);
   }
-
+  // Fill with Non-defined Tiles
+    tileMap = new QList<int>();
+    for (int i = 0;i < m_dimensions*m_dimensions; i++){
+        tileMap->append(-1);
+    }
   m_disadvantageWeights = weights;
   QQuickView view;
   view.setSource(QUrl(QString("qrc:/qmltiles/Image_Index_").append("-1.qml"))) ;
@@ -28,91 +29,100 @@ Handler::Handler(QList<QList<int>> sockets, int dimensions, int numberOfTiles,
 }
 
 void Handler::drawGrid() {
-
-  //emit gridInit();
-//    for(int i = 0; i< m_dimensions*m_dimensions;i++){
-//        drawTile(i,-1);
-//    }
-  // Fill with Non-defined Tiles
-
-    tileMap = new QVector<int>(m_dimensions * m_dimensions, -1);
-   // emit tileMapChanged();
+  emit tileMapChanged(nullptr);
 }
 
+void Handler::collapse(){
+    int randpos1 =
+        QRandomGenerator::global()->bounded(m_dimensions * m_dimensions);
+    qDebug() << "pos chosen:" << randpos1;
+    int randtile1 = QRandomGenerator::global()->bounded(m_numberOfTiles);
+    tileMap->replace(randpos1, randtile1);
+      int collapsed = 1;
+
+ emit tileMapChanged(tileMap);
+    enableSurroundingIndecesToBeChecked(randpos1);
+    QVector<int> lastTilesPlacedPos;
+
+    bool noSolution = false;
+
+    // bool noSolutionFound = false;
+    for (int jjj = 0;; jjj++) {
+
+      if (!tileMap->contains(-1) /*|| jjj > 2000*/){
+
+        break;
+      }
+      int nextTilePos = 0;
+
+      if (noSolution) {
+        // When no solution is found we go back two steps and try again.
+        // This often ends in an endless loop. This will be improved
+        tileMap->replace(lastTilesPlacedPos.takeLast(), -1);
+        nextTilePos = lastTilesPlacedPos.last();
+        tileMap->replace(lastTilesPlacedPos.takeLast(), -1);
+        collapsed -= 2;
+        noSolution = false;
+      } else {
+          //timer.start();
+        nextTilePos = calculateIndexToCollapseNext();
+        //qDebug() << "Elapsed:" << timer.elapsed();
+      }
+  qDebug() << /*"Time: " <<timer.elapsed() <<*/ "collapsed: "<< collapsed << "percentage:" <<  ((double)collapsed  / (double)(m_dimensions*m_dimensions)) * 100 ;
+
+      if (jjj % 100 == 0)
+        qDebug() << "In Loop no." << jjj;
+
+      QList<int> tilesAlreadytried;
+      while (1) {
+        int randomTile = QRandomGenerator::global()->bounded(m_numberOfTiles);
+        if (m_disadvantageWeights.at(randomTile) > 1) {
+          if ((QRandomGenerator::global()->bounded(m_disadvantageWeights.at(
+                   randomTile)) != 1)) { // Weight is applied. Continuing
+            continue; // prevents that tile will never be chosen
+          }           // Even when only tile that fits
+        }
+
+        if (checkIfTileFits(nextTilePos, allTiles.at(randomTile))) {
+
+        tileMap->replace(nextTilePos, randomTile);
+
+
+          //emit drawTile(nextTilePos, randomTile);
+          emit tileMapChanged(tileMap);
+          enableSurroundingIndecesToBeChecked(nextTilePos);
+          collapsed ++;
+          lastTilesPlacedPos.append(nextTilePos);
+
+          break;
+        }
+        if (!tilesAlreadytried.contains(randomTile)) {
+          tilesAlreadytried.append(randomTile);
+        }
+        if (tilesAlreadytried.length() == m_numberOfTiles) { // No tile fits
+
+          qDebug() << "===No Solution Found, going Back===";
+          noSolution = true;
+
+          break;
+        }
+      }
+    }
+
+}
 void Handler::startCollapsing() {
   qDebug() << "Starting Collapse Algorithm";
-  QElapsedTimer timer;
+  Handler *toThread = new Handler(m_sockets, m_dimensions,m_numberOfTiles,m_disadvantageWeights);
+  QThread *worker = new QThread();
+  toThread->moveToThread(worker);
+  connect(worker, &QThread::finished, worker, &QThread::deleteLater);
+  connect(worker,&QThread::started,toThread,&Handler::collapse);
+  connect(toThread, &Handler::tileMapChanged,this,[=](QList<int> *newList){
+     tileMap = newList;
+     emit tileMapChanged(nullptr);
+  });
 
-  // Collapse first tile randomly
-  int randpos1 =
-      QRandomGenerator::global()->bounded(m_dimensions * m_dimensions);
-  qDebug() << "pos chosen:" << randpos1;
-  int randtile1 = QRandomGenerator::global()->bounded(m_numberOfTiles);
-  tileMap->replace(randpos1, randtile1);
-    int collapsed = 1;
-   drawTile(randpos1, randtile1);
-
-  enableSurroundingIndecesToBeChecked(randpos1);
-  // int lastTilePlacedPos = 0;
-  QVector<int> lastTilesPlacedPos;
-
-  bool noSolution = false;
-
-  // bool noSolutionFound = false;
-  for (int jjj = 0;; jjj++) {
-
-    if (!tileMap->contains(-1) /*|| jjj > 2000*/){
-
-      break;
-    }
-    int nextTilePos = 0;
-
-    if (noSolution) {
-      // When no solution is found we go back two steps and try again.
-      // This often ends in an endless loop. This will be improved
-      tileMap->replace(lastTilesPlacedPos.takeLast(), -1);
-      nextTilePos = lastTilesPlacedPos.last();
-      tileMap->replace(lastTilesPlacedPos.takeLast(), -1);
-      collapsed -= 2;
-      noSolution = false;
-    } else {
-      nextTilePos = calculateIndexToCollapseNext();
-    }
-qDebug() << "Time: " <<timer.elapsed() << "collapsed: "<< collapsed << "percentage:" <<  ((double)collapsed  / (double)(m_dimensions*m_dimensions)) * 100 ;
- timer.start();
-    if (jjj % 100 == 0)
-      qDebug() << "In Loop no." << jjj;
-
-    QList<int> tilesAlreadytried;
-    while (1) {
-      int randomTile = QRandomGenerator::global()->bounded(m_numberOfTiles);
-      if (m_disadvantageWeights.at(randomTile) > 1) {
-        if ((QRandomGenerator::global()->bounded(m_disadvantageWeights.at(
-                 randomTile)) != 1)) { // Weight is applied. Continuing
-          continue; // prevents that tile will never be chosen
-        }           // Even when only tile that fits
-      }
-      if (checkIfTileFits(nextTilePos, allTiles.at(randomTile))) {
-        tileMap->replace(nextTilePos, randomTile);
-        drawTile(nextTilePos, randomTile);
-        enableSurroundingIndecesToBeChecked(nextTilePos);
-        collapsed ++;
-        lastTilesPlacedPos.append(nextTilePos);
-
-        break;
-      }
-      if (!tilesAlreadytried.contains(randomTile)) {
-        tilesAlreadytried.append(randomTile);
-      }
-      if (tilesAlreadytried.length() == m_numberOfTiles) { // No tile fits
-
-        qDebug() << "===No Solution Found, going Back===";
-        noSolution = true;
-
-        break;
-      }
-    }
-  }
+  worker->start(QThread::IdlePriority);
 }
 
 void Handler::enableSurroundingIndecesToBeChecked(int pos){
@@ -381,3 +391,4 @@ void Handler::drawTile(int pos, int index){
 
 
 }
+
