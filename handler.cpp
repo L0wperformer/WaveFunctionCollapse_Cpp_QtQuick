@@ -83,7 +83,7 @@ void Handler::collapse(){
         tileMap->replace(nextTilePos, randomTile);
 
 
-          //emit drawTile(nextTilePos, randomTile);
+
           emit tileMapChanged(tileMap);
           enableSurroundingIndecesToBeChecked(nextTilePos);
           collapsed ++;
@@ -122,6 +122,8 @@ void Handler::startCollapsing() {
 }
 
 void Handler::enableSurroundingIndecesToBeChecked(int pos){
+
+
     bool checkTop = (pos - m_dimensions >= 0);
     bool checkTopLeft = ((pos - m_dimensions) % m_dimensions != 0) &&
                         ((pos - m_dimensions) > 0);
@@ -135,6 +137,7 @@ void Handler::enableSurroundingIndecesToBeChecked(int pos){
 //Top
     if (checkTop)
              m_indecesToCheck.insert(pos-m_dimensions);
+
 //TopLeft
     if(checkTopLeft)
              m_indecesToCheck.insert(pos-m_dimensions-1);
