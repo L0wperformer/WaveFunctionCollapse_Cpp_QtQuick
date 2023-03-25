@@ -9,7 +9,8 @@ Item {
     }
 
     Component.onCompleted: {
-        dimensions = handler.getDimensions()
+        //        dimensionsWidth = handler.getDimensionsWidth()
+        //        dimensionsHeight = handler.getDimensionsHeight()
         console.log("Item completed")
     }
 
@@ -23,7 +24,7 @@ Item {
     //                                                     "height": root.height / dimensions,
     //                                                     "width": root.width / dimensions
     //                                                 })
-        anchors.fill: parent
+    anchors.fill: parent
     //Click anywhere to start Algorithm
     Rectangle {
         id: gridBackground
@@ -32,14 +33,14 @@ Item {
         GridView {
             id: tileGrid
             anchors.fill: parent
-            cellWidth: root.width / dimensions
-            cellHeight: root.height / dimensions
+            cellWidth: root.width / dimensionsWidth
+            cellHeight: root.height / dimensionsHeight
             clip: true
 
             model: tilesByIndex.length
             delegate: Tile {
-                width: root.width / dimensions
-                height: root.height / dimensions
+                width: root.width / dimensionsWidth
+                height: root.height / dimensionsHeight
                 m_index: tilesByIndex[index]
             }
         }

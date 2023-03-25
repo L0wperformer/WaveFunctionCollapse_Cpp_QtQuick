@@ -13,7 +13,7 @@ class Handler : public QObject {
   Q_OBJECT
   Q_PROPERTY (QList<int> tileMap READ getTileMap NOTIFY tileMapChanged)
 public:
-  Handler(QList<QList<int>> sockets, int dimensions, int m_numberOfTiles,
+  Handler(QList<QList<int>> sockets, int dimensionsWidth,int dimensionsHeight, int m_numberOfTiles,
           QList<int> weights);
 
 
@@ -22,7 +22,8 @@ public slots:
   void startCollapsing();
 
 
-  int getDimensions() { return m_dimensions; }
+  int getDimensionsWidth() { return m_dimensionsWidth; }
+  int getDimensionsHeight() {return m_dimensionsHeight; }
   QList<int> getTileMap(){
       return (*tileMap);
   }
@@ -41,7 +42,9 @@ private:
   QList<int> m_disadvantageWeights;
   QList<QList<int>> m_sockets;
   QSet<int> m_indecesToCheck;
-  int m_dimensions;
+  int m_dimensionsWidth;
+  int m_dimensionsHeight;
+  int m_dimensionsWidthHeight;
   int m_numberOfTiles;
   int calculateIndexToCollapseNext();
   bool checkIfTileFits(int pos, Tile tile);
