@@ -195,7 +195,7 @@ int main(int argc, char *argv[]) {
   //        1  // 25
   //    };
 
-  Handler h(sockets, 60,60, sockets.length(), disadvantageWeights);
+  Handler h(sockets,50 ,27, sockets.length(), disadvantageWeights);
  auto view = new QQuickView;
 
 
