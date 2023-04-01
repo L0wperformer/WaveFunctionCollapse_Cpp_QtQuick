@@ -195,7 +195,17 @@ int main(int argc, char *argv[]) {
   //        1  // 25
   //    };
 
-  Handler h(sockets,50 ,27, sockets.length(), disadvantageWeights);
+  //PRECOLLAPSED TILES
+        QList<QPair<int,int>> precollapsedTiles = {
+//            QPair<int,int>(25,5),
+//            QPair<int,int>(13,2),
+//            QPair<int,int>(50,19),
+//            QPair<int,int>(710,12),
+//            QPair<int,int>(4,22)
+
+        };
+
+  Handler h(sockets,60 ,32, sockets.length(),precollapsedTiles ,disadvantageWeights);
  auto view = new QQuickView;
 
 

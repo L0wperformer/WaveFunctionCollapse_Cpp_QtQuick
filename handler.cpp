@@ -5,8 +5,8 @@
 #include <QRandomGenerator>
 #include <QTimer>
 #include <QThread>
-Handler::Handler(QList<QList<int>> sockets, int dimensionsWidth,int dimensionsHeight, int numberOfTiles,
-                 QList<int> weights) {
+Handler::Handler(QList<QList<int>> sockets, int dimensionsWidth,int dimensionsHeight, int numberOfTiles, QList<QPair<int,int>> precollapsed
+                 ,QList<int> weights) {
   m_dimensionsWidth = dimensionsWidth;
   m_dimensionsHeight = dimensionsHeight;
   m_dimensionsWidthHeight = m_dimensionsWidth*m_dimensionsHeight;
@@ -21,6 +21,12 @@ Handler::Handler(QList<QList<int>> sockets, int dimensionsWidth,int dimensionsHe
     for (int i = 0;i <  m_dimensionsWidth*m_dimensionsHeight; i++){
         tileMap->append(-1);
     }
+
+    for (const auto& item : precollapsed){
+        m_precollapsedTiles.append(item);
+        tileMap->replace(item.first,item.second);
+    }
+
   m_disadvantageWeights = weights;
   qDebug() << "weights " << m_disadvantageWeights;
 }
@@ -110,7 +116,7 @@ void Handler::collapse(){
 }
 void Handler::startCollapsing() {
   qDebug() << "Starting Collapse Algorithm";
-  Handler *toThread = new Handler(m_sockets, m_dimensionsWidth, m_dimensionsHeight, m_numberOfTiles,m_disadvantageWeights);
+  Handler *toThread = new Handler(m_sockets, m_dimensionsWidth, m_dimensionsHeight, m_numberOfTiles,m_precollapsedTiles,m_disadvantageWeights);
   QThread *worker = new QThread();
   toThread->moveToThread(worker);
   connect(worker, &QThread::finished, worker, &QThread::deleteLater);
