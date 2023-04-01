@@ -7,7 +7,7 @@
 class Tile : public QObject {
   Q_OBJECT
 public:
-  Tile(QList<int> edgeSockets);
+  Tile(const QList<int>& edgeSockets);
   Tile(const Tile &copyThis);
   Tile(){};
   ~Tile(){};
@@ -16,11 +16,11 @@ public:
     return *this;
   };
   // Function to check if edge of other tile matches
-  bool checkEdge(int side, QList<int> otherEdge);
+  bool checkEdge(const int& side, const QList<int>& otherEdge);
   // 0 -> Top left, 1-> Top right...
-  int getCornerSocket(int whichOne);
+  int getCornerSocket(const int& whichOne) const;
   // 0 -> Top , 1 -> Right, ...
-  QList<int> getEdgeSockets(int sideIndex);
+  QList<int> getEdgeSockets(const int& sideIndex) const;
 
   // GetterSetter
   QList<int> getAllSockets() { return m_edgeSockets; }

@@ -5,8 +5,8 @@
 #include <QRandomGenerator>
 #include <QTimer>
 #include <QThread>
-Handler::Handler(QList<QList<int>> sockets, int dimensionsWidth,int dimensionsHeight, int numberOfTiles, QList<QPair<int,int>> precollapsed
-                 ,QList<int> weights) {
+Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,const int& dimensionsHeight,const int& numberOfTiles,const QList<QPair<int,int>>& precollapsed
+                 ,const QList<int>& weights) {
   m_dimensionsWidth = dimensionsWidth;
   m_dimensionsHeight = dimensionsHeight;
   m_dimensionsWidthHeight = m_dimensionsWidth*m_dimensionsHeight;
@@ -129,7 +129,7 @@ void Handler::startCollapsing() {
   worker->start(QThread::IdlePriority);
 }
 
-void Handler::enableSurroundingIndecesToBeChecked(int pos){
+void Handler::enableSurroundingIndecesToBeChecked(const int& pos){
 
 
     bool checkTop = (pos - m_dimensionsWidth >= 0);
@@ -173,7 +173,7 @@ void Handler::enableSurroundingIndecesToBeChecked(int pos){
 
 }
 
-bool Handler::checkIfTileFits(int pos, Tile tile) {
+bool Handler::checkIfTileFits(const int& pos, const Tile& tile) const {
   if (pos -  m_dimensionsWidth >= 0) {
     // qDebug() << "Checking Above";
     if (tileMap->at(pos -  m_dimensionsWidth) != -1) { // Skip if NOT collapsed
@@ -253,7 +253,7 @@ bool Handler::checkIfTileFits(int pos, Tile tile) {
   return true;
 }
 
-int Handler::calculateIndexToCollapseNext() {
+int Handler::calculateIndexToCollapseNext() const {
   // Fill list with full max entropy
   QList<int> entropyMap;
   for (int i = 0; i <  m_dimensionsWidthHeight; i++) {

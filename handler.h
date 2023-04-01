@@ -13,8 +13,8 @@ class Handler : public QObject {
   Q_OBJECT
   Q_PROPERTY (QList<int> tileMap READ getTileMap NOTIFY tileMapChanged)
 public:
-  Handler(QList<QList<int>> sockets, int dimensionsWidth,int dimensionsHeight, int m_numberOfTiles,
-        QList<QPair<int,int>> precollapsed ,QList<int> weights);
+  Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,const int& dimensionsHeight, const int& m_numberOfTiles,
+        const QList<QPair<int,int>>& precollapsed ,const QList<int>& weights);
 
 
 public slots:
@@ -24,7 +24,7 @@ public slots:
 
   int getDimensionsWidth() { return m_dimensionsWidth; }
   int getDimensionsHeight() {return m_dimensionsHeight; }
-  QList<int> getTileMap(){
+  QList<int> getTileMap() const{
       return (*tileMap);
   }
 
@@ -47,9 +47,9 @@ private:
   int m_dimensionsHeight;
   int m_dimensionsWidthHeight;
   int m_numberOfTiles;
-  int calculateIndexToCollapseNext();
-  bool checkIfTileFits(int pos, Tile tile);
-  void enableSurroundingIndecesToBeChecked(int pos);
+  int calculateIndexToCollapseNext() const;
+  bool checkIfTileFits(const int& pos,const Tile& tile) const;
+  void enableSurroundingIndecesToBeChecked(const int& pos);
   void collapse();
 };
 
