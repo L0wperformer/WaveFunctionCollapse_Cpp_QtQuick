@@ -196,6 +196,36 @@ int main(int argc, char *argv[]) {
           1  // 25
       };
 
+      QList<int> disadvantageWeightsVerticals = {
+          100, // 0
+          1, // 1
+          100, // 2
+          1, // 3
+          100, // 4
+          1, // 5
+          100, // 6
+          100, // 7
+          100, // 8
+          100, // 9
+          100, // 10
+          100, // 11
+          100, // 12
+          100, // 13
+          100, // 14
+          100, // 15
+          100, // 16
+          100, // 17
+          100, // 18
+          100, // 19
+          100, // 20
+          100, // 21
+          100, // 22
+          100, // 23
+          100, // 24
+          100  // 25
+
+      };
+
 
 
   //PRECOLLAPSED TILES
@@ -210,19 +240,23 @@ int main(int argc, char *argv[]) {
 //All avaiblae weightlists. Default at index 0
  QList<QList<int>> availableDisadvantageWeightlist;
  availableDisadvantageWeightlist
-       << disadvantageWeightsClusters        //DEFAULT
        <<disadvantageWeightsAllEquallyLikely
+       << disadvantageWeightsClusters        //DEFAULT
        << disadvantageWeightsLongDiagonals
        << disadvantageWeightsNormalized
-       << disadvantageWeightsNormalizedNoStop;
+       << disadvantageWeightsNormalizedNoStop
+       << disadvantageWeightsVerticals;
 //Weightmap: What index uses what weightlist?
 //All that are not specified have the standard weightlist (index 0 in  availableDisadvantageWeightlist)
 //If the rangepair has -1 as second value, it will apply the pair until the end.
  //Will not work if not on last range (index-wise)
 
 QMap<QPair<int,int>,int> disadvantageWeightmap;
-//disadvantageWeightmap.insert(Rangepair(0,500),2);
-        disadvantageWeightmap.insert(Rangepair(500,-1),0);
+for  (int i = 0; i< 10; i++){
+    disadvantageWeightmap.insert(Rangepair(0+i*60,31+i*60),5);
+}
+//disadvantageWeightmap.insert(Rangepair(400,500),5);
+
 
 
  Handler h(sockets,60 ,32, sockets.length(),precollapsedTiles ,disadvantageWeightmap,availableDisadvantageWeightlist);

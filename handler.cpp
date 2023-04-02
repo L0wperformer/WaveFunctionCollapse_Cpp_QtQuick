@@ -43,6 +43,8 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
         }
 
     }
+    qDebug() << m_disadvantageWeightMap;
+
 }
 
 void Handler::drawGrid() {
@@ -94,9 +96,9 @@ void Handler::collapse(){
       while (1) {
         int randomTile = QRandomGenerator::global()->bounded(m_numberOfTiles);
         const QList<int> applyTheseDisadvantageWeights = m_availableDisadvantageWeightList.at(m_disadvantageWeightMap
-                                                                                             .at(randomTile));
+                                                                                             .at(nextTilePos));
         if (applyTheseDisadvantageWeights.at(randomTile) > 1) {
-          if ((QRandomGenerator::global()->bounded(applyTheseDisadvantageWeights.at(randomTile) != 1))) { // Weight is applied. Continuing
+          if ((QRandomGenerator::global()->bounded(applyTheseDisadvantageWeights.at(randomTile)) != 1)) { // Weight is applied. Continuing
             continue; // prevents that tile will never be chosen
           }           // Even when only tile that fits
         }
