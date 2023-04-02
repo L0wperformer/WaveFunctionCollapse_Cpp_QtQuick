@@ -14,7 +14,7 @@ class Handler : public QObject {
   Q_PROPERTY (QList<int> tileMap READ getTileMap NOTIFY tileMapChanged)
 public:
   Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,const int& dimensionsHeight, const int& m_numberOfTiles,
-        const QList<QPair<int,int>>& precollapsed ,const QList<int>& weights);
+        const QList<QPair<int,int>>& precollapsed ,const QMap<QPair<int,int>,int>& weightMap, const QList<QList<int>>& availableWeightLists);
 
 
 public slots:
@@ -39,7 +39,9 @@ private:
   QVector<QObject*>  *objectTileMap;
   QList<QList<int>> m_rules;
   QList<Tile> allTiles;
-  QList<int> m_disadvantageWeights;
+  QList<int> m_disadvantageWeightMap;
+  QList<QList<int>> m_availableDisadvantageWeightList;
+  QMap<QPair<int,int>,int> m_weightMap;
   QList<QList<int>> m_sockets;
   QList<QPair<int,int>> m_precollapsedTiles;
   QSet<int> m_indecesToCheck;

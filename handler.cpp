@@ -6,12 +6,15 @@
 #include <QTimer>
 #include <QThread>
 Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,const int& dimensionsHeight,const int& numberOfTiles,const QList<QPair<int,int>>& precollapsed
-                 ,const QList<int>& weights) {
+                 ,const QMap<QPair<int,int>,int>& weightMap, const QList<QList<int>>& availableWeightLists) {
   m_dimensionsWidth = dimensionsWidth;
   m_dimensionsHeight = dimensionsHeight;
   m_dimensionsWidthHeight = m_dimensionsWidth*m_dimensionsHeight;
   m_sockets = sockets;
   m_numberOfTiles = numberOfTiles;
+  m_availableDisadvantageWeightList = availableWeightLists;
+  m_weightMap = weightMap;
+
   for (int i = 0; i < sockets.length(); i++) {
     Tile appendThis(sockets.at(i));
     allTiles.append(appendThis);
@@ -20,6 +23,7 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
     tileMap = new QList<int>();
     for (int i = 0;i <  m_dimensionsWidth*m_dimensionsHeight; i++){
         tileMap->append(-1);
+        m_disadvantageWeightMap.append(0);
     }
 
     for (const auto& item : precollapsed){
@@ -27,8 +31,18 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
         tileMap->replace(item.first,item.second);
     }
 
-  m_disadvantageWeights = weights;
-  qDebug() << "weights " << m_disadvantageWeights;
+    for  (auto item = weightMap.begin();item!= weightMap.end();++item){
+        QPair<int,int> range = item.key();
+        int weightMap = item.value();
+
+        if(range.second == -1)
+            range.second = m_dimensionsHeight*m_dimensionsWidth-1;
+
+        for(int i = range.first; i<= range.second;i++){
+            m_disadvantageWeightMap.replace(i,weightMap);
+        }
+
+    }
 }
 
 void Handler::drawGrid() {
@@ -79,9 +93,10 @@ void Handler::collapse(){
       QList<int> tilesAlreadytried;
       while (1) {
         int randomTile = QRandomGenerator::global()->bounded(m_numberOfTiles);
-        if (m_disadvantageWeights.at(randomTile) > 1) {
-          if ((QRandomGenerator::global()->bounded(m_disadvantageWeights.at(
-                   randomTile)) != 1)) { // Weight is applied. Continuing
+        const QList<int> applyTheseDisadvantageWeights = m_availableDisadvantageWeightList.at(m_disadvantageWeightMap
+                                                                                             .at(randomTile));
+        if (applyTheseDisadvantageWeights.at(randomTile) > 1) {
+          if ((QRandomGenerator::global()->bounded(applyTheseDisadvantageWeights.at(randomTile) != 1))) { // Weight is applied. Continuing
             continue; // prevents that tile will never be chosen
           }           // Even when only tile that fits
         }
@@ -116,7 +131,7 @@ void Handler::collapse(){
 }
 void Handler::startCollapsing() {
   qDebug() << "Starting Collapse Algorithm";
-  Handler *toThread = new Handler(m_sockets, m_dimensionsWidth, m_dimensionsHeight, m_numberOfTiles,m_precollapsedTiles,m_disadvantageWeights);
+  Handler *toThread = new Handler(m_sockets, m_dimensionsWidth, m_dimensionsHeight, m_numberOfTiles,m_precollapsedTiles,m_weightMap,m_availableDisadvantageWeightList);
   QThread *worker = new QThread();
   toThread->moveToThread(worker);
   connect(worker, &QThread::finished, worker, &QThread::deleteLater);
