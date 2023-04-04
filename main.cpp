@@ -1,63 +1,11 @@
 #include "handler.h"
+#include "definitions.h"
 #include <QGuiApplication>
 #include <QList>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickView>
 
-enum weightmapConstructionDirection{
-    horizontal,
-    vertical
-  };
-enum weightmapConstructionStartIndexType{
-    tileStartIndex,
-    lineStartIndex,
-    columnStartIndex
-};
-
-//WeightMap is dynamically created when creating Handler object with following parameters
-struct constructWeightMapParameters{
-        constructWeightMapParameters() = delete;
-        constructWeightMapParameters( const weightmapConstructionStartIndexType _indexType,
-                                      const int& _startIndex,
-                                      const int& _applyLength,
-                                      const bool _jumpLinesColumns,
-                                      const int& _disadvantageListIndex,
-                                      const int& _applyToHowManyConsecutiveLinesColumns,
-                                      const weightmapConstructionDirection _direction){
-
-            startIndex = _startIndex;
-            indexType = _indexType ;
-            applyLength = _applyLength;
-            jumpLinesColumns = _jumpLinesColumns;
-            disadvantageListIndex = _disadvantageListIndex;
-            applyToHowManyConsecutiveLinesColumns = _applyToHowManyConsecutiveLinesColumns;
-            direction = _direction;
-        }
-
-
-   //On what index to start applying weightmap.
-   int startIndex;
-   //Does the index refer to a Tile, a line number or a column number?
-   weightmapConstructionStartIndexType indexType;
-   //apply to how many tiles? -1 --> Till end of line (or till end if jumpLineColum is true)
-   int applyLength;
-   //Apply only to current line/column or break to next line
-   bool jumpLinesColumns;
-   //Index of available disadvantage WeightList
-   int disadvantageListIndex;
-   //Apply same thing to how many Lines/Columns?
-   int applyToHowManyConsecutiveLinesColumns;
-   //In what direction to apply the weights?
-   //Specifying when StartIndexType is Line or Column is invalid
-   weightmapConstructionDirection direction;
-private:
-   void validate(){
-
-   }
-};
-
-typedef QPair<int,int> Rangepair ;
 int main(int argc, char *argv[]) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -280,15 +228,6 @@ int main(int argc, char *argv[]) {
 
 
 
-  //PRECOLLAPSED TILES
-        QList<QPair<int,int>> precollapsedTiles = {
-//            QPair<int,int>(25,5),
-//            QPair<int,int>(13,2),
-//            QPair<int,int>(50,19),
-//            QPair<int,int>(710,12),
-//            QPair<int,int>(4,22)
-
-        };
 //All avaiblae weightlists. Default at index 0
  QList<QList<int>> availableDisadvantageWeightlist;
  availableDisadvantageWeightlist
@@ -309,10 +248,11 @@ int main(int argc, char *argv[]) {
 //    disadvantageWeightmap.insert(Rangepair(0+i*60,31+i*60),5);
 //}
 //disadvantageWeightmap.insert(Rangepair(400,500),5);
-QMap<QPair<int,int>,int> disadvantageWeightmap;
+ QList<constructParameters> disadvantageWeightmapConstructionInstructions;
+ QList<constructParameters> precollapedTilesConstructionInstructions;
 
 
- Handler h(sockets,60 ,32, sockets.length(),precollapsedTiles ,disadvantageWeightmap,availableDisadvantageWeightlist);
+ Handler h(sockets,60 ,32, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist);
 
 
 

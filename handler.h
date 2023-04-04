@@ -1,6 +1,6 @@
 #ifndef HANDLER_H
 #define HANDLER_H
-
+#include "definitions.h"
 #include "tile.h"
 #include <QList>
 #include <QSet>
@@ -14,7 +14,7 @@ class Handler : public QObject {
   Q_PROPERTY (QList<int> tileMap READ getTileMap NOTIFY tileMapChanged)
 public:
   Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,const int& dimensionsHeight, const int& m_numberOfTiles,
-        const QList<QPair<int,int>>& precollapsed ,const QMap<QPair<int,int>,int>& weightMap, const QList<QList<int>>& availableWeightLists);
+        const QList<constructParameters>& precollapedTilesConstructionInstructions ,const QList<constructParameters> weightmapConstructionInstructions, const QList<QList<int>>& availableWeightLists);
 
 
 public slots:
@@ -41,9 +41,9 @@ private:
   QList<Tile> allTiles;
   QList<int> m_disadvantageWeightMap;
   QList<QList<int>> m_availableDisadvantageWeightList;
-  QMap<QPair<int,int>,int> m_weightMap;
+  QList<constructParameters> m_weightmapConstructionInstructions;
+  QList<constructParameters> m_precollapedTilesConstructionInstructions;
   QList<QList<int>> m_sockets;
-  QList<QPair<int,int>> m_precollapsedTiles;
   QSet<int> m_indecesToCheck;
   int m_dimensionsWidth;
   int m_dimensionsHeight;

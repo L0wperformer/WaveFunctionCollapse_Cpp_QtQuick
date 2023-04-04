@@ -5,15 +5,16 @@
 #include <QRandomGenerator>
 #include <QTimer>
 #include <QThread>
-Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,const int& dimensionsHeight,const int& numberOfTiles,const QList<QPair<int,int>>& precollapsed
-                 ,const QMap<QPair<int,int>,int>& weightMap, const QList<QList<int>>& availableWeightLists) {
+Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,const int& dimensionsHeight,const int& numberOfTiles,const QList<constructParameters>& precollapedTilesConstructionInstructions
+                 ,const QList<constructParameters> weightmapConstructionInstructions, const QList<QList<int>>& availableWeightLists) {
   m_dimensionsWidth = dimensionsWidth;
   m_dimensionsHeight = dimensionsHeight;
   m_dimensionsWidthHeight = m_dimensionsWidth*m_dimensionsHeight;
   m_sockets = sockets;
   m_numberOfTiles = numberOfTiles;
   m_availableDisadvantageWeightList = availableWeightLists;
-  m_weightMap = weightMap;
+  m_weightmapConstructionInstructions = weightmapConstructionInstructions;
+  m_precollapedTilesConstructionInstructions = precollapedTilesConstructionInstructions;
 
   for (int i = 0; i < sockets.length(); i++) {
     Tile appendThis(sockets.at(i));
@@ -25,25 +26,25 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
         tileMap->append(-1);
         m_disadvantageWeightMap.append(0);
     }
+//==============REPLACE THIS WITH NEW CONSTRUCTION PARAMETERS============
+//    for (const auto& item : precollapsed){
+//        m_precollapsedTiles.append(item);
+//        tileMap->replace(item.first,item.second);
+//    }
 
-    for (const auto& item : precollapsed){
-        m_precollapsedTiles.append(item);
-        tileMap->replace(item.first,item.second);
-    }
+//    for  (auto item = weightMap.begin();item!= weightMap.end();++item){
+//        QPair<int,int> range = item.key();
+//        int weightMap = item.value();
 
-    for  (auto item = weightMap.begin();item!= weightMap.end();++item){
-        QPair<int,int> range = item.key();
-        int weightMap = item.value();
+//        if(range.second == -1)
+//            range.second = m_dimensionsHeight*m_dimensionsWidth-1;
 
-        if(range.second == -1)
-            range.second = m_dimensionsHeight*m_dimensionsWidth-1;
+//        for(int i = range.first; i<= range.second;i++){
+//            m_disadvantageWeightMap.replace(i,weightMap);
+//        }
 
-        for(int i = range.first; i<= range.second;i++){
-            m_disadvantageWeightMap.replace(i,weightMap);
-        }
-
-    }
-    qDebug() << m_disadvantageWeightMap;
+//    }
+//    qDebug() << m_disadvantageWeightMap;
 
 }
 
@@ -133,7 +134,7 @@ void Handler::collapse(){
 }
 void Handler::startCollapsing() {
   qDebug() << "Starting Collapse Algorithm";
-  Handler *toThread = new Handler(m_sockets, m_dimensionsWidth, m_dimensionsHeight, m_numberOfTiles,m_precollapsedTiles,m_weightMap,m_availableDisadvantageWeightList);
+  Handler *toThread = new Handler(m_sockets, m_dimensionsWidth, m_dimensionsHeight, m_numberOfTiles,m_precollapedTilesConstructionInstructions,m_weightmapConstructionInstructions,m_availableDisadvantageWeightList);
   QThread *worker = new QThread();
   toThread->moveToThread(worker);
   connect(worker, &QThread::finished, worker, &QThread::deleteLater);
