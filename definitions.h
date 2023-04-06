@@ -37,6 +37,7 @@ struct constructParameters{
    //Does the index refer to a Tile, a line number or a column number?
    constructionStartIndexType indexType;
    //apply to how many tiles? -1 --> Till end of line (or till end if jumpLineColum is true)
+   //If applyLength is != -1 then jumpLines is ignored
    int applyLength;
    //Depending on context this index specifies a tile no. or a WeightMap
    int tileOrWeightMapIndex;
