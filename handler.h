@@ -14,7 +14,7 @@ class Handler : public QObject {
   Q_PROPERTY (QList<int> tileMap READ getTileMap NOTIFY tileMapChanged)
 public:
   Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,const int& dimensionsHeight, const int& m_numberOfTiles,
-        const QList<constructParameters>& precollapedTilesConstructionInstructions ,const QList<constructParameters> weightmapConstructionInstructions, const QList<QList<int>>& availableWeightLists);
+        const QList<constructParameters>& precollapedTilesConstructionInstructions ,const QList<constructParameters>& weightmapConstructionInstructions, const QList<QList<int>>& availableWeightLists);
 
 
 public slots:

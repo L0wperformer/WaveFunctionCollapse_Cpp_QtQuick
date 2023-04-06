@@ -219,8 +219,38 @@ int main(int argc, char *argv[]) {
           100, // 19
           100, // 20
           100, // 21
-          100, // 22
+          5, // 22
           100, // 23
+          5, // 24
+          100  // 25
+
+      };
+
+      QList<int> disadvantageWeightsHorizontals = {
+          100, // 0
+          100, // 1
+          1, // 2-
+          100, // 3
+          1, // 4-
+          100, // 5
+          1, // 6-
+          100, // 7
+          100, // 8
+          100, // 9
+          100, // 10
+          100, // 11
+          100, // 12
+          100, // 13
+          100, // 14
+          100, // 15
+          100, // 16
+          100, // 17
+          100, // 18
+          100, // 19
+          100, // 20
+          50, // 21-
+          100, // 22
+          50, // 23-
           100, // 24
           100  // 25
 
@@ -228,15 +258,17 @@ int main(int argc, char *argv[]) {
 
 
 
+
 //All avaiblae weightlists. Default at index 0
  QList<QList<int>> availableDisadvantageWeightlist;
  availableDisadvantageWeightlist
+       << disadvantageWeightsNormalizedNoStop//DEFAULT
        <<disadvantageWeightsAllEquallyLikely
-       << disadvantageWeightsClusters        //DEFAULT
+       << disadvantageWeightsClusters
        << disadvantageWeightsLongDiagonals
        << disadvantageWeightsNormalized
-       << disadvantageWeightsNormalizedNoStop
-       << disadvantageWeightsVerticals;
+       << disadvantageWeightsVerticals
+       << disadvantageWeightsHorizontals;
 //Weightmap: What index uses what weightlist?
 //All that are not specified have the standard weightlist (index 0 in  availableDisadvantageWeightlist)
 //If the rangepair has -1 as second value, it will apply the pair until the end.
@@ -249,8 +281,11 @@ int main(int argc, char *argv[]) {
 //}
 //disadvantageWeightmap.insert(Rangepair(400,500),5);
  QList<constructParameters> disadvantageWeightmapConstructionInstructions{
+     constructParameters(constructionStartIndexType::columnStartIndex,
+                         0,-1,5,false,60,constructionDirection::vertical),
      constructParameters(constructionStartIndexType::lineStartIndex,
-                         0,-1,5,true,60,constructionDirection::vertical )
+                         8,-1,6,false,16,constructionDirection::horizontal )
+
  };
  QList<constructParameters> precollapedTilesConstructionInstructions;
 

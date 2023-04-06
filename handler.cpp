@@ -6,7 +6,7 @@
 #include <QTimer>
 #include <QThread>
 Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,const int& dimensionsHeight,const int& numberOfTiles,const QList<constructParameters>& precollapedTilesConstructionInstructions
-                 ,const QList<constructParameters> weightmapConstructionInstructions, const QList<QList<int>>& availableWeightLists) {
+                 ,const QList<constructParameters>& weightmapConstructionInstructions, const QList<QList<int>>& availableWeightLists) {
   m_dimensionsWidth = dimensionsWidth;
   m_dimensionsHeight = dimensionsHeight;
   m_dimensionsWidthHeight = m_dimensionsWidth*m_dimensionsHeight;
@@ -54,7 +54,7 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
             break;
         }
 
-        int endIndex = -1;
+        int endIndex = startIndex;
         if(item.applyLength != -1){
             endIndex = startIndex + item.applyLength * stepSize;
         }
@@ -66,12 +66,11 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
         if(item.applyLength == -1 && !item.jumpLinesColumns){
             switch(item.direction){ //Ew, Nesting
             case constructionDirection::horizontal:
-                while(startIndex+1 % m_dimensionsWidth != 0)
-                    startIndex++;
+                while((endIndex+1) % m_dimensionsWidth != 0)
+                    endIndex++;
                 break;
 
             case constructionDirection::vertical:
-                endIndex = startIndex;
                 while(true){
                     if(endIndex + m_dimensionsWidth > m_dimensionsWidthHeight -1 ) //Eeeeeeeeeewwwww, Nesting
                       break;
