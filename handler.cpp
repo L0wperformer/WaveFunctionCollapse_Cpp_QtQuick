@@ -183,11 +183,16 @@ void Handler::collapse(){
 
 
 
-          emit tileMapChanged(tileMap);
+            emit tileMapChanged(tileMap);
+             //
+        //QThread::msleep(25);
+
+
           enableSurroundingIndecesToBeChecked(nextTilePos);
           collapsed ++;
           lastTilesPlacedPos.append(nextTilePos);
-          QThread::msleep(16); // Give QML engine time to process events
+
+          //QThread::msleep(16); // Give QML engine time to process events
 
           break;
         }
@@ -212,10 +217,11 @@ void Handler::startCollapsing() {
   toThread->moveToThread(worker);
   connect(worker, &QThread::finished, worker, &QThread::deleteLater);
   connect(worker,&QThread::started,toThread,&Handler::collapse);
-  connect(toThread, &Handler::tileMapChanged,this,[=](QList<int> *newList){
+  connect(toThread, &Handler::tileMapChanged,this,[&](QList<int> *newList){
      tileMap = newList;
      emit tileMapChanged(nullptr);
-  });
+
+  },Qt::QueuedConnection);
 
   worker->start(QThread::IdlePriority);
 }
@@ -226,41 +232,55 @@ void Handler::enableSurroundingIndecesToBeChecked(const int& pos){
     bool checkTop = (pos - m_dimensionsWidth >= 0);
     bool checkTopLeft = ((pos - m_dimensionsWidth) % m_dimensionsWidth != 0) &&
                         ((pos - m_dimensionsWidth) > 0);
-    bool checkTopRight = (pos - m_dimensionsWidth + 1) % m_dimensionsWidth != 0 &&
+    bool checkTopRight = checkTop && (pos - m_dimensionsWidth + 1) % m_dimensionsWidth != 0 &&
                          pos + 1 <  m_dimensionsWidthHeight;
     bool checkBottom = pos + m_dimensionsWidth <  m_dimensionsWidthHeight;
-    bool checkBottomLeft = (pos + m_dimensionsWidth) % m_dimensionsWidth != 0;
+    bool checkBottomLeft = checkBottom && ((pos + m_dimensionsWidth) % m_dimensionsWidth != 0);
     bool checkBottomRight =
         (pos + m_dimensionsWidth + 1) % m_dimensionsWidth != 0 &&
         pos + m_dimensionsWidth + 1 <  m_dimensionsWidthHeight;
+    m_indecesToCheck.remove(pos);
 //Top
-    if (checkTop)
+    if (checkTop){
+        if(tileMap->at(pos-m_dimensionsWidth) == -1)
              m_indecesToCheck.insert(pos-m_dimensionsWidth);
-
+    }
 //TopLeft
-    if(checkTopLeft)
+    if(checkTopLeft){
+        if(tileMap->at(pos-m_dimensionsWidth-1) == -1)
              m_indecesToCheck.insert(pos-m_dimensionsWidth-1);
-//TopRight
-    if(checkTopRight)
+    }
+             //TopRight
+    if(checkTopRight){
+        if(tileMap->at(pos-m_dimensionsWidth+1) == -1)
              m_indecesToCheck.insert(pos-m_dimensionsWidth+1);
+    }
 //Bottom
-    if(checkBottom)
+    if(checkBottom){
+        if(tileMap->at(pos+m_dimensionsWidth) == -1)
              m_indecesToCheck.insert(pos+m_dimensionsWidth);
+    }
 //BottomLeft
-     if(checkBottomLeft)
+     if(checkBottomLeft){
+         if(tileMap->at(pos+m_dimensionsWidth-1) == -1)
                  m_indecesToCheck.insert(pos+m_dimensionsWidth-1);
+      }
 //BottomRight
-     if(checkBottomRight)
+     if(checkBottomRight){
+         if(tileMap->at(pos+m_dimensionsWidth+1) == -1)
                  m_indecesToCheck.insert(pos+m_dimensionsWidth+1);
+     }
 //Left
-     if(pos % m_dimensionsWidth != 0 && pos != 0)
-
+     if(pos % m_dimensionsWidth != 0 && pos != 0){
+            if(tileMap->at(pos-1) == -1)
                   m_indecesToCheck.insert(pos-1);
+     }
 //Right
      if((pos + 1) % m_dimensionsWidth != 0 &&
-             pos + 1 <  m_dimensionsWidthHeight)
+             pos + 1 <  m_dimensionsWidthHeight){
+         if(tileMap->at(pos+1) == -1)
                   m_indecesToCheck.insert(pos+1);
-    // qDebug() << "Indeces to check: " << m_indecesToCheck.values();
+     }    // qDebug() << "Indeces to check: " << m_indecesToCheck.values();
 
 }
 
