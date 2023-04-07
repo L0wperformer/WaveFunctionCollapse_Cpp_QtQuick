@@ -15,6 +15,8 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
   m_availableDisadvantageWeightList = availableWeightLists;
   m_weightmapConstructionInstructions = weightmapConstructionInstructions;
   m_precollapedTilesConstructionInstructions = precollapedTilesConstructionInstructions;
+  m_randomGenerator = QRandomGenerator::global();
+
 
   for (int i = 0; i < sockets.length(); i++) {
     Tile appendThis(sockets.at(i));
@@ -125,9 +127,9 @@ void Handler::drawGrid() {
 
 void Handler::collapse(){
     int randpos1 =
-        QRandomGenerator::global()->bounded( m_dimensionsWidth*m_dimensionsHeight);
+        m_randomGenerator->bounded( m_dimensionsWidth*m_dimensionsHeight);
     qDebug() << "pos chosen:" << randpos1;
-    int randtile1 = QRandomGenerator::global()->bounded(m_numberOfTiles);
+    int randtile1 = m_randomGenerator->bounded(m_numberOfTiles);
     tileMap->replace(randpos1, randtile1);
       int collapsed = 1;
 
@@ -166,11 +168,11 @@ void Handler::collapse(){
 
       QList<int> tilesAlreadytried;
       while (1) {
-        int randomTile = QRandomGenerator::global()->bounded(m_numberOfTiles);
+        int randomTile = m_randomGenerator->bounded(m_numberOfTiles);
         const QList<int> applyTheseDisadvantageWeights = m_availableDisadvantageWeightList.at(m_disadvantageWeightMap
                                                                                              .at(nextTilePos));
         if (applyTheseDisadvantageWeights.at(randomTile) > 1) {
-          if ((QRandomGenerator::global()->bounded(applyTheseDisadvantageWeights.at(randomTile)) != 1)) { // Weight is applied. Continuing
+          if ((m_randomGenerator->bounded(applyTheseDisadvantageWeights.at(randomTile)) != 1)) { // Weight is applied. Continuing
             continue; // prevents that tile will never be chosen
           }           // Even when only tile that fits
         }
@@ -481,9 +483,13 @@ int Handler::calculateIndexToCollapseNext() const {
           chooseFromHere.append(i);
           minValueIndex = i+1;
   }
-  return chooseFromHere.at(QRandomGenerator::global()->bounded(chooseFromHere.length()));
+  return chooseFromHere.at(m_randomGenerator->bounded(chooseFromHere.length()));
 
 }
 
+Handler::~Handler(){
+    delete m_randomGenerator;
+    delete tileMap;
+}
 
 

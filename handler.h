@@ -6,6 +6,7 @@
 #include <QSet>
 #include <QObject>
 #include <QElapsedTimer>
+#include <QRandomGenerator>
 #include <QVariant>
 #include <QDebug>
 
@@ -15,7 +16,7 @@ class Handler : public QObject {
 public:
   Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,const int& dimensionsHeight, const int& m_numberOfTiles,
         const QList<constructParameters>& precollapedTilesConstructionInstructions ,const QList<constructParameters>& weightmapConstructionInstructions, const QList<QList<int>>& availableWeightLists);
-
+ ~Handler();
 
 public slots:
   void drawGrid();
@@ -36,6 +37,7 @@ signals:
 
 private:
   QList<int> *tileMap;
+  QRandomGenerator  *m_randomGenerator;
   QVector<QObject*>  *objectTileMap;
   QList<QList<int>> m_rules;
   QList<Tile> allTiles;
