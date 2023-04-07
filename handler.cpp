@@ -472,8 +472,17 @@ int Handler::calculateIndexToCollapseNext() const {
   //  For now, The first index of least entropy is returned. This will be
   //  changed to be random in the future
 
-  return entropyMap.indexOf(
-      *std::min_element(entropyMap.begin(), entropyMap.end()));
+  QList<int> chooseFromHere;
+  int minValue = *std::min_element(entropyMap.begin(), entropyMap.end());
+  int minValueIndex = entropyMap.indexOf(minValue);
+
+  int i;
+  while((i = entropyMap.indexOf(minValue,minValueIndex)) != -1){
+          chooseFromHere.append(i);
+          minValueIndex = i+1;
+  }
+  return chooseFromHere.at(QRandomGenerator::global()->bounded(chooseFromHere.length()));
+
 }
 
 
