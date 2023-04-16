@@ -290,7 +290,7 @@ int main(int argc, char *argv[]) {
  QList<constructParameters> precollapedTilesConstructionInstructions;
 
 
- Handler h(sockets,60 ,32, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist);
+ Handler h(sockets,200 ,100, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist);
 
 
 

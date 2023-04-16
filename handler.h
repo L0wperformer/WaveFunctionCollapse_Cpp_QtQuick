@@ -5,14 +5,14 @@
 #include <QList>
 #include <QSet>
 #include <QObject>
-#include <QElapsedTimer>
+#include <QTimer>
 #include <QRandomGenerator>
 #include <QVariant>
 #include <QDebug>
 
 class Handler : public QObject {
   Q_OBJECT
-  Q_PROPERTY (QList<int> tileMap READ getTileMap NOTIFY tileMapChanged)
+  Q_PROPERTY (QList<int> tileMap READ getTileMap NOTIFY updateCanvas)
 public:
   Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,const int& dimensionsHeight, const int& m_numberOfTiles,
         const QList<constructParameters>& precollapedTilesConstructionInstructions ,const QList<constructParameters>& weightmapConstructionInstructions, const QList<QList<int>>& availableWeightLists);
@@ -33,6 +33,7 @@ public slots:
 signals:
   void gridInit();
   void tileMapChanged(QList<int> *newMap);
+  void updateCanvas();
 
 
 private:
@@ -47,6 +48,8 @@ private:
   QList<constructParameters> m_precollapedTilesConstructionInstructions;
   QList<QList<int>> m_sockets;
   QSet<int> m_indecesToCheck;
+  QTimer *m_performanceTimer;
+  int m_fps;
   int m_dimensionsWidth;
   int m_dimensionsHeight;
   int m_dimensionsWidthHeight;

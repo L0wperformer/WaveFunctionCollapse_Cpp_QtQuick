@@ -16,6 +16,7 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
   m_weightmapConstructionInstructions = weightmapConstructionInstructions;
   m_precollapedTilesConstructionInstructions = precollapedTilesConstructionInstructions;
   m_randomGenerator = QRandomGenerator::global();
+  m_fps = 60;
 
 
   for (int i = 0; i < sockets.length(); i++) {
@@ -96,9 +97,13 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
         for(int i = 0; i < item.applyToHowManyConsecutiveLinesColumns; i++)
             for( int j = startIndex + increaseIndex*i ; j < endIndex+ increaseIndex*i; j += stepSize ){
                 m_disadvantageWeightMap.replace(j,item.tileOrWeightMapIndex);
-            }
-qDebug() << m_disadvantageWeightMap;
-    }
+                }
+    qDebug() << m_disadvantageWeightMap;
+    m_performanceTimer	 = new QTimer(this);
+    connect(m_performanceTimer, &QTimer::timeout,this, &Handler::updateCanvas);
+
+
+   }
 //==============REPLACE THIS WITH NEW CONSTRUCTION PARAMETERS============
 //    for (const auto& item : precollapsed){
 //        m_precollapsedTiles.append(item);
@@ -122,7 +127,7 @@ qDebug() << m_disadvantageWeightMap;
 }
 
 void Handler::drawGrid() {
-  emit tileMapChanged(nullptr);
+  emit updateCanvas();
 }
 
 void Handler::collapse(){
@@ -133,7 +138,7 @@ void Handler::collapse(){
     tileMap->replace(randpos1, randtile1);
       int collapsed = 1;
 
- emit tileMapChanged(tileMap);
+ //emit tileMapChanged(tileMap);
     enableSurroundingIndecesToBeChecked(randpos1);
     QVector<int> lastTilesPlacedPos;
 
@@ -183,7 +188,7 @@ void Handler::collapse(){
 
 
 
-            emit tileMapChanged(tileMap);
+        emit tileMapChanged(tileMap);
              //
         //QThread::msleep(25);
 
@@ -212,6 +217,7 @@ void Handler::collapse(){
 }
 void Handler::startCollapsing() {
   qDebug() << "Starting Collapse Algorithm";
+  m_performanceTimer->start(1000/m_fps);
   Handler *toThread = new Handler(m_sockets, m_dimensionsWidth, m_dimensionsHeight, m_numberOfTiles,m_precollapedTilesConstructionInstructions,m_weightmapConstructionInstructions,m_availableDisadvantageWeightList);
   QThread *worker = new QThread();
   toThread->moveToThread(worker);
@@ -219,11 +225,9 @@ void Handler::startCollapsing() {
   connect(worker,&QThread::started,toThread,&Handler::collapse);
   connect(toThread, &Handler::tileMapChanged,this,[&](QList<int> *newList){
      tileMap = newList;
-     emit tileMapChanged(nullptr);
+  });
 
-  },Qt::QueuedConnection);
-
-  worker->start(QThread::IdlePriority);
+  worker->start();
 }
 
 void Handler::enableSurroundingIndecesToBeChecked(const int& pos){
