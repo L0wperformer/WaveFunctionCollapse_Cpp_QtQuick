@@ -32,7 +32,7 @@ public slots:
 
 signals:
   void gridInit();
-  void tileMapChanged(QList<int> *newMap);
+  void tileMapChanged(int index, int newTile);
   void updateCanvas();
 
 

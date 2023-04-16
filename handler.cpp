@@ -17,7 +17,7 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
   m_weightmapConstructionInstructions = weightmapConstructionInstructions;
   m_precollapedTilesConstructionInstructions = precollapedTilesConstructionInstructions;
   m_randomGenerator = QRandomGenerator::global();
-  m_fps = 60;
+  m_fps = 120;
 
 
   for (int i = 0; i < sockets.length(); i++) {
@@ -139,6 +139,7 @@ void Handler::collapse(){
     qDebug() << "pos chosen:" << randpos1;
     int randtile1 = m_randomGenerator->bounded(m_numberOfTiles);
     tileMap->replace(randpos1, randtile1);
+    emit tileMapChanged(randpos1, randtile1);
       int collapsed = 1;
 
  //emit tileMapChanged(tileMap);
@@ -191,7 +192,7 @@ void Handler::collapse(){
 
 
 
-        emit tileMapChanged(tileMap);
+        emit tileMapChanged(nextTilePos,randomTile);
              //
         //QThread::msleep(25);
 
@@ -227,8 +228,8 @@ void Handler::startCollapsing() {
   toThread->moveToThread(worker);
   connect(worker, &QThread::finished, worker, &QThread::deleteLater);
   connect(worker,&QThread::started,toThread,&Handler::collapse);
-  connect(toThread, &Handler::tileMapChanged,this,[&](QList<int> *newList){
-     tileMap = newList;
+  connect(toThread, &Handler::tileMapChanged,this,[&](int index, int newTile){
+     tileMap->replace(index, newTile);
   });
 
   worker->start();
