@@ -2,6 +2,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QQuickItem>
+#include <QElapsedTimer>
 #include <QRandomGenerator>
 #include <QTimer>
 #include <QThread>
@@ -131,6 +132,8 @@ void Handler::drawGrid() {
 }
 
 void Handler::collapse(){
+    QElapsedTimer timer;
+    timer.start();
     int randpos1 =
         m_randomGenerator->bounded( m_dimensionsWidth*m_dimensionsHeight);
     qDebug() << "pos chosen:" << randpos1;
@@ -213,6 +216,7 @@ void Handler::collapse(){
         }
       }
     }
+    qDebug() << "All Tiles Collapsed! Time: " << timer.elapsed();
 
 }
 void Handler::startCollapsing() {
