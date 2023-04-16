@@ -17,7 +17,7 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
   m_weightmapConstructionInstructions = weightmapConstructionInstructions;
   m_precollapedTilesConstructionInstructions = precollapedTilesConstructionInstructions;
   m_randomGenerator = QRandomGenerator::global();
-  m_fps = 120;
+  m_fps = 60;
 
 
   for (int i = 0; i < sockets.length(); i++) {
@@ -99,12 +99,10 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
             for( int j = startIndex + increaseIndex*i ; j < endIndex+ increaseIndex*i; j += stepSize ){
                 m_disadvantageWeightMap.replace(j,item.tileOrWeightMapIndex);
                 }
-    qDebug() << m_disadvantageWeightMap;
+   }
     m_performanceTimer	 = new QTimer(this);
     connect(m_performanceTimer, &QTimer::timeout,this, &Handler::updateCanvas);
 
-
-   }
 //==============REPLACE THIS WITH NEW CONSTRUCTION PARAMETERS============
 //    for (const auto& item : precollapsed){
 //        m_precollapsedTiles.append(item);
