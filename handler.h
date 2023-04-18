@@ -58,6 +58,7 @@ private:
   bool checkIfTileFits(const int& pos,const Tile& tile) const;
   void enableSurroundingIndecesToBeChecked(const int& pos);
   void collapse();
+  void constructWeightmap(const QList<constructParameters>& weightmapConstructionInstructions);
 };
 
 #endif // HANDLER_H

@@ -31,7 +31,13 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
         m_disadvantageWeightMap.append(0);
     }
 
+    constructWeightmap(weightmapConstructionInstructions);
+    m_performanceTimer	 = new QTimer(this);
+    connect(m_performanceTimer, &QTimer::timeout,this, &Handler::updateCanvas);
 
+}
+
+void Handler::constructWeightmap(const QList<constructParameters>& weightmapConstructionInstructions){
     for (const auto& item : weightmapConstructionInstructions) {//This is ugly
         int startIndex = -1;
         switch(item.indexType){
@@ -100,29 +106,6 @@ Handler::Handler(const QList<QList<int>>& sockets, const int& dimensionsWidth,co
                 m_disadvantageWeightMap.replace(j,item.tileOrWeightMapIndex);
                 }
    }
-    m_performanceTimer	 = new QTimer(this);
-    connect(m_performanceTimer, &QTimer::timeout,this, &Handler::updateCanvas);
-
-//==============REPLACE THIS WITH NEW CONSTRUCTION PARAMETERS============
-//    for (const auto& item : precollapsed){
-//        m_precollapsedTiles.append(item);
-//        tileMap->replace(item.first,item.second);
-//    }
-
-//    for  (auto item = weightMap.begin();item!= weightMap.end();++item){
-//        QPair<int,int> range = item.key();
-//        int weightMap = item.value();
-
-//        if(range.second == -1)
-//            range.second = m_dimensionsHeight*m_dimensionsWidth-1;
-
-//        for(int i = range.first; i<= range.second;i++){
-//            m_disadvantageWeightMap.replace(i,weightMap);
-//        }
-
-//    }
-//    qDebug() << m_disadvantageWeightMap;
-
 }
 
 void Handler::drawGrid() {
