@@ -15,11 +15,12 @@ find_package(QT NAMES Qt5 COMPONENTS Core Quick REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
 set(PROJECT_SOURCES
-        main.cpp
-	handler.cpp
-	tile.cpp
+        definitions.h main.cpp
+        handler.h handler.cpp
+        tile.h tile.cpp
         qml.qrc
 )
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(WaveFunctionCollapse_Qt_Qml
         MANUAL_FINALIZATION

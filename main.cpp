@@ -281,10 +281,10 @@ int main(int argc, char *argv[]) {
 //}
 //disadvantageWeightmap.insert(Rangepair(400,500),5);
  QList<constructParameters> disadvantageWeightmapConstructionInstructions{
-     constructParameters(constructionStartIndexType::columnStartIndex,
-                         0,-1,5,false,60,constructionDirection::vertical),
-     constructParameters(constructionStartIndexType::lineStartIndex,
-                         8,-1,6,false,16,constructionDirection::horizontal )
+//     constructParameters(constructionStartIndexType::columnStartIndex,
+//                         0,-1,5,false,60,constructionDirection::vertical),
+//     constructParameters(constructionStartIndexType::lineStartIndex,
+//                         8,-1,6,false,16,constructionDirection::horizontal )
 
  };
  QList<constructParameters> precollapedTilesConstructionInstructions;
