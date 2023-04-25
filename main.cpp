@@ -256,19 +256,51 @@ int main(int argc, char *argv[]) {
 
       };
 
+      QList<int> disadvantageWeightsWhiteout = {//mostly for testing
+                                               1000, // 0
+                                               1000, // 1
+                                               1000, // 2-
+                                               1000, // 3
+                                               1000, // 4-
+                                               1000, // 5
+                                               1000, // 6-
+                                               1000, // 7
+                                               1000, // 8
+                                               1000, // 9
+                                               1000, // 10
+                                               1000, // 11
+                                               1000, // 12
+                                               1000, // 13
+                                               1000, // 14
+                                               1000, // 15
+                                               1000, // 16
+                                               1000, // 17
+                                               1000, // 18
+                                               1000, // 19
+                                               1000, // 20
+                                               1000, // 21-
+                                               1000, // 22
+                                               1000, // 23-
+                                               1000, // 24
+                                               1  // 25
+
+      };
+
 
 
 
 //All avaiblae weightlists. Default at index 0
  QList<QList<int>> availableDisadvantageWeightlist;
  availableDisadvantageWeightlist
-       << disadvantageWeightsNormalizedNoStop//DEFAULT
-       <<disadvantageWeightsAllEquallyLikely
-       << disadvantageWeightsClusters
-       << disadvantageWeightsLongDiagonals
-       << disadvantageWeightsNormalized
-       << disadvantageWeightsVerticals
-       << disadvantageWeightsHorizontals;
+         //<<disadvantageWeightsAllEquallyLikely//DEFAULT //0
+       << disadvantageWeightsWhiteout//0
+       << disadvantageWeightsNormalizedNoStop//1
+
+       << disadvantageWeightsClusters//2
+       << disadvantageWeightsLongDiagonals//3
+       << disadvantageWeightsNormalized//4
+       << disadvantageWeightsVerticals//5
+       << disadvantageWeightsHorizontals;//6
 //Weightmap: What index uses what weightlist?
 //All that are not specified have the standard weightlist (index 0 in  availableDisadvantageWeightlist)
 //If the rangepair has -1 as second value, it will apply the pair until the end.
@@ -280,17 +312,29 @@ int main(int argc, char *argv[]) {
 //    disadvantageWeightmap.insert(Rangepair(0+i*60,31+i*60),5);
 //}
 //disadvantageWeightmap.insert(Rangepair(400,500),5);
- QList<constructParameters> disadvantageWeightmapConstructionInstructions{
+
+ //long names are.... long
+ typedef constructionStartIndexType csit;
+ typedef constructionDirection cd;
+ QList<constructParameters> numberWeightmapOne{
+     constructParameters(csit::tileStartIndex,
+                         425,10,6,false,5,cd::horizontal),
+     constructParameters(csit::tileStartIndex,
+                         430,30,5,false,5,cd::vertical)
+ };
+// QList<constructParameters> disadvantageWeightmapConstructionInstructions{
 //     constructParameters(constructionStartIndexType::columnStartIndex,
 //                         0,-1,5,false,60,constructionDirection::vertical),
 //     constructParameters(constructionStartIndexType::lineStartIndex,
 //                         8,-1,6,false,16,constructionDirection::horizontal )
 
- };
+// };
+ QList<constructParameters> disadvantageWeightmapConstructionInstructions = numberWeightmapOne;
+
  QList<constructParameters> precollapedTilesConstructionInstructions;
 
 
- Handler h(sockets,200 ,100, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist);
+ Handler h(sockets,100 ,50, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist);
 
 
 
