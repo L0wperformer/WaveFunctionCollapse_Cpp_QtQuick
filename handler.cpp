@@ -101,10 +101,15 @@ void Handler::constructWeightmap(const QList<constructParameters>& weightmapCons
            break;
         }
 
+
         for(int i = 0; i < item.applyToHowManyConsecutiveLinesColumns; i++)
             for( int j = startIndex + increaseIndex*i ; j < endIndex+ increaseIndex*i; j += stepSize ){
+                if(item.applyHighlight)
+                    m_tilesToBeColoredDifferently.append(j);
                 m_disadvantageWeightMap.replace(j,item.tileOrWeightMapIndex);
                 }
+
+
    }
 }
 
@@ -115,8 +120,7 @@ void Handler::drawGrid() {
 void Handler::collapse(){
     QElapsedTimer timer;
     timer.start();
-    int randpos1 =
-        m_randomGenerator->bounded( m_dimensionsWidth*m_dimensionsHeight);
+    int randpos1 = m_randomGenerator->bounded( m_dimensionsWidth*m_dimensionsHeight);
     qDebug() << "pos chosen:" << randpos1;
     int randtile1 = m_randomGenerator->bounded(m_numberOfTiles);
     tileMap->replace(randpos1, randtile1);
@@ -161,11 +165,18 @@ void Handler::collapse(){
         int randomTile = m_randomGenerator->bounded(m_numberOfTiles);
         const QList<int> applyTheseDisadvantageWeights = m_availableDisadvantageWeightList.at(m_disadvantageWeightMap
                                                                                              .at(nextTilePos));
-        if (applyTheseDisadvantageWeights.at(randomTile) > 1) {
-          if ((m_randomGenerator->bounded(applyTheseDisadvantageWeights.at(randomTile)) != 1)) { // Weight is applied. Continuing
+        int disadvantgeWeightOfThisTile = applyTheseDisadvantageWeights.at(randomTile);
+
+
+        if (disadvantgeWeightOfThisTile > 1 ) {
+          if ((m_randomGenerator->bounded(disadvantgeWeightOfThisTile) != 1)) { // Weight is applied. Continuing
             continue; // prevents that tile will never be chosen
           }           // Even when only tile that fits
         }
+
+
+
+
 
         if (checkIfTileFits(nextTilePos, allTiles.at(randomTile))) {
 

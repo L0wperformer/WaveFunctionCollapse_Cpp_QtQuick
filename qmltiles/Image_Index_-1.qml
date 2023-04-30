@@ -1,8 +1,11 @@
 import QtQuick 2.0
 
 Item {
+
+    property bool highlighted: false
     width: 1000
     height: 1000
+    anchors.fill: parent
 
     Rectangle {
         anchors.centerIn: parent

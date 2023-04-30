@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
- Item{
+Item {
+    property bool highlighted: true
     width: 1000
     height: 1000
 
@@ -15,10 +16,9 @@ import QtQuick 2.0
         y: -parent.height / 10
 
         rotation: -45
-        color: lineColor
+        color: highlighted ? "red" : lineColor
         width: (parent.width / 1.5)
         height: parent.height / 5
-
     }
     Rectangle {
         transformOrigin: Item.Center
@@ -26,7 +26,7 @@ import QtQuick 2.0
         width: root.width / 2
         height: root.width / 2
         anchors.centerIn: root
-        border.color: lineColor
+        border.color: highlighted ? "red" : lineColor
         border.width: root.width / 20
         radius: root.width
     }

@@ -2,6 +2,8 @@ import QtQuick 2.0
 
 Item {
     property var tilesByIndex: handler.tileMap
+    property var highlightTheseTiles: []
+
     //property list<Tile> tiles
     id: root
     onTilesByIndexChanged: {
@@ -12,6 +14,13 @@ Item {
         //        dimensionsWidth = handler.getDimensionsWidth()
         //        dimensionsHeight = handler.getDimensionsHeight()
         console.log("Item completed")
+    }
+    Connections {
+        target: handler
+        function onSendTilesToBeHighlightedToQml(list) {
+            console.log(list)
+            highlightTheseTiles = list
+        }
     }
 
     //This is the Connection to the grid InitFunction
@@ -42,6 +51,7 @@ Item {
                 width: root.width / dimensionsWidth
                 height: root.height / dimensionsHeight
                 m_index: tilesByIndex[index]
+                m_highlighted: highlightTheseTiles.indexOf(index) !== -1
             }
         }
         MouseArea {
@@ -49,6 +59,7 @@ Item {
             onClicked: {
                 this.visible = false
                 switchColor.visible = true
+                highlightTheseTiles = handler.getTilesToHighlight();
                 handler.startCollapsing()
             }
         }

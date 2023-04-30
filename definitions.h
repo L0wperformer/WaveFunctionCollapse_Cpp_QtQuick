@@ -1,5 +1,6 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
+#include <QList>
 
 enum constructionDirection{
     horizontal,
@@ -20,7 +21,8 @@ struct constructParameters{
                                       const int& _tileOrWeightmapIndex,
                                       const bool _jumpLinesColumns,
                                       const int& _applyToHowManyConsecutiveLinesColumns,
-                                      const constructionDirection _direction){
+                                      const constructionDirection _direction,
+                                      const bool _applyHighlight = false){
 
             startIndex = _startIndex;
             indexType = _startIndexType ;
@@ -29,7 +31,9 @@ struct constructParameters{
             jumpLinesColumns = _jumpLinesColumns;
             applyToHowManyConsecutiveLinesColumns = _applyToHowManyConsecutiveLinesColumns;
             direction = _direction;
+            applyHighlight = _applyHighlight;
         }
+
 
 
    //On what index to start applying weightmap/precollapsed.
@@ -49,9 +53,15 @@ struct constructParameters{
    //In what direction to apply the weights/precollapsed?
    //Specifying when StartIndexType is Line or Column is invalid
    constructionDirection direction;
+   //Apply Highlight to tiles affected by this
+   bool applyHighlight;
 
 
 };
+
+
+
+
 
 
 #endif // DEFINITIONS_H

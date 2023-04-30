@@ -11,6 +11,9 @@ Item {
     property string lineColor: "black"
     property string background: "white"
     property string nonCollapsedBorderColor: "lightgrey"
+
+
+
     Component.onCompleted: {
         let widthHeight = 1920
         dimensionsWidth = handler.getDimensionsWidth()

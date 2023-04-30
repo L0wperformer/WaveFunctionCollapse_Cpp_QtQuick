@@ -25,6 +25,7 @@ public slots:
 
   int getDimensionsWidth() { return m_dimensionsWidth; }
   int getDimensionsHeight() {return m_dimensionsHeight; }
+  QList<int> getTilesToHighlight() {return m_tilesToBeColoredDifferently;}
   QList<int> getTileMap() const{
       return (*tileMap);
   }
@@ -34,7 +35,6 @@ signals:
   void gridInit();
   void tileMapChanged(int index, int newTile);
   void updateCanvas();
-
 
 private:
   QList<int> *tileMap;
@@ -49,6 +49,7 @@ private:
   QList<QList<int>> m_sockets;
   QSet<int> m_indecesToCheck;
   QTimer *m_performanceTimer;
+  QList<int> m_tilesToBeColoredDifferently;
   int m_fps;
   int m_dimensionsWidth;
   int m_dimensionsHeight;

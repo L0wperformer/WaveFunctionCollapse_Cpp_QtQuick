@@ -1,9 +1,10 @@
 import QtQuick 2.0
 
 Item {
+     
     width: 1000
     height: 1000
-
+property bool highlighted: true
     clip: true
     id: root
 
@@ -11,7 +12,7 @@ Item {
     Rectangle {
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
-        color: lineColor
+        color: highlighted ? "red" : lineColor
         width: parent.width / 2
         height: parent.height / 5
         clip: true
@@ -22,7 +23,7 @@ Item {
         width: root.width / 2
         height: root.width / 2
         anchors.centerIn: root
-        border.color: lineColor
+        border.color: highlighted ? "red" : lineColor
         border.width: root.width / 20
         radius: root.width
         clip:true

@@ -255,33 +255,33 @@ int main(int argc, char *argv[]) {
           100  // 25
 
       };
-
+int almostImpossible = 1000;
       QList<int> disadvantageWeightsWhiteout = {//mostly for testing
-                                               1000, // 0
-                                               1000, // 1
-                                               1000, // 2-
-                                               1000, // 3
-                                               1000, // 4-
-                                               1000, // 5
-                                               1000, // 6-
-                                               1000, // 7
-                                               1000, // 8
-                                               1000, // 9
-                                               1000, // 10
-                                               1000, // 11
-                                               1000, // 12
-                                               1000, // 13
-                                               1000, // 14
-                                               1000, // 15
-                                               1000, // 16
-                                               1000, // 17
-                                               1000, // 18
-                                               1000, // 19
-                                               1000, // 20
-                                               1000, // 21-
-                                               1000, // 22
-                                               1000, // 23-
-                                               1000, // 24
+                                               almostImpossible, // 0
+                                              almostImpossible, // 1
+                                               almostImpossible, // 2-
+                                               almostImpossible, // 3
+                                               almostImpossible, // 4-
+                                               almostImpossible, // 5
+                                               almostImpossible, // 6-
+                                               almostImpossible, // 7
+                                               almostImpossible, // 8
+                                               almostImpossible, // 9
+                                               almostImpossible, // 10
+                                               almostImpossible, // 11
+                                               almostImpossible, // 12
+                                               almostImpossible, // 13
+                                               almostImpossible, // 14
+                                               almostImpossible, // 15
+                                               almostImpossible, // 16
+                                               almostImpossible, // 17
+                                               almostImpossible, // 18
+                                               almostImpossible, // 19
+                                               almostImpossible, // 20
+                                               almostImpossible, // 21-
+                                               almostImpossible, // 22
+                                               almostImpossible, // 23-
+                                               almostImpossible, // 24
                                                1  // 25
 
       };
@@ -293,9 +293,9 @@ int main(int argc, char *argv[]) {
  QList<QList<int>> availableDisadvantageWeightlist;
  availableDisadvantageWeightlist
          //<<disadvantageWeightsAllEquallyLikely//DEFAULT //0
-       << disadvantageWeightsWhiteout//0
-       << disadvantageWeightsNormalizedNoStop//1
 
+       << disadvantageWeightsNormalizedNoStop//1
+ << disadvantageWeightsWhiteout//0
        << disadvantageWeightsClusters//2
        << disadvantageWeightsLongDiagonals//3
        << disadvantageWeightsNormalized//4
@@ -318,9 +318,9 @@ int main(int argc, char *argv[]) {
  typedef constructionDirection cd;
  QList<constructParameters> numberWeightmapOne{
      constructParameters(csit::tileStartIndex,
-                         425,10,6,false,5,cd::horizontal),
+                         425,10,6,false,5,cd::horizontal,true),
      constructParameters(csit::tileStartIndex,
-                         430,30,5,false,5,cd::vertical)
+                         430,30,5,false,5,cd::vertical,true)
  };
 // QList<constructParameters> disadvantageWeightmapConstructionInstructions{
 //     constructParameters(constructionStartIndexType::columnStartIndex,
