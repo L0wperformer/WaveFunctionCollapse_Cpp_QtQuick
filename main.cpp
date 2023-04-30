@@ -219,9 +219,9 @@ int main(int argc, char *argv[]) {
           100, // 19
           100, // 20
           100, // 21
-          5, // 22
+          50, // 22
           100, // 23
-          5, // 24
+          50, // 24
           100  // 25
 
       };
@@ -293,10 +293,10 @@ int almostImpossible = 1000;
  QList<QList<int>> availableDisadvantageWeightlist;
  availableDisadvantageWeightlist
          //<<disadvantageWeightsAllEquallyLikely//DEFAULT //0
-
+ << disadvantageWeightsClusters//2
        << disadvantageWeightsNormalizedNoStop//1
- << disadvantageWeightsWhiteout//0
-       << disadvantageWeightsClusters//2
+<< disadvantageWeightsWhiteout//0
+
        << disadvantageWeightsLongDiagonals//3
        << disadvantageWeightsNormalized//4
        << disadvantageWeightsVerticals//5
