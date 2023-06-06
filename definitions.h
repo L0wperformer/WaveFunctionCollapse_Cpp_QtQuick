@@ -22,6 +22,7 @@ struct constructParameters{
                                       const bool _jumpLinesColumns,
                                       const int& _applyToHowManyConsecutiveLinesColumns,
                                       const constructionDirection _direction,
+                                      const bool _relative = true,
                                       const bool _applyHighlight = false){
 
             startIndex = _startIndex;
@@ -32,6 +33,7 @@ struct constructParameters{
             applyToHowManyConsecutiveLinesColumns = _applyToHowManyConsecutiveLinesColumns;
             direction = _direction;
             applyHighlight = _applyHighlight;
+            relative = _relative;
         }
 
 
@@ -55,9 +57,14 @@ struct constructParameters{
    constructionDirection direction;
    //Apply Highlight to tiles affected by this
    bool applyHighlight;
+   //Are the values absolute or relative to the Total resolution
+   bool relative;
 
 
 };
+
+
+
 
 
 

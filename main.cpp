@@ -313,15 +313,8 @@ int almostImpossible = 1000;
 //}
 //disadvantageWeightmap.insert(Rangepair(400,500),5);
 
- //long names are.... long
- typedef constructionStartIndexType csit;
- typedef constructionDirection cd;
- QList<constructParameters> numberWeightmapOne{
-     constructParameters(csit::tileStartIndex,
-                         425,10,6,false,5,cd::horizontal,true),
-     constructParameters(csit::tileStartIndex,
-                         430,30,5,false,5,cd::vertical,true)
- };
+ //            constructParameters(csit::tileStartIndex,
+ //                        455,)
 // QList<constructParameters> disadvantageWeightmapConstructionInstructions{
 //     constructParameters(constructionStartIndexType::columnStartIndex,
 //                         0,-1,5,false,60,constructionDirection::vertical),
@@ -329,7 +322,34 @@ int almostImpossible = 1000;
 //                         8,-1,6,false,16,constructionDirection::horizontal )
 
 // };
- QList<constructParameters> disadvantageWeightmapConstructionInstructions = numberWeightmapOne;
+
+ //long names are.... long
+ typedef constructionStartIndexType csit;
+ typedef constructionDirection cd;
+// QList<constructParameters> numberWeightmapOne{
+//     constructParameters(csit::tileStartIndex,
+//                         425,10,6,false,5,cd::horizontal,true), // <-- Absolute
+//     constructParameters(csit::tileStartIndex,
+//                         430,30,5,false,5,cd::vertical,true)
+// };
+ QList<constructParameters> numberWeightmapOne{
+     constructParameters(csit::tileStartIndex,
+                         425,10,6,false,5,cd::horizontal,true),
+     constructParameters(csit::tileStartIndex,
+                         430,30,5,false,5,cd::vertical,true)
+ };
+ //What we actually want here is a class that constructs the numbers based on the seven
+ //Segment display. So given an input the class "constructs" the corresponding lines?`??
+ //Something like that I need some sleep
+
+ QList<constructParameters> numberWeightmapTwo{
+     constructParameters(csit::tileStartIndex,
+                         425,15,6,false,5,cd::horizontal,true),
+     constructParameters(csit::tileStartIndex,
+                         440,15,5,false,5,cd::vertical, true),
+
+ };
+ QList<constructParameters> disadvantageWeightmapConstructionInstructions = numberWeightmapOne;//numberWeightmapTwo;
 
  QList<constructParameters> precollapedTilesConstructionInstructions;
 
@@ -350,3 +370,12 @@ int almostImpossible = 1000;
 
   return app.exec();
 }
+
+/*
+width = Res/20
+spacing = 3*width
+<->
+         Res(1-1/20)
+width = ------------
+              4
+*/
