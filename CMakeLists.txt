@@ -18,6 +18,9 @@ set(PROJECT_SOURCES
         definitions.h main.cpp
         handler.h handler.cpp
         tile.h tile.cpp
+        guihandler.h guihandler.cpp
+        backenddatadto.h backenddatadto.cpp
+        mapconstructor.h mapconstructor.cpp
         qml.qrc
 )
 
