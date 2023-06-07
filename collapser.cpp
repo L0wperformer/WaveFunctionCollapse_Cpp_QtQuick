@@ -1,4 +1,5 @@
 #include "collapser.h"
+#include "mapconstructor.h"
 #include <QElapsedTimer>
 #include <QDebug>
 
@@ -13,7 +14,11 @@ Collapser::Collapser(const BackendDataDto& dto):
     m_weightmapConstructionInstructions(dto.m_weightmapConstructionInstructions),
     m_availableWeightLists(dto.m_availableWeightLists),
     m_randomGenerator(QRandomGenerator::global())
-                                                 {
+{
+
+    MapConstructor mapConstructor(m_weightmapConstructionInstructions,m_dimensionsWidth,m_dimensionsHeight);
+    m_disadvantageWeightMap = mapConstructor.constructWeightmap();
+
     //All available tiles
     for (int i = 0; i < m_sockets.length(); i++) {
         Tile appendThis(m_sockets.at(i));
@@ -24,6 +29,7 @@ Collapser::Collapser(const BackendDataDto& dto):
         m_tileMap.append(-1);
         m_disadvantageWeightMap.append(0);
     }
+
 }
 
 void Collapser::startCollapsing(){
