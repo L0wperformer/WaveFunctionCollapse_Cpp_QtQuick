@@ -1,6 +1,6 @@
 #include "guihandler.h"
 
-GuiHandler::GuiHandler()
+GuiHandler::GuiHandler(const BackendDataDto& dto)
 {
 
 }

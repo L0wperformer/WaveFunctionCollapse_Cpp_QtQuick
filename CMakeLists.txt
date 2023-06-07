@@ -21,6 +21,7 @@ set(PROJECT_SOURCES
         guihandler.h guihandler.cpp
         backenddatadto.h backenddatadto.cpp
         mapconstructor.h mapconstructor.cpp
+        collapser.h collapser.cpp
         qml.qrc
 )
 

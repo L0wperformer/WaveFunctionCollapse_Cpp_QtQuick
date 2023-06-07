@@ -21,8 +21,8 @@ QList<QList<int>> m_sockets;
 int m_dimensionsWidth;
 int m_dimensionsHeight;
 int m_numberOfTiles;
-QList<constructParameters> m_precollapsedTilesConstructionInstructions;
-QList<constructParameters> m_weightmapConstructionInstructions;
+QList<MapConstructor::constructParameters> m_precollapsedTilesConstructionInstructions;
+QList<MapConstructor::constructParameters> m_weightmapConstructionInstructions;
 QList<QList<int>> m_availableWeightLists;
 
 };
