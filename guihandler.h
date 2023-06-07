@@ -5,7 +5,7 @@
 #include <QTimer>
 #include "backenddatadto.h"
 
-class GuiHandler
+class GuiHandler : public QObject
 {
     Q_OBJECT
 signals:
