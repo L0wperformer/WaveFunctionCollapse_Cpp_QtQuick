@@ -52,6 +52,9 @@ void Collapser::collapse(){
     QVector<int> lastTilesPlacedPos;
 
     bool noSolution = false;
+    int progressWhenNoSolutionOccured = 0;
+    int goBackStepsUponNoSolution = 1;
+
     for (int jjj = 0;; jjj++) {
 
         if (!m_tileMap.contains(-1))
@@ -62,10 +65,16 @@ void Collapser::collapse(){
         if (noSolution) {
             // When no solution is found we go back two steps and try again.
             // This often ends in an endless loop. This will be improved
-            m_tileMap.replace(lastTilesPlacedPos.takeLast(), -1);
-            nextTilePos = lastTilesPlacedPos.last();
-            m_tileMap.replace(lastTilesPlacedPos.takeLast(), -1);
-            collapsed -= 2;
+            for(int i = 0; i < goBackStepsUponNoSolution; i++){
+            int takeIndex = lastTilesPlacedPos.takeLast();
+            m_tileMap.replace(takeIndex, -1);
+            emit tileMapChanged(takeIndex, -1);
+            }
+            int takeIndex = lastTilesPlacedPos.takeLast();
+            nextTilePos = takeIndex;
+            m_tileMap.replace(takeIndex, -1);
+            emit tileMapChanged(takeIndex, -1);
+            collapsed -= goBackStepsUponNoSolution +1;
             noSolution = false;
         } else {
             nextTilePos = calculateIndexToCollapseNext();
@@ -94,6 +103,9 @@ void Collapser::collapse(){
                 lastTilesPlacedPos.append(nextTilePos);
 
                 collapsed ++;
+                if(collapsed > progressWhenNoSolutionOccured + 80)
+                    goBackStepsUponNoSolution = 1;//When progress is x steps ahead we assume the
+                                                  //Algorithm is not stuck anymore
                 break;
             }
 
@@ -103,6 +115,12 @@ void Collapser::collapse(){
 
             if (tilesAlreadytried.length() == m_numberOfTiles) { // No tile fits
                 qDebug() << "===No Solution Found, going Back===";
+                //When no solution occures and the algorithm gets stuck
+                //(=collapsed doesnt go up) then increase amount of steps
+                //You go back
+                if(collapsed <= progressWhenNoSolutionOccured + 2 )
+                    goBackStepsUponNoSolution++;
+                progressWhenNoSolutionOccured = collapsed;
                 noSolution = true;
                 break;
             }
