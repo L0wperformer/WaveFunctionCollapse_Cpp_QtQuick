@@ -15,13 +15,13 @@ Item {
         //        dimensionsHeight = handler.getDimensionsHeight()
         console.log("Item completed")
     }
-    Connections {
-        target: handler
-        function onSendTilesToBeHighlightedToQml(list) {
-            console.log(list)
-            highlightTheseTiles = list
-        }
-    }
+    //    Connections {
+    //        target: handler
+    //        function onSendTilesToBeHighlightedToQml(list) {
+    //            console.log(list)
+    //            highlightTheseTiles = list
+    //        }
+    //    }
 
     //This is the Connection to the grid InitFunction
     //The GridView is initialized in the correct way
@@ -59,7 +59,7 @@ Item {
             onClicked: {
                 this.visible = false
                 switchColor.visible = true
-                highlightTheseTiles = handler.getTilesToHighlight();
+                highlightTheseTiles = handler.getTilesToHighlight()
                 handler.startCollapsing()
             }
         }
