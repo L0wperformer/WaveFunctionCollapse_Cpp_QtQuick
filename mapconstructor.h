@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-class MapConstructor
+class MapConstructor : public QObject
 {
     Q_OBJECT
 public:

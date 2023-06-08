@@ -1,5 +1,8 @@
-#include "handler.h"
-#include "definitions.h"
+//#include "handler.h"
+//#include "definitions.h"
+#include "mapconstructor.h"
+#include "guihandler.h"
+#include "backenddatadto.h"
 #include <QGuiApplication>
 #include <QList>
 #include <QQmlApplicationEngine>
@@ -324,41 +327,39 @@ int almostImpossible = 1000;
 // };
 
  //long names are.... long
- typedef constructionStartIndexType csit;
- typedef constructionDirection cd;
+ typedef MapConstructor::constructionStartIndexType csit;
+ typedef MapConstructor::constructionDirection cd;
+ typedef MapConstructor::constructParameters cnstrp;
 // QList<constructParameters> numberWeightmapOne{
 //     constructParameters(csit::tileStartIndex,
 //                         425,10,6,false,5,cd::horizontal,true), // <-- Absolute
 //     constructParameters(csit::tileStartIndex,
 //                         430,30,5,false,5,cd::vertical,true)
 // };
- QList<constructParameters> numberWeightmapOne{
-     constructParameters(csit::tileStartIndex,
+ QList<cnstrp> numberWeightmapOne{
+     cnstrp(csit::tileStartIndex,
                          425,10,6,false,5,cd::horizontal,true),
-     constructParameters(csit::tileStartIndex,
+     cnstrp(csit::tileStartIndex,
                          430,30,5,false,5,cd::vertical,true)
  };
  //What we actually want here is a class that constructs the numbers based on the seven
  //Segment display. So given an input the class "constructs" the corresponding lines?`??
  //Something like that I need some sleep
 
- QList<constructParameters> numberWeightmapTwo{
-     constructParameters(csit::tileStartIndex,
+ QList<cnstrp> numberWeightmapTwo{
+     cnstrp(csit::tileStartIndex,
                          425,15,6,false,5,cd::horizontal,true),
-     constructParameters(csit::tileStartIndex,
+     cnstrp(csit::tileStartIndex,
                          440,15,5,false,5,cd::vertical, true),
 
  };
- QList<constructParameters> disadvantageWeightmapConstructionInstructions = numberWeightmapOne;//numberWeightmapTwo;
+ QList<cnstrp> disadvantageWeightmapConstructionInstructions = numberWeightmapOne;//numberWeightmapTwo;
 
- QList<constructParameters> precollapedTilesConstructionInstructions;
-
-
- Handler h(sockets,100 ,50, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist);
+ QList<cnstrp> precollapedTilesConstructionInstructions;
 
 
-
-
+// Handler h(sockets,100 ,50, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist);
+ GuiHandler h(BackendDataDto(sockets,100 ,50, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist));
 
  auto view = new QQuickView;
 

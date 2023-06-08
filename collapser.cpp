@@ -18,6 +18,7 @@ Collapser::Collapser(const BackendDataDto& dto):
 
     MapConstructor mapConstructor(m_weightmapConstructionInstructions,m_dimensionsWidth,m_dimensionsHeight);
     m_disadvantageWeightMap = mapConstructor.constructWeightmap();
+    m_tilesToBeColouredDifferently = mapConstructor.getTilesAffectedByMap();
 
     //All available tiles
     for (int i = 0; i < m_sockets.length(); i++) {
@@ -408,6 +409,10 @@ void Collapser::enableSurroundingIndecesToBeChecked(const int& pos){
         if(m_tileMap.at(pos+1) == -1)
             m_indecesToCheck.insert(pos+1);
     }    // qDebug() << "Indeces to check: " << m_indecesToCheck.values();
+}
+
+Collapser::~Collapser(){
+    delete m_randomGenerator;
 }
 
 

@@ -16,9 +16,12 @@ signals:
 public:
     Collapser() = delete;
     Collapser(const BackendDataDto& dto);
+    ~Collapser();
 
     int getDimensionsWidth(){return m_dimensionsWidth;}
     int getDimensionsHeight(){return m_dimensionsHeight;}
+    QList<int> getTilesToBeColouredDifferently(){return m_tilesToBeColouredDifferently;}
+    QList<int> getTileMap() {return m_tileMap;}
 public slots:
     void startCollapsing();
 
@@ -30,6 +33,7 @@ private:
     QList<int> m_tileMap;
     QList<Tile> m_allTiles;
     QList<int> m_disadvantageWeightMap;
+    QList<int> m_tilesToBeColouredDifferently;
 
     QSet<int> m_indecesToCheck;
 
@@ -38,6 +42,7 @@ private:
     int m_dimensionsWidthHeight;
     int m_numberOfTiles;
     QRandomGenerator *m_randomGenerator;
+
 private:
     void collapse();
     int calculateIndexToCollapseNext();

@@ -15,8 +15,9 @@ find_package(QT NAMES Qt5 COMPONENTS Core Quick REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
 set(PROJECT_SOURCES
-        definitions.h main.cpp
-        handler.h handler.cpp
+        #definitions.h
+        main.cpp
+        #handler.h handler.cpp
         tile.h tile.cpp
         guihandler.h guihandler.cpp
         backenddatadto.h backenddatadto.cpp

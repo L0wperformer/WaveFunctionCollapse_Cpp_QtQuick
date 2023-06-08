@@ -4,7 +4,7 @@
 #include <QObject>
 #include "mapconstructor.h"
 
-class BackendDataDto
+class BackendDataDto : public QObject
 {
     Q_OBJECT
 public:
