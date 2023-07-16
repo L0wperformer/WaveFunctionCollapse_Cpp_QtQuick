@@ -23,6 +23,7 @@ set(PROJECT_SOURCES
         backenddatadto.h backenddatadto.cpp
         mapconstructor.h mapconstructor.cpp
         collapser.h collapser.cpp
+        numbers.h numbers.cpp
         qml.qrc
 )
 
