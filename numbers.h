@@ -9,19 +9,19 @@ class Numbers : public QObject
     Q_OBJECT
 public:
     Numbers();
-    QList<MapConstructor::constructParameters> getNumberConstructParameters(int originIndex, int number);
+    QList<MapConstructor::constructParameters> getNumberConstructParameters(int position, int number);
 private:
-    QList<MapConstructor::constructParameters> getZero(int originIndex);
-    QList<MapConstructor::constructParameters> getOne(int originIndex);
-    QList<MapConstructor::constructParameters> getTwo(int originIndex);
-    QList<MapConstructor::constructParameters> getThree(int originIndex);
-    QList<MapConstructor::constructParameters> getFour(int originIndex);
-    QList<MapConstructor::constructParameters> getFive(int originIndex);
-    QList<MapConstructor::constructParameters> getSix(int originIndex);
-    QList<MapConstructor::constructParameters> getSeven(int originIndex);
-    QList<MapConstructor::constructParameters> getEight(int originIndex);
-    QList<MapConstructor::constructParameters> getNine(int originIndex);
-    MapConstructor::constructParameters getLineSegment(int originIndex, int index);
+    QList<MapConstructor::constructParameters> getZero(int position);
+    QList<MapConstructor::constructParameters> getOne(int position);
+    QList<MapConstructor::constructParameters> getTwo(int position);
+    QList<MapConstructor::constructParameters> getThree(int position);
+    QList<MapConstructor::constructParameters> getFour(int position);
+    QList<MapConstructor::constructParameters> getFive(int position);
+    QList<MapConstructor::constructParameters> getSix(int position);
+    QList<MapConstructor::constructParameters> getSeven(int position);
+    QList<MapConstructor::constructParameters> getEight(int position);
+    QList<MapConstructor::constructParameters> getNine(int position);
+    MapConstructor::constructParameters getLineSegment(int position, int index);
 
 };
 
