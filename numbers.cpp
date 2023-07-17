@@ -1,24 +1,26 @@
 #include "numbers.h"
 
-Numbers::Numbers()
+Numbers::Numbers(int dimensionsWidth, int dimensionsHeight) :
+    m_dimensionsWidth(dimensionsWidth),
+    m_dimensionsHeight(dimensionsHeight)
 {
 
 }
 
 
-QList<MapConstructor::constructParameters> Numbers::getNumberConstructParameters(int position, int number){
+QList<MapConstructor::constructParameters> Numbers::getNumberConstructParameters(int position, int number, int segmentWidth){
     //Origin index -> Top left coordinate of number. Every calculation will take this coordinate as reference.
     switch(number){
-    case 0: return this->getZero(position); break;
-    case 1: return this->getOne(position); break;
-    case 2: return this->getTwo(position); break;
-    case 3: return this->getThree(position); break;
-    case 4: return this->getFour(position); break;
-    case 5: return this->getFive(position); break;
-    case 6: return this->getSix(position); break;
-    case 7: return this->getSeven(position); break;
-    case 8: return this->getEight(position); break;
-    case 9: return this->getNine(position); break;
+    case 0: return this->getZero(position, segmentWidth); break;
+    case 1: return this->getOne(position, segmentWidth); break;
+    case 2: return this->getTwo(position, segmentWidth); break;
+    case 3: return this->getThree(position, segmentWidth); break;
+    case 4: return this->getFour(position, segmentWidth); break;
+    case 5: return this->getFive(position, segmentWidth); break;
+    case 6: return this->getSix(position, segmentWidth); break;
+    case 7: return this->getSeven(position, segmentWidth); break;
+    case 8: return this->getEight(position, segmentWidth); break;
+    case 9: return this->getNine(position, segmentWidth); break;
     default: return QList<MapConstructor::constructParameters>();
     }
 
@@ -26,40 +28,58 @@ QList<MapConstructor::constructParameters> Numbers::getNumberConstructParameters
 
 
 //---------------------------------Numbers---------------------------->>>
-QList<MapConstructor::constructParameters> Numbers::getZero(int position){
+QList<MapConstructor::constructParameters> Numbers::getZero(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
 }
-QList<MapConstructor::constructParameters> Numbers::getOne(int position){
+QList<MapConstructor::constructParameters> Numbers::getOne(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
 }
-QList<MapConstructor::constructParameters> Numbers::getTwo(int position){
+QList<MapConstructor::constructParameters> Numbers::getTwo(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
 }
-QList<MapConstructor::constructParameters> Numbers::getThree(int position){
+QList<MapConstructor::constructParameters> Numbers::getThree(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
 }
-QList<MapConstructor::constructParameters> Numbers::getFour(int position){
+QList<MapConstructor::constructParameters> Numbers::getFour(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
 }
-QList<MapConstructor::constructParameters> Numbers::getFive(int position){
+QList<MapConstructor::constructParameters> Numbers::getFive(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
 }
-QList<MapConstructor::constructParameters> Numbers::getSix(int position){
+QList<MapConstructor::constructParameters> Numbers::getSix(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
 }
-QList<MapConstructor::constructParameters> Numbers::getSeven(int position){
+QList<MapConstructor::constructParameters> Numbers::getSeven(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
 }
-QList<MapConstructor::constructParameters> Numbers::getEight(int position){
+QList<MapConstructor::constructParameters> Numbers::getEight(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
 }
-QList<MapConstructor::constructParameters> Numbers::getNine(int position){
+QList<MapConstructor::constructParameters> Numbers::getNine(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
 }
 //<<<---------------------------numbers------------------------------------
 
 //-------------------------Function to construct numbers------------------->>>
-MapConstructor::constructParameters getLineSegment(int position, int index){
+MapConstructor::constructParameters getLineSegment(int position, int index, int segmentWidth){
+
+
+    switch(index){
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    default: ;
+
+
+    }
+
+
+
 
 
 }
