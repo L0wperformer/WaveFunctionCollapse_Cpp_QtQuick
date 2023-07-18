@@ -3,6 +3,7 @@
 #include "mapconstructor.h"
 #include "guihandler.h"
 #include "backenddatadto.h"
+#include "numbers.h"
 #include <QGuiApplication>
 #include <QList>
 #include <QQmlApplicationEngine>
@@ -327,35 +328,53 @@ int almostImpossible = 1000;
 // };
 
  //long names are.... long
- typedef MapConstructor::constructionStartIndexType csit;
- typedef MapConstructor::constructionDirection cd;
- typedef MapConstructor::constructParameters cnstrp;
+// typedef MapConstructor::constructionStartIndexType csit;
+// typedef MapConstructor::constructionDirection cd;
+// typedef MapConstructor::constructParameters cnstrp;
 // QList<constructParameters> numberWeightmapOne{
 //     constructParameters(csit::tileStartIndex,
 //                         425,10,6,false,5,cd::horizontal,true), // <-- Absolute
 //     constructParameters(csit::tileStartIndex,
 //                         430,30,5,false,5,cd::vertical,true)
 // };
- QList<cnstrp> numberWeightmapOne{
-     cnstrp(csit::tileStartIndex,
-                         425,10,6,false,5,cd::horizontal,true),
-     cnstrp(csit::tileStartIndex,
-                         430,30,5,false,5,cd::vertical,true)
- };
+// QList<cnstrp> numberWeightmapOne{
+//     cnstrp(csit::tileStartIndex,
+//                         425,10,6,false,5,cd::horizontal,true),
+//     cnstrp(csit::tileStartIndex,
+//                         430,30,5,false,5,cd::vertical,true)
+// };
+ /*
+width = Res/20
+spacing = 3*width
+<->
+         Res(1-1/20)
+width = ------------
+              4
+*/
+
+ int res = 100;
+ int width = (res * (1-(1/20))/4);
+ QList<MapConstructor::constructParameters> numberWeightmapOne{
+      //cnstrp(csit::tileStartIndex,
+                          //425,10,6,false,5,cd::horizontal,true),
+     MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
+                          430,width,5,false,5,constructionDirection::vertical,true)
+  };
  //What we actually want here is a class that constructs the numbers based on the seven
  //Segment display. So given an input the class "constructs" the corresponding lines?`??
  //Something like that I need some sleep
 
- QList<cnstrp> numberWeightmapTwo{
-     cnstrp(csit::tileStartIndex,
-                         425,15,6,false,5,cd::horizontal,true),
-     cnstrp(csit::tileStartIndex,
-                         440,15,5,false,5,cd::vertical, true),
+// QList<cnstrp> numberWeightmapTwo{
+//     cnstrp(csit::tileStartIndex,
+//                         425,15,6,false,5,cd::horizontal,true),
+//     cnstrp(csit::tileStartIndex,
+//                         440,15,5,false,5,cd::vertical, true),
 
- };
- QList<cnstrp> disadvantageWeightmapConstructionInstructions = numberWeightmapOne;//numberWeightmapTwo;
+// };
+ Numbers numbers(100,50);
+ QList<MapConstructor::constructParameters> disadvantageWeightmapConstructionInstructions = numbers.getNumberConstructParameters(1,0,3);//numberWeightmapOne;//numberWeightmapTwo;
 
- QList<cnstrp> precollapedTilesConstructionInstructions;
+ QList<MapConstructor::constructParameters> precollapedTilesConstructionInstructions;
 
 
 // Handler h(sockets,100 ,50, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist);
@@ -372,8 +391,8 @@ int almostImpossible = 1000;
   return app.exec();
 }
 
-/*
-width = Res/20
+/* I dont know what I calculated here lol Im just gonna leave it for now
+width = Res/20                         New calculation in Numbers.cpp
 spacing = 3*width
 <->
          Res(1-1/20)

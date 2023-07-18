@@ -23,10 +23,13 @@ private:
     QList<MapConstructor::constructParameters> getEight(int position, int segmentWidth);
     QList<MapConstructor::constructParameters> getNine(int position, int segmentWidth);
     MapConstructor::constructParameters getLineSegment(int position, int index, int segmentWidth);
+    int getStartingTileIndex(int position);
 
 private:
     int m_dimensionsWidth;
     int m_dimensionsHeight;
+    int m_spacing;
+    int m_lineSegmentWidth;
 
 };
 

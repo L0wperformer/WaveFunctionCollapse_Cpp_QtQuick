@@ -1,8 +1,21 @@
 #include "numbers.h"
 
+
+//========================================================================================
+//NOTE===NOTE===NOTE===NOTE===NOTE===NOTE===NOTE===NOTE===NOTE===NOTE===NOTE===NOTE===NOTE
+//========================================================================================
+//FOR DOCUMENTATION AND EXPLANATION FOR SOME OF THE CALCULATIONS SEE BOTTOM OF THIS FILE
+//========================================================================================
+//ENDNOTE===ENDNOTE===ENDNOTE===ENDNOTE===ENDNOTE===ENDNOTE===ENDNOTE===ENDNOTE===ENDNOTE
+//========================================================================================
+
+
+
 Numbers::Numbers(int dimensionsWidth, int dimensionsHeight) :
     m_dimensionsWidth(dimensionsWidth),
-    m_dimensionsHeight(dimensionsHeight)
+    m_dimensionsHeight(dimensionsHeight),
+    m_spacing(dimensionsWidth/19),
+    m_lineSegmentWidth(3 * (dimensionsWidth/19))
 {
 
 }
@@ -29,7 +42,16 @@ QList<MapConstructor::constructParameters> Numbers::getNumberConstructParameters
 
 //---------------------------------Numbers---------------------------->>>
 QList<MapConstructor::constructParameters> Numbers::getZero(int position, int segmentWidth){
-    return QList<MapConstructor::constructParameters>();
+    return QList<MapConstructor::constructParameters>() << this->getLineSegment(position,1,segmentWidth)
+                                                        << this->getLineSegment(2,1,segmentWidth)
+                                                        << this->getLineSegment(3,1,segmentWidth)
+                                                        << this->getLineSegment(4,1,segmentWidth)
+
+
+
+
+
+        ;
 }
 QList<MapConstructor::constructParameters> Numbers::getOne(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
@@ -60,12 +82,27 @@ QList<MapConstructor::constructParameters> Numbers::getNine(int position, int se
 }
 //<<<---------------------------numbers------------------------------------
 
-//-------------------------Function to construct numbers------------------->>>
-MapConstructor::constructParameters getLineSegment(int position, int index, int segmentWidth){
+//-------------------------Functions to construct numbers------------------->>>
+int Numbers::getStartingTileIndex(int position){
+    switch (position){
+    case 1: return m_spacing;
+    case 2: return 2*m_spacing + m_lineSegmentWidth;
+    case 3: return 5*m_spacing + 2*m_lineSegmentWidth;
+    case 4: return 6*m_spacing + 3*m_lineSegmentWidth;
+    default: return -1;
+    }
 
 
+
+
+}
+
+MapConstructor::constructParameters Numbers::getLineSegment(int position, int index, int segmentWidth){
+
+    int startingIndex =  this->getStartingTileIndex(position);
     switch(index){
-    case 1:
+    case 1: return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
+                          startingIndex ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::horizontal,true);
     case 2:
     case 3:
     case 4:

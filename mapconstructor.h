@@ -2,20 +2,22 @@
 #define MAPCONSTRUCTOR_H
 
 #include <QObject>
+enum class constructionDirection{
+    horizontal,
+    vertical
+};
+enum class constructionStartIndexType{
+    tileStartIndex,
+    lineStartIndex,
+    columnStartIndex
+};
+
 
 class MapConstructor : public QObject
 {
     Q_OBJECT
 public:
-    enum constructionDirection{
-        horizontal,
-        vertical
-    };
-    enum constructionStartIndexType{
-        tileStartIndex,
-        lineStartIndex,
-        columnStartIndex
-    };
+
 
     struct constructParameters{
         constructParameters() = delete;
