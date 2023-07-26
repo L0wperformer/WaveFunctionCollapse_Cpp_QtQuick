@@ -42,10 +42,10 @@ QList<MapConstructor::constructParameters> Numbers::getNumberConstructParameters
 
 //---------------------------------Numbers---------------------------->>>
 QList<MapConstructor::constructParameters> Numbers::getZero(int position, int segmentWidth){
-    return QList<MapConstructor::constructParameters>() << this->getLineSegment(position,1,segmentWidth)
+    return QList<MapConstructor::constructParameters>() << this->getLineSegment(position,7,segmentWidth)
                                                         << this->getLineSegment(2,1,segmentWidth)
-                                                        << this->getLineSegment(3,1,segmentWidth)
-                                                        << this->getLineSegment(4,1,segmentWidth)
+                                                        << this->getLineSegment(3,4,segmentWidth)
+                                                        << this->getLineSegment(4,7,segmentWidth)
 
 
 
@@ -83,32 +83,40 @@ QList<MapConstructor::constructParameters> Numbers::getNine(int position, int se
 //<<<---------------------------numbers------------------------------------
 
 //-------------------------Functions to construct numbers------------------->>>
-int Numbers::getStartingTileIndex(int position){
-    switch (position){
-    case 1: return m_spacing;
-    case 2: return 2*m_spacing + m_lineSegmentWidth;
-    case 3: return 5*m_spacing + 2*m_lineSegmentWidth;
-    case 4: return 6*m_spacing + 3*m_lineSegmentWidth;
+int Numbers::getStartingTileIndex(int horizontalPosition, int verticalPosition){
+    int startingIndex = 0;
+    switch (horizontalPosition){
+    case 1: startingIndex =  m_spacing; break;
+    case 2: startingIndex =  2*m_spacing + m_lineSegmentWidth; break;
+    case 3: startingIndex =  5*m_spacing + 2*m_lineSegmentWidth; break;
+    case 4: startingIndex =  6*m_spacing + 3*m_lineSegmentWidth; break;
     default: return -1;
     }
 
-
-
+    switch (verticalPosition){
+    case 1: startingIndex +=  2*m_spacing*m_dimensionsWidth;break;
+    case 2: startingIndex +=  5*m_spacing*m_dimensionsWidth;break;
+    case 3: startingIndex += 8*m_spacing*m_dimensionsWidth;break;
+    default: return -1;
+    }
+    return startingIndex;
 
 }
 
 MapConstructor::constructParameters Numbers::getLineSegment(int position, int index, int segmentWidth){
 
-    int startingIndex =  this->getStartingTileIndex(position);
+
     switch(index){
     case 1: return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
-                          startingIndex ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::horizontal,true);
+                          this->getStartingTileIndex(position,1) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::horizontal,true);
     case 2:
     case 3:
-    case 4:
+    case 4:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
+                           this->getStartingTileIndex(position,3) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::horizontal,true);
     case 5:
     case 6:
-    case 7:
+    case 7:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
+                           this->getStartingTileIndex(position,2) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::horizontal,true);
     case 8:
     default: ;
 
@@ -138,18 +146,24 @@ MapConstructor::constructParameters Numbers::getLineSegment(int position, int in
 
 Canvas calculations:
 
-                         width
-        | ---------------------------|               s == spacing
-        |                                             w == number width
-        | |===| |===|   |===| |===|
-        | |   | |   |   |   | |   |                 By defintion:(1) 3s = w
-height  | |   | |   | o |   | |   |
-        | |   | |   | o |   | |   |                 That yields: (2)7s + 4w = width
-        | |   | |   |   |   | |   |                 (1) in (2)  <-> 7s + 12s = width
-        | |===| |===|   |===| |===|                             <-> 19s      = width
-        |^  ^        ^^^                            (3)         <-> width/19 = s
-         |  |        |||                                        --> width must be multiple of 19
-         s  w        sss                            (3) in (1)    3*width/19 = w
+
+
+Hori-
+zontal->          1     2        3    4
+pos.
+-------
+vert.           width
+pos.         | ---------------------------|               s == spacing
+             |                               s              w == number width
+ 1           | |===| |===|   |===| |===|     s
+             | |   | |   |   |   | |   |     s            By defintion:(1) 3s = w
+2    height  | |   | |   | o |   | |___|     s
+             | |   | |   | o |   | |   |     s            That yields: (2)7s + 4w = width
+             | |   | |   |   |   | |   |     s            (1) in (2)  <-> 7s + 12s = width
+ 3           | |===| |===|   |===| |===|                             <-> 19s      = width
+             |^  ^        ^^^                            (3)         <-> width/19 = s
+              |  |        |||                                        --> width must be multiple of 19
+              s  w        sss                            (3) in (1)    3*width/19 = w
 
 
 
