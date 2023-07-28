@@ -11,12 +11,14 @@
 
 
 
-Numbers::Numbers(int dimensionsWidth, int dimensionsHeight) :
+Numbers::Numbers(int dimensionsWidth, int dimensionsHeight, bool highlight) :
     m_dimensionsWidth(dimensionsWidth),
     m_dimensionsHeight(dimensionsHeight),
     m_spacing(dimensionsWidth/19),
-    m_lineSegmentWidth(3 * (dimensionsWidth/19))
+    m_lineSegmentWidth(3 * (dimensionsWidth/19)),
+    m_highlight(highlight)
 {
+    m_highlight = false;
 
 }
 
@@ -120,22 +122,21 @@ int Numbers::getStartingTileIndex(int horizontalPosition, int verticalPosition, 
 
 MapConstructor::constructParameters Numbers::getLineSegment(int position, int index, int segmentWidth){
 
-
     switch(index){
     case 1: return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,//Done
-                          this->getStartingTileIndex(position,1,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::horizontal,true);
+                          this->getStartingTileIndex(position,1,index) ,m_lineSegmentWidth,6,false,segmentWidth,constructionDirection::horizontal,m_highlight);
     case 2:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
-                          this->getStartingTileIndex(position,1,index) ,m_lineSegmentWidth + 0.5*m_spacing,5,false,segmentWidth,constructionDirection::vertical,true);
+                          this->getStartingTileIndex(position,1,index) ,m_lineSegmentWidth + 0.5*m_spacing,5,false,segmentWidth,constructionDirection::vertical,m_highlight);
     case 3:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
-                          this->getStartingTileIndex(position,2,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::vertical,true);
+                          this->getStartingTileIndex(position,2,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::vertical,m_highlight);
     case 4:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,//Done
-                          this->getStartingTileIndex(position,3,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::horizontal,true);
+                          this->getStartingTileIndex(position,3,index) ,m_lineSegmentWidth,6,false,segmentWidth,constructionDirection::horizontal,m_highlight);
     case 5:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
-                          this->getStartingTileIndex(position,2,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::vertical,true);
+                          this->getStartingTileIndex(position,2,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::vertical,m_highlight);
     case 6:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
-                          this->getStartingTileIndex(position,1,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::vertical,true);
+                          this->getStartingTileIndex(position,1,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::vertical,m_highlight);
     case 7:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,//Done
-                           this->getStartingTileIndex(position,2,index) + segmentWidth ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::horizontal,true);
+                           this->getStartingTileIndex(position,2,index) + segmentWidth ,m_lineSegmentWidth,6,false,segmentWidth,constructionDirection::horizontal,m_highlight);
     case 8: //POINTS TODO
     default:  ;
 

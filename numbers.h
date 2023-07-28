@@ -9,7 +9,7 @@ class Numbers : public QObject
     Q_OBJECT
 public:
     Numbers() = delete;
-    Numbers(int dimensionsWidth, int dimensionsHeight);
+    Numbers(int dimensionsWidth, int dimensionsHeight, bool highlight = true);
     QList<MapConstructor::constructParameters> getNumberConstructParameters(int position, int number, int segmentWidth);
 private:
     QList<MapConstructor::constructParameters> getZero(int position, int segmentWidth);
@@ -30,6 +30,7 @@ private:
     int m_dimensionsHeight;
     int m_spacing;
     int m_lineSegmentWidth;
+    bool m_highlight;
 
 };
 
