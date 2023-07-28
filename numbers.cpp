@@ -42,19 +42,22 @@ QList<MapConstructor::constructParameters> Numbers::getNumberConstructParameters
 
 //---------------------------------Numbers---------------------------->>>
 QList<MapConstructor::constructParameters> Numbers::getZero(int position, int segmentWidth){
-    return QList<MapConstructor::constructParameters>() << this->getLineSegment(1,1,segmentWidth)
-                                                        << this->getLineSegment(1,2,segmentWidth)
-                                                        << this->getLineSegment(1,3,segmentWidth)
-                                                        << this->getLineSegment(1,4,segmentWidth)
-                                                        << this->getLineSegment(1,5,segmentWidth)
-                                                        << this->getLineSegment(1,6,segmentWidth)
-                                                        << this->getLineSegment(1,7,segmentWidth)
+
+    QList<MapConstructor::constructParameters> returnThis;
+    for (int i = 1; i < 5 ; i++){
+        returnThis << this->getLineSegment(i,1,segmentWidth)
+                   << this->getLineSegment(i,2,segmentWidth)
+                   << this->getLineSegment(i,3,segmentWidth)
+                   << this->getLineSegment(i,4,segmentWidth)
+                   << this->getLineSegment(i,5,segmentWidth)
+                   << this->getLineSegment(i,6,segmentWidth)
+                   << this->getLineSegment(i,7,segmentWidth);
+
+    }
+
+    return returnThis;
 
 
-
-
-
-        ;
 }
 QList<MapConstructor::constructParameters> Numbers::getOne(int position, int segmentWidth){
     return QList<MapConstructor::constructParameters>();
@@ -103,10 +106,13 @@ int Numbers::getStartingTileIndex(int horizontalPosition, int verticalPosition, 
     default: return -1;
     }
 
-
-    if(index == 2 || index == 3)
+    if(index == 2){
         startingIndex += m_lineSegmentWidth;
+    }
 
+    if(index == 3){
+        startingIndex += m_lineSegmentWidth + 0.5*m_spacing*m_dimensionsWidth;
+    }
 
     return startingIndex;
 
@@ -119,7 +125,7 @@ MapConstructor::constructParameters Numbers::getLineSegment(int position, int in
     case 1: return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,//Done
                           this->getStartingTileIndex(position,1,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::horizontal,true);
     case 2:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
-                          this->getStartingTileIndex(position,1,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::vertical,true);
+                          this->getStartingTileIndex(position,1,index) ,m_lineSegmentWidth + 0.5*m_spacing,5,false,segmentWidth,constructionDirection::vertical,true);
     case 3:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
                           this->getStartingTileIndex(position,2,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::vertical,true);
     case 4:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,//Done
@@ -130,7 +136,7 @@ MapConstructor::constructParameters Numbers::getLineSegment(int position, int in
                           this->getStartingTileIndex(position,1,index) ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::vertical,true);
     case 7:return MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,//Done
                            this->getStartingTileIndex(position,2,index) + segmentWidth ,m_lineSegmentWidth,5,false,segmentWidth,constructionDirection::horizontal,true);
-    case 8: //POINTS TBD
+    case 8: //POINTS TODO
     default:  ;
 
 
