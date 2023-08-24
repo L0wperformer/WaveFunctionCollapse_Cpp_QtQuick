@@ -201,62 +201,62 @@ int main(int argc, char *argv[]) {
       };
 
       QList<int> disadvantageWeightsVerticals = {
-          100, // 0
+          10000, // 0
           1, // 1
-          100, // 2
-          1, // 3
+          10000, // 2
+          100, // 3
           100, // 4
-          1, // 5
-          100, // 6
-          100, // 7
-          100, // 8
-          100, // 9
-          100, // 10
-          100, // 11
-          100, // 12
-          100, // 13
-          100, // 14
-          100, // 15
-          100, // 16
-          100, // 17
-          100, // 18
-          100, // 19
-          100, // 20
-          100, // 21
-          50, // 22
-          100, // 23
-          50, // 24
-          100  // 25
+          100, // 5
+          10000, // 6
+          10000, // 7
+          10000, // 8
+          10000, // 9
+          10000, // 10
+          10000, // 11
+          10000, // 12
+          10000, // 13
+          10000, // 14
+          10000, // 15
+          10000, // 16
+          10000, // 17
+          10000, // 18
+          10000, // 19
+          10000, // 20
+          10000, // 21
+          100, // 22
+          10000, // 23
+          100, // 24
+          10000  // 25
 
       };
 
       QList<int> disadvantageWeightsHorizontals = {
           100, // 0
-          100, // 1
+          10000, // 1
           1, // 2-
-          100, // 3
-          1, // 4-
-          100, // 5
-          1, // 6-
-          100, // 7
-          100, // 8
-          100, // 9
-          100, // 10
-          100, // 11
-          100, // 12
-          100, // 13
-          100, // 14
-          100, // 15
-          100, // 16
-          100, // 17
-          100, // 18
-          100, // 19
-          100, // 20
-          50, // 21-
-          100, // 22
-          50, // 23-
-          100, // 24
-          100  // 25
+          10000, // 3
+          100, // 4-
+          10000, // 5
+          100, // 6-
+          10000, // 7
+          10000, // 8
+          10000, // 9
+          10000, // 10
+          10000, // 11
+          10000, // 12
+          10000, // 13
+          10000, // 14
+          10000, // 15
+          10000, // 16
+          10000, // 17
+          10000, // 18
+          10000, // 19
+          10000, // 20
+          100, // 21-
+          10000, // 22
+          100, // 23-
+          10000, // 24
+          10000  // 25
 
       };
 int almostImpossible = 1000;
@@ -354,12 +354,12 @@ width = ------------
 
  int res = 100;
  int width = (res * (1-(1/20))/4);
- QList<MapConstructor::constructParameters> numberWeightmapOne{
+/* QList<MapConstructor::constructParameters> numberWeightmapOne{
       //cnstrp(csit::tileStartIndex,
                           //425,10,6,false,5,cd::horizontal,true),
      MapConstructor::constructParameters(constructionStartIndexType::tileStartIndex,
                           430,width,5,false,5,constructionDirection::vertical,true)
-  };
+  };*/
  //What we actually want here is a class that constructs the numbers based on the seven
  //Segment display. So given an input the class "constructs" the corresponding lines?`??
  //Something like that I need some sleep
@@ -372,7 +372,12 @@ width = ------------
 
 // };
  Numbers numbers(100,50);
- QList<MapConstructor::constructParameters> disadvantageWeightmapConstructionInstructions = numbers.getNumberConstructParameters(1,0,3);//numberWeightmapOne;//numberWeightmapTwo;
+
+QList<MapConstructor::constructParameters> disadvantageWeightmapConstructionInstructions;
+ disadvantageWeightmapConstructionInstructions << numbers.getNumberConstructParameters(1,8,3)
+     << numbers.getNumberConstructParameters(2,9,3)
+     << numbers.getNumberConstructParameters(3,8,3)
+     << numbers.getNumberConstructParameters(4,8,3);//numberWeightmapOne;//numberWeightmapTwo;
 
  QList<MapConstructor::constructParameters> precollapedTilesConstructionInstructions;
 
