@@ -18,6 +18,10 @@ public:
     Collapser(const BackendDataDto& dto);
     ~Collapser();
 
+    void setNewAvailableTiles(const QList<QList<int>>& sockets);
+    void resetTileMap();
+    void setNewWeightMap(const QList<MapConstructor::constructParameters>& constructionParameters);
+
     int getDimensionsWidth(){return m_dimensionsWidth;}
     int getDimensionsHeight(){return m_dimensionsHeight;}
     QList<int> getTilesToBeColouredDifferently(){return m_tilesToBeColouredDifferently;}
@@ -42,6 +46,8 @@ private:
     int m_dimensionsWidthHeight;
     int m_numberOfTiles;
     QRandomGenerator *m_randomGenerator;
+
+    int m_continueNLoops;
 
 private:
     void collapse();

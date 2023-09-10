@@ -9,6 +9,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickView>
+#include <QTime>
 
 int main(int argc, char *argv[]) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -371,19 +372,13 @@ width = ------------
 //                         440,15,5,false,5,cd::vertical, true),
 
 // };
- Numbers numbers(100,50);
 
-QList<MapConstructor::constructParameters> disadvantageWeightmapConstructionInstructions;
- disadvantageWeightmapConstructionInstructions << numbers.getNumberConstructParameters(1,8,3)
-     << numbers.getNumberConstructParameters(2,9,3)
-     << numbers.getNumberConstructParameters(3,8,3)
-     << numbers.getNumberConstructParameters(4,8,3);//numberWeightmapOne;//numberWeightmapTwo;
 
  QList<MapConstructor::constructParameters> precollapedTilesConstructionInstructions;
-
+ GuiHandler h(BackendDataDto(sockets,100 ,50, sockets.length(),precollapedTilesConstructionInstructions , QList<MapConstructor::constructParameters>(),availableDisadvantageWeightlist));
 
 // Handler h(sockets,100 ,50, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist);
- GuiHandler h(BackendDataDto(sockets,100 ,50, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist));
+ //GuiHandler h(BackendDataDto(sockets,100 ,50, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist));
 
  auto view = new QQuickView;
 

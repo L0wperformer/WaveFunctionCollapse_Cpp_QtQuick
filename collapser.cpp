@@ -13,18 +13,30 @@ Collapser::Collapser(const BackendDataDto& dto):
     m_precollapsedTilesConstructionInstructions(dto.m_precollapsedTilesConstructionInstructions),
     m_weightmapConstructionInstructions(dto.m_weightmapConstructionInstructions),
     m_availableWeightLists(dto.m_availableWeightLists),
-    m_randomGenerator(QRandomGenerator::global())
+    m_randomGenerator(QRandomGenerator::global()),
+    m_continueNLoops(0)
 {
 
     MapConstructor mapConstructor(m_weightmapConstructionInstructions,m_dimensionsWidth,m_dimensionsHeight);
     m_disadvantageWeightMap = mapConstructor.constructWeightmap();
     m_tilesToBeColouredDifferently = mapConstructor.getTilesAffectedByMap();
 
+    this->setNewAvailableTiles(m_sockets);
+    this->resetTileMap();
+
+
+}
+
+void Collapser::setNewAvailableTiles(const QList<QList<int>>& sockets){
+    m_allTiles.clear();
     //All available tiles
-    for (int i = 0; i < m_sockets.length(); i++) {
-        Tile appendThis(m_sockets.at(i));
+    for (int i = 0; i < sockets.length(); i++) {
+        Tile appendThis(sockets.at(i));
         m_allTiles.append(appendThis);
     }
+}
+
+void Collapser::resetTileMap(){
     //Fill with Non-Defined Tiles
     for (int i = 0;i <  m_dimensionsWidth*m_dimensionsHeight; i++){
         m_tileMap.append(-1);
@@ -33,11 +45,22 @@ Collapser::Collapser(const BackendDataDto& dto):
 
 }
 
+void Collapser::setNewWeightMap(const QList<MapConstructor::constructParameters>& constructionParameters){
+    MapConstructor mapConstructor(constructionParameters,m_dimensionsWidth,m_dimensionsHeight);
+    m_disadvantageWeightMap = mapConstructor.constructWeightmap();
+    m_tilesToBeColouredDifferently = mapConstructor.getTilesAffectedByMap();
+    m_continueNLoops++;
+}
+
 void Collapser::startCollapsing(){
     collapse();
 }
 
 void Collapser::collapse(){
+    while(m_continueNLoops > 0){
+        m_tileMap.clear();
+        for (int i = 0;i <  m_dimensionsWidth*m_dimensionsHeight; i++)  //TODO --> double code, needs refactoring
+            m_tileMap.append(-1);
     QElapsedTimer timer;
     timer.start();
 
@@ -197,7 +220,9 @@ void Collapser::collapse(){
             }
         }
     }
+    m_continueNLoops--;
     qDebug() << "All Tiles Collapsed! Time: " << timer.elapsed();
+    }
 }
 int Collapser::calculateIndexToCollapseNext(){
     // Fill list with full max entropy

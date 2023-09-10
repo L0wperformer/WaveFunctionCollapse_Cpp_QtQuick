@@ -18,7 +18,6 @@ Numbers::Numbers(int dimensionsWidth, int dimensionsHeight, bool highlight) :
     m_lineSegmentWidth(3 * (dimensionsWidth/19)),
     m_highlight(highlight)
 {
-    m_highlight = false;
 
 }
 

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QTime>
 #include <QThread>
 #include "backenddatadto.h"
 #include "collapser.h"
@@ -33,9 +34,13 @@ private:
     QList<int> m_tileMap;
 
     QTimer *m_fpsTimer;
+    QTimer *m_secondsTimer;
+    int m_lastTime;
     Collapser *m_collapser;
     QThread *collapserThread;
-private:
+    QList<MapConstructor::constructParameters> getCurrentTimeConstructParameters(const QTime& currentTime);
+private slots:
+    void onSecondsTimerTimeout();
 
 };
 
