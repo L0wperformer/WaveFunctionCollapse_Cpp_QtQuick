@@ -45,6 +45,7 @@ void GuiHandler::startCollapsing(){
     qDebug() << "Starting Collapse Algorithm";
     QTime currentTime(QTime::currentTime());
     m_collapser->setNewWeightMap(this->getCurrentTimeConstructParameters(currentTime));
+    emit tilesToHighlightChanged(m_collapser->getTilesToBeColouredDifferently());
     m_fpsTimer->start(1000/m_fps);
     collapserThread->start();
     m_secondsTimer->start(1000);
@@ -81,6 +82,7 @@ void GuiHandler::onSecondsTimerTimeout(){
 
 
        m_collapser->setNewWeightMap(this->getCurrentTimeConstructParameters(currentTime));
+       emit tilesToHighlightChanged(m_collapser->getTilesToBeColouredDifferently());
        //m_collapser->restart();
        m_lastTime = currentTime.minute();
 }

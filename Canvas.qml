@@ -6,8 +6,11 @@ Item {
 
     //property list<Tile> tiles
     id: root
-    onTilesByIndexChanged: {
-
+    Connections{
+        target: handler
+        function onTilesToHighlightChanged(theseTiles){
+        highlightTheseTiles = theseTiles;
+        }
     }
 
     Component.onCompleted: {
