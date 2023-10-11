@@ -6,8 +6,8 @@ import QtQuick 2.0
 
 //}
 Item {
-    width: 1000
-    height: 1000
+    //width: 1000
+    //height: 1000
     id: root
     property int m_index: -1
     property bool m_highlighted: false

@@ -42,14 +42,14 @@ Item {
         GridView {
             id: tileGrid
             anchors.fill: parent
-            cellWidth: root.width / dimensionsWidth
-            cellHeight: root.height / dimensionsHeight
+            cellWidth: tileWidthHeightInPixel//root.width / dimensionsWidth
+            cellHeight: tileWidthHeightInPixel//root.height / dimensionsHeight
             clip: true
 
             model: tilesByIndex.length
             delegate: Tile {
-                width: root.width / dimensionsWidth
-                height: root.height / dimensionsHeight
+                width: tileWidthHeightInPixel//root.width / dimensionsWidth
+                height: tileWidthHeightInPixel//root.height / dimensionsHeight
                 m_index: tilesByIndex[index]
                 m_highlighted: highlightTheseTiles.indexOf(index) !== -1
             }

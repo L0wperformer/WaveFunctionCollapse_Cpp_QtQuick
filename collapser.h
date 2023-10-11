@@ -24,6 +24,7 @@ public:
 
     int getDimensionsWidth(){return m_dimensionsWidth;}
     int getDimensionsHeight(){return m_dimensionsHeight;}
+    int getWindowSizeHorizontalInPixels(){return m_windowSizeHorizontalInPixels;};
     QList<int> getTilesToBeColouredDifferently(){return m_tilesToBeColouredDifferently;}
     QList<int> getTileMap() {return m_tileMap;}
 public slots:
@@ -43,6 +44,7 @@ private:
 
     int m_dimensionsWidth;
     int m_dimensionsHeight;
+    int m_windowSizeHorizontalInPixels;
     int m_dimensionsWidthHeight;
     int m_numberOfTiles;
     QRandomGenerator *m_randomGenerator;

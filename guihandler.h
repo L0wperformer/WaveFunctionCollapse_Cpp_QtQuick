@@ -26,6 +26,7 @@ public slots:
 
     int getDimensionsWidth() const { return m_collapser->getDimensionsWidth(); }
     int getDimensionsHeight() const {return m_collapser->getDimensionsHeight(); }
+    int calculateTilePixelWidthHeight();
     QList<int> getTilesToHighlight() const {return m_collapser->getTilesToBeColouredDifferently();}
     QList<int> getTileMap() const{ return m_tileMap;}
 

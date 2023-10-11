@@ -3,6 +3,7 @@
 BackendDataDto::BackendDataDto(const QList<QList<int>>& sockets,
                                const int& dimensionsWidth,
                                const int& dimensionsHeight,
+                               const int& windowSizeHorizontalInPixels,
                                const int& numberOfTiles,
                                const QList<MapConstructor::constructParameters>& precollapedTilesConstructionInstructions ,
                                const QList<MapConstructor::constructParameters>& weightmapConstructionInstructions,
@@ -13,5 +14,6 @@ BackendDataDto::BackendDataDto(const QList<QList<int>>& sockets,
     m_numberOfTiles(numberOfTiles),
     m_precollapsedTilesConstructionInstructions(precollapedTilesConstructionInstructions),
     m_weightmapConstructionInstructions(weightmapConstructionInstructions),
-    m_availableWeightLists(availableWeightLists)
+    m_availableWeightLists(availableWeightLists),
+    m_windowSizeHorizontalInPixels(windowSizeHorizontalInPixels)
 {}

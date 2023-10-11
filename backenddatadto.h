@@ -12,6 +12,7 @@ public:
     BackendDataDto(const QList<QList<int>>& sockets,
                    const int& dimensionsWidth,
                    const int& dimensionsHeight,
+                   const int& windowSizeHorizontalInPixels,
                    const int& numberOfTiles,
                    const QList<MapConstructor::constructParameters>& precollapedTilesConstructionInstructions ,
                    const QList<MapConstructor::constructParameters>& weightmapConstructionInstructions,
@@ -21,6 +22,7 @@ QList<QList<int>> m_sockets;
 int m_dimensionsWidth;
 int m_dimensionsHeight;
 int m_numberOfTiles;
+int m_windowSizeHorizontalInPixels;
 QList<MapConstructor::constructParameters> m_precollapsedTilesConstructionInstructions;
 QList<MapConstructor::constructParameters> m_weightmapConstructionInstructions;
 QList<QList<int>> m_availableWeightLists;

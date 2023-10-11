@@ -14,6 +14,7 @@ Collapser::Collapser(const BackendDataDto& dto):
     m_weightmapConstructionInstructions(dto.m_weightmapConstructionInstructions),
     m_availableWeightLists(dto.m_availableWeightLists),
     m_randomGenerator(QRandomGenerator::global()),
+    m_windowSizeHorizontalInPixels(dto.m_windowSizeHorizontalInPixels),
     m_continueNLoops(0)
 {
 

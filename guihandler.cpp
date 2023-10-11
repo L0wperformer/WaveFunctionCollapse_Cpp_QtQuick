@@ -53,6 +53,24 @@ void GuiHandler::startCollapsing(){
 
 
 }
+int GuiHandler::calculateTilePixelWidthHeight(){
+    int horizontalPixels = m_collapser->getWindowSizeHorizontalInPixels();
+    int horizontalTiles = m_collapser->getDimensionsWidth();
+    //CURRENTLY WIDTH MUST BE GREATER THAN HEIGHT
+    if(horizontalTiles < m_collapser->getDimensionsWidth()){
+        //Sorry
+        qFatal("Width must have more or equal number of tiles as height");
+        return -1;
+    }
+
+    while((horizontalPixels%horizontalTiles) != 0){
+        horizontalPixels--;
+    }
+
+    qDebug() << "Pixels in horizontal direction: " << horizontalPixels;
+    return horizontalPixels/horizontalTiles;
+
+}
 
 void GuiHandler::onSecondsTimerTimeout(){
 
