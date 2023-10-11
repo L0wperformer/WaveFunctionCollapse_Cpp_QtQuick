@@ -50,6 +50,7 @@ private:
     QRandomGenerator *m_randomGenerator;
 
     int m_continueNLoops;
+    int m_collapsed ;
 
 private:
     void collapse();

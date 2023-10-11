@@ -15,7 +15,8 @@ Collapser::Collapser(const BackendDataDto& dto):
     m_availableWeightLists(dto.m_availableWeightLists),
     m_randomGenerator(QRandomGenerator::global()),
     m_windowSizeHorizontalInPixels(dto.m_windowSizeHorizontalInPixels),
-    m_continueNLoops(0)
+    m_continueNLoops(0),
+    m_collapsed(1)
 {
 
     MapConstructor mapConstructor(m_weightmapConstructionInstructions,m_dimensionsWidth,m_dimensionsHeight);
@@ -45,6 +46,7 @@ void Collapser::resetTileMap(){
 
 void Collapser::setNewWeightMap(const QList<MapConstructor::constructParameters>& constructionParameters){
     MapConstructor mapConstructor(constructionParameters,m_dimensionsWidth,m_dimensionsHeight);
+    m_collapsed = 1;
     m_disadvantageWeightMap = mapConstructor.constructWeightmap();
     m_tilesToBeColouredDifferently = mapConstructor.getTilesAffectedByMap();
     m_continueNLoops++;
@@ -64,7 +66,7 @@ void Collapser::collapse(){
 
     int randpos1 = m_randomGenerator->bounded( m_dimensionsWidth*m_dimensionsHeight);
     int randtile1 = m_randomGenerator->bounded(m_numberOfTiles);
-    int collapsed = 1;
+
 
     m_tileMap.replace(randpos1, randtile1);
     emit tileMapChanged(randpos1, randtile1);
@@ -161,13 +163,13 @@ void Collapser::collapse(){
 
 
             //nextTilePos = calculateIndexToCollapseNext();
-            collapsed -= 9;
+            m_collapsed -= 9;
             noSolution = false;
         } //else {
             nextTilePos = calculateIndexToCollapseNext();
         //}
 
-        qDebug() << /*"Time: " <<timer.elapsed() <<*/ "collapsed: "<< collapsed << "percentage:" <<  ((double)collapsed  / (double)( m_dimensionsWidthHeight)) * 100 ;
+        qDebug() << /*"Time: " <<timer.elapsed() <<*/ "collapsed: "<< m_collapsed << "percentage:" <<  ((double)m_collapsed  / (double)( m_dimensionsWidthHeight)) * 100 ;
 
         QList<int> tilesAlreadytried;
         while (1) {
@@ -189,8 +191,8 @@ void Collapser::collapse(){
                 enableSurroundingIndecesToBeChecked(nextTilePos);
                 lastTilesPlacedPos.append(nextTilePos);
 
-                collapsed ++;
-                if(collapsed > progressWhenNoSolutionOccured + 80)
+                m_collapsed ++;
+                if(m_collapsed > progressWhenNoSolutionOccured + 80)
                     goBackStepsUponNoSolution = 1;//When progress is x steps ahead we assume the
                                                   //Algorithm is not stuck anymore
                 break;
