@@ -7,7 +7,7 @@
 GuiHandler::GuiHandler(const BackendDataDto& dto){
     m_fpsTimer = new QTimer(this);
     connect(m_fpsTimer, &QTimer::timeout,this, &GuiHandler::updateCanvas);
-    m_fps = 60;
+    m_fps = dto.m_fps;
     m_collapser = new Collapser(dto);
     collapserThread = new QThread(this);
     m_collapser->moveToThread(collapserThread);

@@ -375,7 +375,7 @@ width = ------------
 
 
  QList<MapConstructor::constructParameters> precollapedTilesConstructionInstructions;
- GuiHandler h(BackendDataDto(sockets,100 ,50, 1234, sockets.length(),precollapedTilesConstructionInstructions , QList<MapConstructor::constructParameters>(),availableDisadvantageWeightlist));
+ GuiHandler h(BackendDataDto(sockets,100 ,50, 1234, sockets.length(),precollapedTilesConstructionInstructions , QList<MapConstructor::constructParameters>(),availableDisadvantageWeightlist,30));
 
 // Handler h(sockets,100 ,50, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist);
  //GuiHandler h(BackendDataDto(sockets,100 ,50, sockets.length(),precollapedTilesConstructionInstructions ,disadvantageWeightmapConstructionInstructions,availableDisadvantageWeightlist));
