@@ -38,12 +38,9 @@ void Collapser::setNewAvailableTiles(const QList<QList<int>>& sockets){
 }
 
 void Collapser::resetTileMap(){
-    //Fill with Non-Defined Tiles
-    for (int i = 0;i <  m_dimensionsWidth*m_dimensionsHeight; i++){
-        m_tileMap.append(-1);
-        m_disadvantageWeightMap.append(0);
-    }
-
+   for (int i=0; i<m_dimensionsWidth*m_dimensionsHeight; i++){
+       emit tileMapChanged(i,-1);
+   }
 }
 
 void Collapser::setNewWeightMap(const QList<MapConstructor::constructParameters>& constructionParameters){

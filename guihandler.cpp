@@ -80,7 +80,7 @@ void GuiHandler::onSecondsTimerTimeout(){
        if(m_lastTime == currentTime.minute())
             return;
 
-
+       m_collapser->resetTileMap();
        m_collapser->setNewWeightMap(this->getCurrentTimeConstructParameters(currentTime));
        emit tilesToHighlightChanged(m_collapser->getTilesToBeColouredDifferently());
        //m_collapser->restart();
