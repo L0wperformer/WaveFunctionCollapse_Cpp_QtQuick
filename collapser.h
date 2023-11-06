@@ -13,6 +13,7 @@ class Collapser : public QObject
     Q_OBJECT
 signals:
     void tileMapChanged(int index, int newTile);
+    void updateCanvas();
 public:
     Collapser() = delete;
     Collapser(const BackendDataDto& dto);

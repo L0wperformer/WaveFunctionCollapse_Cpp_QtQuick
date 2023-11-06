@@ -2,6 +2,7 @@
 #include "mapconstructor.h"
 #include <QElapsedTimer>
 #include <QDebug>
+#include <QThread>
 
 
 Collapser::Collapser(const BackendDataDto& dto):
@@ -38,9 +39,11 @@ void Collapser::setNewAvailableTiles(const QList<QList<int>>& sockets){
 }
 
 void Collapser::resetTileMap(){
+  m_tileMap = QVector<int>(m_dimensionsHeight*m_dimensionsWidth,-1).toList();
    for (int i=0; i<m_dimensionsWidth*m_dimensionsHeight; i++){
        emit tileMapChanged(i,-1);
    }
+ // emit updateCanvas();
 }
 
 void Collapser::setNewWeightMap(const QList<MapConstructor::constructParameters>& constructionParameters){
@@ -55,7 +58,6 @@ void Collapser::startCollapsing(){
 }
 
 void Collapser::collapse(){
-
         m_tileMap.clear();
         for (int i = 0;i <  m_dimensionsWidth*m_dimensionsHeight; i++)  //TODO --> double code, needs refactoring
             m_tileMap.append(-1);
@@ -78,9 +80,13 @@ void Collapser::collapse(){
 
     for (int jjj = 0;; jjj++) {
 
-        if (!m_tileMap.contains(-1))
-            break;
+//        if (!m_tileMap.contains(-1)){
 
+//            continue;
+//        }
+       while(!m_tileMap.contains(-1)){//Quick and dirty.
+           QThread::msleep(100); //TODO replace this ugly loop with proper solution
+       }
         int nextTilePos = 0;
 
         if (noSolution) {
