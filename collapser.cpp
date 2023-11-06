@@ -15,7 +15,6 @@ Collapser::Collapser(const BackendDataDto& dto):
     m_availableWeightLists(dto.m_availableWeightLists),
     m_randomGenerator(QRandomGenerator::global()),
     m_windowSizeHorizontalInPixels(dto.m_windowSizeHorizontalInPixels),
-    m_continueNLoops(0),
     m_collapsed(1)
 {
 
@@ -49,7 +48,6 @@ void Collapser::setNewWeightMap(const QList<MapConstructor::constructParameters>
     m_collapsed = 1;
     m_disadvantageWeightMap = mapConstructor.constructWeightmap();
     m_tilesToBeColouredDifferently = mapConstructor.getTilesAffectedByMap();
-    m_continueNLoops++;
 }
 
 void Collapser::startCollapsing(){
@@ -57,7 +55,7 @@ void Collapser::startCollapsing(){
 }
 
 void Collapser::collapse(){
-    while(m_continueNLoops > 0){
+
         m_tileMap.clear();
         for (int i = 0;i <  m_dimensionsWidth*m_dimensionsHeight; i++)  //TODO --> double code, needs refactoring
             m_tileMap.append(-1);
@@ -217,10 +215,10 @@ void Collapser::collapse(){
                 break;
             }
         }
+
+
     }
-    m_continueNLoops--;
-    qDebug() << "All Tiles Collapsed! Time: " << timer.elapsed();
-    }
+        qDebug() << "All Tiles Collapsed! Time: " << timer.elapsed();
 }
 int Collapser::calculateIndexToCollapseNext(){
     // Fill list with full max entropy
