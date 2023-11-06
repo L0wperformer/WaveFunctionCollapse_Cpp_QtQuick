@@ -292,6 +292,7 @@ int almostImpossible = 1000;
       };
 
 
+      //TODO: Weightmap that encourages stops. Implement this weightmap in way that aronund numbers stops are chosen.
 
 
 //All avaiblae weightlists. Default at index 0

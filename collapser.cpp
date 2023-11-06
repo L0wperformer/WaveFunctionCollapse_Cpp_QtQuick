@@ -174,7 +174,7 @@ void Collapser::collapse(){
         //}
 
         QList<int> tilesAlreadytried;
-        while (1) {
+        while (1) {//TODO: Make implementation smarter so Tiles with low probability get chosen earlier
             int randomTile = m_randomGenerator->bounded(m_numberOfTiles);
             const QList<int> applyTheseDisadvantageWeights = m_availableWeightLists.at(m_disadvantageWeightMap
                                                                                                       .at(nextTilePos));
