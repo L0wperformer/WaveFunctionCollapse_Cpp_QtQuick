@@ -6,6 +6,7 @@
 #include <QTime>
 #include <QThread>
 #include <QDebug>
+#include "numbers.h"
 #include "backenddatadto.h"
 #include "collapser.h"
 
@@ -17,6 +18,7 @@ class GuiHandler : public QObject
 signals:
     void updateCanvas();
     void tilesToHighlightChanged(QList<int> theseTiles);
+
 
 public:
     GuiHandler(){};
@@ -38,7 +40,7 @@ public slots:
 private:
     int m_fps;
     QList<int> m_tileMap;
-
+    Numbers *m_numbers;
     QTimer *m_fpsTimer;
     QTimer *m_secondsTimer;
     int m_lastTime;

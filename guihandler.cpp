@@ -21,7 +21,9 @@ GuiHandler::GuiHandler(const BackendDataDto& dto){
     m_secondsTimer = new QTimer(this);
     connect(m_secondsTimer, &QTimer::timeout, this, &GuiHandler::onSecondsTimerTimeout );
 
+    connect(m_collapser, &Collapser::updateCanvas, this, &GuiHandler::updateCanvas);
 
+    m_numbers = new Numbers(dto.m_dimensionsWidth, dto.m_dimensionsHeight);
     //QTimer::singleShot(10, this, &GuiHandler::startCollapsing);
 }
 
@@ -31,13 +33,13 @@ void GuiHandler::drawGrid(){
 
 QList<MapConstructor::constructParameters> GuiHandler::getCurrentTimeConstructParameters(const QTime& currentTime){
 
-    Numbers numbers(100,50);
+
     QList<MapConstructor::constructParameters> disadvantageWeightmapConstructionInstructions;
     qDebug() << (currentTime.hour()/10)%10 << currentTime.hour()%10 << (currentTime.minute()/10)%10 << currentTime.minute()%10;
-    disadvantageWeightmapConstructionInstructions << numbers.getNumberConstructParameters(1,(currentTime.hour()/10)%10,3)
-                                                  << numbers.getNumberConstructParameters(2,currentTime.hour()%10,3)
-                                                  << numbers.getNumberConstructParameters(3,(currentTime.minute()/10)%10,3)
-                                                  << numbers.getNumberConstructParameters(4,(currentTime.minute()%10),3);//numberWeightmapOne;//numberWeightmapTwo;
+    disadvantageWeightmapConstructionInstructions << m_numbers->getNumberConstructParameters(1,(currentTime.hour()/10)%10,3)
+                                                  << m_numbers->getNumberConstructParameters(2,currentTime.hour()%10,3)
+                                                  << m_numbers->getNumberConstructParameters(3,(currentTime.minute()/10)%10,3)
+                                                  << m_numbers->getNumberConstructParameters(4,(currentTime.minute()%10),3);//numberWeightmapOne;//numberWeightmapTwo;
     return    disadvantageWeightmapConstructionInstructions;
 }
 
@@ -90,4 +92,5 @@ void GuiHandler::onSecondsTimerTimeout(){
 GuiHandler::~GuiHandler(){
     delete m_fpsTimer;
     delete m_collapser;
+    delete m_numbers;
 }
