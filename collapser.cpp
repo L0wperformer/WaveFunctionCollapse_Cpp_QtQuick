@@ -102,7 +102,7 @@ void Collapser::collapse(){
             //Testwise new implementation. Removes the surrounding tiles of conflicting tile
             //And attempts collapse again. This can be expanded.To incresingly remove tiles
             int pos = lastTilesPlacedPos.takeLast();
-            qDebug() << pos;
+            qDebug() << /*"Time: " <<timer.elapsed() <<*/ "collapsed: "<< m_collapsed << "percentage:" <<  ((double)m_collapsed  / (double)( m_dimensionsWidthHeight)) * 100 ;
             bool checkTop = (pos - m_dimensionsWidth >= 0);
             bool checkTopLeft = ((pos - m_dimensionsWidth) % m_dimensionsWidth != 0) &&
                                 ((pos - m_dimensionsWidth) > 0);
@@ -119,44 +119,44 @@ void Collapser::collapse(){
             m_tileMap.replace(pos,-1);
             emit tileMapChanged(pos,-1);
             if(checkTop){
-                qDebug() << "Top";
+                //qDebug() << "Top";
                 m_tileMap.replace(pos-m_dimensionsWidth,-1);
                 emit tileMapChanged(pos-m_dimensionsWidth,-1);
 
             if(checkTopLeft){
-                qDebug() << "TopL";
+                //qDebug() << "TopL";
                 m_tileMap.replace(pos-m_dimensionsWidth-1,-1);
                 emit tileMapChanged(pos-m_dimensionsWidth-1,-1);
             }
             if(checkTopRight){
-                qDebug() << "TopR";
+                //qDebug() << "TopR";
                 m_tileMap.replace(pos-m_dimensionsWidth+1,-1);
                 emit tileMapChanged(pos-m_dimensionsWidth+1,-1);
             }
             }
             if(checkLeft){
-                qDebug() << "Left";
+                //qDebug() << "Left";
                 m_tileMap.replace(pos-1,-1);
                 emit tileMapChanged(pos-1,-1);
             }
             if(checkRight){
-                qDebug() << "Right";
+                //qDebug() << "Right";
                 m_tileMap.replace(pos+1,-1);
                 emit tileMapChanged(pos+1,-1);
             }
              if(checkBottom){
                     if(checkBottomLeft){
-                        qDebug() << "BottomL";
+                        //qDebug() << "BottomL";
                         m_tileMap.replace(pos+m_dimensionsWidth-1,-1);
                         emit tileMapChanged(pos+m_dimensionsWidth-1,-1);
                     }
                     if(checkBottomRight){
-                        qDebug() << "BottomR";
+                        //qDebug() << "BottomR";
                         m_tileMap.replace(pos+m_dimensionsWidth+1,-1);
                         emit tileMapChanged(pos+m_dimensionsWidth+1,-1);
                     }
 
-                qDebug() << "Bottom";
+                //qDebug() << "Bottom";
                 m_tileMap.replace(pos+m_dimensionsWidth,-1);
                 emit tileMapChanged(pos+m_dimensionsWidth,-1);
             }
@@ -168,8 +168,6 @@ void Collapser::collapse(){
         } //else {
             nextTilePos = calculateIndexToCollapseNext();
         //}
-
-        qDebug() << /*"Time: " <<timer.elapsed() <<*/ "collapsed: "<< m_collapsed << "percentage:" <<  ((double)m_collapsed  / (double)( m_dimensionsWidthHeight)) * 100 ;
 
         QList<int> tilesAlreadytried;
         while (1) {
@@ -203,7 +201,7 @@ void Collapser::collapse(){
             }
 
             if (tilesAlreadytried.length() == m_numberOfTiles) { // No tile fits
-                qDebug() << "===No Solution Found, going Back===";
+                //qDebug() << "===No Solution Found, going Back===";
                 //When no solution occures and the algorithm gets stuck
                 //(=collapsed doesnt go up) then increase amount of steps
                 //You go back
